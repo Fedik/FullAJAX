@@ -4,14 +4,20 @@
 * SiRusAjaX - SRAX v1.0.4 build 12
 * Copyright(c) 2007-2010, Ruslan Sinitskiy.
 * http://fullajax.ru/#:license
+*
+* some fix by Fedir: 2011.05.26
+* HTML5 history by Fedir: 2012.03.17
 **/
 
 if (!window.SRAX || window.SRAX.TYPE != 'full'){
 
 /**
-* Функции логирования
-* @param {Any} any значение
-**/
+ * en: logging functions
+ * @param {Any} any value
+ *
+ * ru: Функции логирования
+ * @param {Any} any значение
+ **/
 function log(){
     SRAX.debug('log', arguments);
 }
@@ -29,7 +35,11 @@ function warn(){
 }
 
 /**
-* Функция поиска элемента по его id
+* en: The search function on the element by its id
+* @param {String} idElem id element
+* @return {Element} element
+*
+* ru: Функция поиска элемента по его id
 * @param {String} idElem id элемента
 * @return {Element} найденный элемент
 **/
@@ -38,15 +48,21 @@ function id(idElem){
 }
 
 /**
-* Функция для програмной навигации по истории Назад 
-* @param {String} id id родительского элемента
+* en: The function for programmatic navigation through the history of Back
+* @param {String} id ID of the parent element
+*
+* ru: Функция для програмной навигации по истории Назад
+* @param {String} id ID родительского элемента
 **/
 function back(id) {
   SRAX.Html.thread[id].go(-1);
 }
 
 /**
-* Функция для програмной навигации  по истории Вперед
+* en: The function for programmatic navigation through history Forward
+* @param {String} id ID of the parent element
+*
+* ru: Функция для програмной навигации  по истории Вперед
 * @param {String} id id родительского элемента
 **/
 function forward(id) {
@@ -54,7 +70,11 @@ function forward(id) {
 }
 
 /**
-* Функция для програмной навигации по истории на заданное количество шагов 
+* en: The function for programmatic navigation through the history for a specified number of steps
+* @param {String} val number of steps Forward (+) / Back(-)
+* @param {String} id element id
+*
+* ru: Функция для програмной навигации по истории на заданное количество шагов
 * @param {String} val количесвто шагов Вперед(+)/Назад(-)
 * @param {String} id id элемента
 **/
@@ -63,18 +83,26 @@ function go(val, id) {
 }
 
 /**
-* Функция обрезания крайних пробелов и переводов строки
+* en: The function cutoff outer spaces and new lines
+* @ Return {String} string
+*
+* ru: Функция обрезания крайних пробелов и переводов строки
 * @return {String} строка
 **/
 if (!String.trim)
-String.prototype.trim = function(){ 
+String.prototype.trim = function(){
     //return this.replace(/\s*((\S+\s*)*)/, "$1").replace(/((\s*\S+)*)\s*/, "$1");
     //взято из jQuery
     return (this || "").replace( /^\s+|\s+$/g, "" );
 }
 
 /**
-* Функция замены всех найденных заменяемых значений
+* en: The replacement of the all found values that can be changed
+* @ Param {String} s1 the value that will be found and replaced
+* @ Param {String} s2 new value
+* @ Return {String} string
+*
+* ru: Функция замены всех найденных заменяемых значений
 * @param {String} s1 искомое заменяемое значение
 * @param {String} s2 новое значение
 * @return {String} строка
@@ -82,7 +110,12 @@ String.prototype.trim = function(){
 String.prototype.replaceAll = function(s1, s2) {return this.split(s1).join(s2)}
 
 /**
-* Функция проверки заканчивается ли строка на указанное значение
+* en: The function checks whether a string ends with the specified value
+* @ Param {String} value specified value
+* @ Param {Boolean} caseSensitive  if == true then not case sensitive
+* @ Return {Boolean} test result
+*
+* ru: Функция проверки заканчивается ли строка на указанное значение
 * @param {String} value указанное значение
 * @param {Boolean} caseSensitive если == true не чуствительна к регистру
 * @return {Boolean} результат проверки
@@ -91,9 +124,14 @@ String.prototype.endWith=function(value, caseSensitive){
     var s = caseSensitive ? this.toLowerCase() : this, v = caseSensitive ? value.toLowerCase() : value;
     return s.substring(s.length-v.length, s.length) == v;
 }
-      
+
 /**
-* Функция проверки начинается ли строка с указанного значения
+* en: The function checks whether a string starts with the specified value
+* @ Param {String} value specified value
+* @ Param {Boolean} caseSensitive if == true then not case sensitive
+* @ Return {Boolean} test result
+*
+* ru: Функция проверки начинается ли строка с указанного значения
 * @param {String} value указанное значение
 * @param {Boolean} caseSensitive если == true не чуствительна к регистру
 * @return {Boolean} результат проверки
@@ -104,18 +142,58 @@ String.prototype.startWith=function(value, caseSensitive){
 }
 
 /**
-* Функция для прерывания запроса HTML
+* en: The function for terminate the HTML request
+* @ Param {String} id of request
+*
+* ru: Функция для прерывания запроса HTML
 * @param {String} id запроса
-**/ 
+**/
 function abort(id){
     if (SRAX.Html.thread[id]) SRAX.Html.thread[id].abort();
 }
 
 /**
-* Функция для запроса HTML
+* en: The function for the HTML request
+* @ Param {String} url URL address of the request
+* @ Param {Object} options Object configuration <br> example: {callback: myfunction, id: 'myid', method: 'post', form: 'id-from'} <br> <br>
+*
+* url/src – requested URL.
+* id – parent id.
+* method – request method. post or get (default get).
+* form – form id, form, element id, or element from which to collect data.
+* params – parameters that should be added to the query (Example: params:’name=val1&dat=val2′).
+* callback/cb – callback function.
+* callbackOps/cbo – options transferred to the callback function.
+* nohistory (noHistory)- using history of AJAX Navigation. default false – history saved.
+* cut - id of block for cut out - used for cutting on the server of the total content block with the specified id - the parameter passed to the query headere AJAX_CUT_BLOCK
+* rc – specifies whether to use relative links correction. true or false (default false).
+* overwrite – Overwrite events onclick and onsubmit with Fly AJAX (The default function onclick and onsubmit eventsnot overwritten, they are supplemented). true or false (default false).
+* destroy – remove the process from memory after request. true or false (default false).
+* html – HTML text, emulation response. In the presence of this parameter request to the server is not made.
+* anticache/nocache – cache disabled. true or false (default false).
+* startpage – sign of the first page of history.true or false (default false).
+* async – use of asynchronous request. true or false (default true).
+* historycache – usage cache of the history. true or false (default USE_HISTORY_CACHE).
+* seal – sign of the isolation. Used to resolve conflicts css styles. true or false (default true).
+* user – username, when a connection requires a username
+* pswd – password, when a connection requires a password
+* headers – array of HTTP headers of the objects {key: value} to be passed to the server. Example: headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
+* loader – id load indicator.
+* add – determines how to add loaded content to parent: Overwrite – false, or Add – true (default false).
+* onload – function that is called after full loaded content.
+* loader – id load indicator.
+* notitle – disable autocorrect title. true or false (default false).
+* onerror – function to be called in case of error loading content.
+* storage – using local storage. Valid only when SRAX.Storage connected. true or false (default true).
+* etag – Etag use to identify the novelty in the local data repository. Valid only when SRAX.Storage connected. true or false (default true).
+*
+* @ Return {HTMLThread} object of process HTML request
+*
+*
+* ru: Функция для запроса HTML
 * @param {String} url URL адрес запроса
 * @param {Object} options объект конфигурации <br> пример: {callback:myfunction, id:'myid', method:'post', form:'id-from'} <br><br>
-* 
+*
 * Возможные параметры options: <br>
 * url/src - URL запроса <br>
 * id - id родительского элемента <br>
@@ -142,7 +220,7 @@ function abort(id){
 * headers - массив header-ов из обьектов {ключ : значение}, которые необходимо передать на сервер. пример -> headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
 * add - флаг true или false (по умолчанию), определяет принцип добавления подгружаемого контента в родительский элемент: перезапись (false) или добавление (true)
 * onload - функция, которая вызывается после полной загрузки контента в элемент
-* loader - лоадер-индикатор, если не определен - используется лоадер по умолчанию 
+* loader - лоадер-индикатор, если не определен - используется лоадер по умолчанию
 * notitle - флаг true или false (по умолчанию), отключает авто-изменение title
 * onerror - функция, которая вызывается в случае ошибки загрузки контента
 *
@@ -151,9 +229,9 @@ function abort(id){
 
 function hax(url, options){
     if (!options) options = {};
-    if (typeof url == 'string') options.url = url; else options = url;    
+    if (typeof url == 'string') options.url = url; else options = url;
     if (options.nohistory == null) options.nohistory = options.noHistory;
-    var thread = SRAX.Html.thread[options.id] ? SRAX.Html.thread[options.id] : SRAX.HTMLThread(options.id);        
+    var thread = SRAX.Html.thread[options.id] ? SRAX.Html.thread[options.id] : SRAX.HTMLThread(options.id);
     thread.setOptions(options, 1);
     if (SRAX.Html.ASYNCHRONOUS){
         thread.request();
@@ -165,7 +243,17 @@ function hax(url, options){
 }
 
 /**
-* Функция запроса HTML методом GET
+* en: The HTML request using GET method
+* @ Param {String} url URL address of the request
+* @ Param {String / Object} id_or_options
+*							If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
+*							If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
+* @ Param {String / Element} form id form or the form itself
+* @ Param {Function} cb callback - callback function
+* @ Param {Object} cbo object - option for the callback function
+* @ Return {Object} HTMLThread object of process HTML request
+*
+* ru: Функция запроса HTML методом GET
 * @param {String} url URL адрес запроса
 * @param {String/Object} id_or_options
 *                        если == Object -> объект конфигурации (пример: {'callback':myfunction, 'id':'myid', 'method':'post', 'form':'id-from'}) <br>
@@ -176,7 +264,7 @@ function hax(url, options){
 * @return {Object} HTMLThread объект процесса запроса HTML
 **/
 function get(url, id_or_options, form, cb, cbo){
-    return typeof id_or_options == 'object' ? hax(url, id_or_options) : 
+    return typeof id_or_options == 'object' ? hax(url, id_or_options) :
     hax(url, {
         id: id_or_options,
         form: form,
@@ -186,10 +274,20 @@ function get(url, id_or_options, form, cb, cbo){
 }
 
 /**
-* Функция запроса HTML методом POST
+* en: The HTML request using POST method
+* @ Param {String} url URL address of the request
+* @ Param {String / Object} id_or_options
+*						 If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
+*						 If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
+* @ Param {String / Element} form id form or the form itself
+* @ Param {Function} cb callback - callback function
+* @ Param {Object} cbo object - option for the callback function
+* @ Return {Object} HTMLThread object of process HTML request
+*
+* ru: Функция запроса HTML методом POST
 * @param {String} url URL адрес запроса
-* @param {String/Object} id_or_options 
-*                        если == Object -> объект конфигурации (пример: {'callback':myfunction, 'id':'myid', 'method':'post', 'form':'id-from'}) <br> 
+* @param {String/Object} id_or_options
+*                        если == Object -> объект конфигурации (пример: {'callback':myfunction, 'id':'myid', 'method':'post', 'form':'id-from'}) <br>
 *                        если == String -> id родительского элемента, в который вставляется результат запроса HTML (если null - тогда body)
 * @param {String/Element} form id формы или сама форма
 * @param {Function} cb callback функция обратного вызова
@@ -211,10 +309,38 @@ function post(url, id_or_options, form, cb, cbo){
 }
 
 /**
-* Функция для запроса данных
+* en: A function to data query
+* @ Param {String} url URL address of the request
+* @ Param {Object} options Object configuration <br> example: {callback: myfunction, id: 'myid', method: 'post', params: 'name1 = value1 & name2 = value2'} <br> <br>
+*
+* These options can be: <br>
+* url/src – requested URL.
+* id – internal thread id.
+* method – request method. post or get (default get).
+* form – form id, form, element id, or element from which to collect data.
+* params – parameters that should be added to the query (Example: params:’name=val1&dat=val2′).
+* callback/cb – callback function.
+* callbackOps/cbo – options transferred to the callback function.
+* destroy – remove the process from memory after request. true or false (default false).
+* anticache/nocache – cache disabled. true or false (default false).
+* async – use of asynchronous request. true or false (default true).
+* xml – XML, emulation response. In the presence of this parameter request to the server is not made.
+* text – text, emulation response. In the presence of this parameter request to the server is not made.
+* user – username, when a connection requires a username
+* pswd – password, when a connection requires a password
+* headers – array of HTTP headers of the objects {key: value} to be passed to the server. Example: headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
+* loader – id load indicator.
+* storage – using local storage. Valid only when SRAX.Storage connected. true or false (default true).
+* etag – Etag use to identify the novelty in the local data repository. Valid only when SRAX.Storage connected. true or false (default true).
+*
+* @ Return {Object} DATAThread object of process data request
+*
+*
+*
+* ru: Функция для запроса данных
 * @param {String} url URL адрес запроса
 * @param {Object} options объект конфигурации <br> пример: {callback:myfunction, id:'myid', method:'post', params:'name1=value1&name2=value2'} <br><br>
-* 
+*
 * Возможные параметры options: <br>
 * url/src - URL запроса <br>
 * id - id потока <br>
@@ -233,8 +359,8 @@ function post(url, id_or_options, form, cb, cbo){
 * storage - флаг использования локального хранилища true (по умолчанию) или false - действует только при подключении SRAX.Storage
 * etag - флаг использования Etag для идентификации новизны данных в локальном хранилище true (по умолчанию) или false - действует только при подключении SRAX.Storage
 * headers - массив header-ов из обьектов {ключ : значение}, которые необходимо передать на сервер. пример -> headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
-* loader - лоадер-индикатор, если не определен - используется лоадер по умолчанию 
-* 
+* loader - лоадер-индикатор, если не определен - используется лоадер по умолчанию
+*
 * @return {Object} DATAThread объект процесса запроса данных
 **/
 function dax(url, options){
@@ -247,7 +373,10 @@ function dax(url, options){
 }
 
 /**
-* Функция для прерывания запроса данных
+* en: The function  for terminate the data request
+* @ Param {String} id - request id
+*
+* ru: Функция для прерывания запроса данных
 * @param {String} id id запроса
 **/
 function abortData(id){
@@ -255,12 +384,20 @@ function abortData(id){
 }
 
 /**
-* Функция запроса данных методом GET
+* en: The function to data query using  GET method
+* @ Param {String} url URL address of the request
+* @ Param {Function} cb callback - callback function
+* @ Param {String} idThread - request id
+* @ Param {Object} cbo object - options for the callback function
+* @ Param {Boolean} destroy the flag  auto removal process after the request
+* @ Return {Object} DATAThread object of process data request
+*
+* ru: Функция запроса данных методом GET
 * @param {String} url URL адрес запроса
 * @param {Function} cb callback функция обратного вызо??а
 * @param {String} idThread id запроса
 * @param {Object} cbo объект опции передаються в callback функцию
-* @param {Boolean} destroy флаг авто удаления процесса после окончания запроса 
+* @param {Boolean} destroy флаг авто удаления процесса после окончания запроса
 * @return {Object} DATAThread объект процесса запроса данных
 **/
 function getData(url, cb, idThread, cbo, anticache, destroy){
@@ -274,13 +411,22 @@ function getData(url, cb, idThread, cbo, anticache, destroy){
 }
 
 /**
-* Функция запроса данных методом POST
+* en: The function to data query using  POST method
+* @ Param {String} url URL address of the request
+* @ Param {String} body query parameters (for example: 'name1 = value1 & name2 = value2')
+* @ Param {Function} cb callback - callback function
+* @ Param {String} idThread - request id
+* @ Param {Object} cbo object - options for the callback function
+* @ Param {Boolean} destroy the flag auto removal process after the request
+* @ Return {Object} DATAThread object of process data request
+*
+* ru: Функция запроса данных методом POST
 * @param {String} url URL адрес запроса
-* @param {String} body параметры запроса (пример: 'name1=value1&name2=value2') 
+* @param {String} body параметры запроса (пример: 'name1=value1&name2=value2')
 * @param {Function} cb callback функция обратного вызова
 * @param {String} idThread id запроса
 * @param {Object} cbo объект опции передаються в callback функцию
-* @param {Boolean} destroy флаг авто удаления процесса после окончания запроса 
+* @param {Boolean} destroy флаг авто удаления процесса после окончания запроса
 * @return {Object} DATAThread объект процесса запроса данных
 **/
 function postData(url, params, cb, idThread, cbo, anticache, destroy){
@@ -296,15 +442,19 @@ function postData(url, params, cb, idThread, cbo, anticache, destroy){
 }
 
 /**
-* Главный объект-библиотека 
+* en: The main object of the library
+*
+* ru: Главный объект-библиотека
 **/
 if (!window.SRAX) FLAX = SRAX = {};
 
 /**
-* Функция для реализации наследования
+* en: A function for implementing inheritance
+*
+* ru: Функция для реализации наследования
 **/
 SRAX.extend = function(dest, src, skipexist){
-    var overwrite = !skipexist; 
+    var overwrite = !skipexist;
     for (var i in src)
         if (overwrite || !dest.hasOwnProperty(i)) dest[i] = src[i];
     return dest;
@@ -313,182 +463,251 @@ SRAX.extend = function(dest, src, skipexist){
 (function($){
 
 $.extend($, {
-    
-    
-    /**
-    * Идентификатор версии библиотек??
-    **/
-    version : 'SRAX v1.0.4 build 12',       
-    
-    /**
-    * Идентификатор данной библиотеки, для решения проблем совместного использования разных частей SRAX библиотеки
-    **/
-    TYPE : 'full',       
+
 
     /**
-    * Параметры по умолчанию 
+     * en: versions of the libraries
+     *
+    * ru: Идентификатор версии библиотек??
     **/
-    Default : {        
+    version : 'SRAX v1.0.4 build 12',
+
+    /**
+     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
+     *
+    * ru: Идентификатор данной библиотеки, для решения проблем совместного использования разных частей SRAX библиотеки
+    **/
+    TYPE : 'full',
+
+    /**
+     * en: Default settings
+     *
+    * ru: Параметры по умолчанию
+    **/
+    Default : {
         /**
-        * Префикс по умолчанию
+         * en:  default prefix
+         *
+        * ru: Префикс по умолчанию
         **/
         prefix: 'ax',
 
         /**
-        * Разделитель префикса по умолчанию 
+         * en: default separator  for prefix
+         *
+        * ru: Разделитель префикса по умолчанию
         **/
         sprt: ':',
         /**
-        * Разделитель в URL по умолчанию 
+         * en: default separator in URL
+         *
+        * ru: Разделитель в URL по умолчанию
         **/
         sprt_url: ':',
         /**
-        * Признак уровня ссылки
+         * en: markup for link level
+         *
+        * ru: Признак уровня ссылки
         **/
         lvl: '_lvl',
 
         /**
-        * id элемента-лоадера по умолчанию - сигнализатора загрузки HTML 
+         * en: default id of loader element - signaling load an HTML
+         *
+        * ru: id элемента-лоадера по умолчанию - сигнализатора загрузки HTML
         **/
         loader : 'loading',
 
         /**
-        * id элемента-лоадера по умолчанию - сигнализатора загрузки данных 
+         * en: default id of loader element - signaling load an data
+         *
+        * ru: id элемента-лоадера по умолчанию - сигнализатора загрузки данных
         **/
         loader2 : 'loading2',
 
         /**
-        * суфикс элемента-лоадера для каждого потока 
+         * en: suffix of loader element for each thread
+         *
+        * ru: суфикс элемента-лоадера для каждого потока
         **/
         loaderSufix : '_loading',
 
         /**
-        * Флаг дебагинга AJAX запросов
-        * @type Boolean 
+         * en: Flag for debug AJAX requests
+         *
+        * ru: Флаг дебагинга AJAX запросов
+        * @type Boolean
         **/
         DEBUG_AJAX : 0,
 
         /**
-        * Флаг дебагинга загрузки скриптов &lt;script>
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг дебагинга загрузки скриптов &lt;script>
+        * @type Boolean
         **/
         DEBUG_SCRIPT : 0,
 
         /**
-        * Флаг дебагинга загрузки линков &lt;link>
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг дебагинга загрузки линков &lt;link>
+        * @type Boolean
         **/
         DEBUG_LINK : 0,
 
         /**
-        * Флаг дебагинга загрузки стилей &lt;style>
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг дебагинга загрузки стилей &lt;style>
+        * @type Boolean
         **/
         DEBUG_STYLE : 0,
 
         /**
-        * Флаг использования авто-аякс фильтра
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг использования авто-аякс фильтра
+        * @type Boolean
         **/
         USE_FILTER_WRAP : 1,
 
         /**
-        * Флаг отключения истории браузеров
-        * @type Boolean 
+         * en:
+         *
+         * ru: Allow use HTML5 History Api
+         * @type boolean
+         */
+        USE_HTML5_HISTORY : 1,
+
+        /**
+         * en:
+         *
+        * ru: Флаг отключения истории браузеров
+        * @type Boolean
         **/
         NO_HISTORY : 0,
 
         /**
-        * Флаг использования кеша истории HTML
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг использования кеша истории HTML
+        * @type Boolean
         **/
         USE_HISTORY_CACHE : 1,
 
         /**
-        * Длина кеша истории HTML (по умолчанию = 100)
-        * @type Boolean 
+         * en:
+         *
+        * ru: Длина кеша истории HTML (по умолчанию = 100)
+        * @type Boolean
         **/
         LENGTH_HISTORY_CACHE : 100,
 
         /**
-        * Флаг повторной переинициализации линков &lt;link>
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг повторной переинициализации линков &lt;link>
+        * @type Boolean
         **/
         LINK_REPEAT : 0,
 
         /**
-        * Флаг использования кеша скриптов &lt;script>
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг использования кеша скриптов &lt;script>
+        * @type Boolean
         **/
         USE_SCRIPT_CACHE : 1,
 
         /**
-        * Флаг повторной переинициализации скриптов &lt;script> с атрибутом src
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг повторной переинициализации скриптов &lt;script> с атрибутом src
+        * @type Boolean
         **/
         SCRIPT_SRC_REPEAT_APPLY : 1,
 
         /**
-        * Флаг отключения загрузки скриптов с помощью AJAX
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг отключения загрузки скриптов с помощью AJAX
+        * @type Boolean
         **/
         SCRIPT_NOAX : 0,
 
         /**
-        * Флаг коррекции относительных ссылок для href и src
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг коррекции относительных ссылок для href и src
+        * @type Boolean
         **/
         RELATIVE_CORRECTION : 0,
 
         /**
-        * Флаг перезаписи событий при применении Filter.wrap
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг перезаписи событий при применении Filter.wrap
+        * @type Boolean
         **/
         OVERWRITE : 0,
 
         /**
-        * метки блока для модели запроса #2
+         * en:
+         *
+        * ru: метки блока для модели запроса #2
         **/
         model2Marker : {
             ax : '<!-- :ax:',
             begin : ':begin: //-->',
             end : ':end: //-->'
         },
-        
+
         /**
-        * Флаг авто удаления HTMLThread процесса после окончания запроса
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг авто удаления HTMLThread процесса после окончания запроса
+        * @type Boolean
         **/
         HAX_AUTO_DESTROY : 0,
 
         /**
-        * Флаг антикеш для HTMLThread 
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг антикеш для HTMLThread
+        * @type Boolean
         **/
         HAX_ANTICACHE : 0,
 
         /**
-        * Флаг авто удаления DATAThread процесса после окончания запроса
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг авто удаления DATAThread процесса после окончания запроса
+        * @type Boolean
         **/
         DAX_AUTO_DESTROY : 0,
 
         /**
-        * Флаг антикеш для DATAThread 
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг антикеш для DATAThread
+        * @type Boolean
         **/
         DAX_ANTICACHE : 0,
 
-        /**
-        * Кодировка запросов (по умолчанию = 'UTF-8')
-        * @type String 
+        /** en:
+         *
+        * ru: Кодировка запросов (по умолчанию = 'UTF-8')
+        * @type String
         **/
-        CHARSET : 'UTF-8'  
+        CHARSET : 'UTF-8'
 
     },
 
     /**
-    * Функция логирования
+     * en:
+     *
+    * ru: Функция логирования
     * @param {String} type тип (log, warn, info, error)
     * @param {Array} аргументы
     **/
@@ -496,7 +715,7 @@ $.extend($, {
         var c = window.console;
         if (c && c[type]) {
           try{
-            c[type].apply(c, args); 
+            c[type].apply(c, args);
           } catch (ex){
             c[type](args.length == 1 ? args[0] : args);
           }
@@ -505,36 +724,46 @@ $.extend($, {
             var arr = [type + ': ' + args[0]];
             for (var i = 1, len = args.length; i < len; i++) arr.push(args[i]);
             runtime.trace(arr);
-        } 
+        }
     },
-    
+
     /**
-    * Метод для получения текущего времени в миллисекундах
+     * en:
+     *
+    * ru: Метод для получения текущего времени в миллисекундах
     **/
     getTime : function(){
       return new Date().getTime();
-    },    
+    },
 
     /**
-    * Список скриптов, которые не должны кешироваться 
-    * @type Array 
+     * en:
+     *
+    * ru: Список скриптов, которые не должны кешироваться
+    * @type Array
     **/
     LIST_NO_CACHE_SCRIPTS : [],
 
     /**
-    * Cписок скриптов, которые не должны загружаться
-    * @type Array 
+     * en:
+     *
+    * ru: Cписок скриптов, которые не должны загружаться
+    * @type Array
     **/
     LIST_NO_LOAD_SCRIPTS : [],
 
     /**
-    * Cписок линков, которые не должны загружаться
+     * en:
+     *
+    * ru: Cписок линков, которые не должны загружаться
     * @type Array
     **/
     LIST_NO_LOAD_LINKS : [],
 
     /**
-    * Метод инициализации основных контейнеров и прочего
+     * en:
+     *
+    * ru: Метод инициализации основных контейнеров и прочего
     **/
     init : function(){
         var agent = navigator.userAgent.toLowerCase();
@@ -558,23 +787,54 @@ $.extend($, {
 
         $.addContainerListener($.Data);
 
+
+        /*
+         * html5 history
+		 */
+        //http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
+        var popped = ('state' in window.history),
+        	initialURL = location.href;
+
+        $.addEvent(window,'popstate',function(e){
+        	// Ignore inital popstate that some browsers fire on page load
+        	var initialPop = !popped && location.href == initialURL;
+        	popped = true;
+
+        	if ( initialPop || !D.USE_HTML5_HISTORY ) return;
+
+		    var url = location.href,
+				obj = $.parseUri(url),
+			    options = $.Filter.getOptions(obj.path, obj.query);
+		    hax (url, options);
+		    history.poped = true;
+        });
+
+
         /**
-        * Контейнер для body onload & unload
+         * en:
+         *
+        * ru: Контейнер для body onload & unload
         **/
         $.LoadUnloadContainer = {};
 
         /**
-        * Кеш скриптов
+         * en:
+         *
+        * ru: Кеш скриптов
         **/
         $.scriptsCache = [[],[]];
- 
+
         /**
-        * Временный кеш скриптов - для проверки состояния загрузки
+         * en:
+         *
+        * ru: Временный кеш скриптов - для проверки состояния загрузки
         **/
         $.scriptsTemp = [[],[]];
 
         /**
-        * Кеш линков
+         * en:
+         *
+        * ru: Кеш линков
         **/
         $.linksCache = [];
         $.History.prefixListener.ax = $.go2Hax;
@@ -605,15 +865,18 @@ $.extend($, {
     },
 
     /**
-    * Инициализация события-триггера готовоности документа
+     * en:
+     *
+    * ru: Инициализация события-триггера готовоности документа
     **/
     initOnReady : function(){
         if ($.isReadyInited) return;
         $.isReadyInited = 1;
-        //событие запускается после полного построения DOM, но раньше чем событие window.onload 
+
+        //событие запускается после полного построения DOM, но раньше чем событие window.onload
 	      if ($.browser.mozilla || $.browser.opera) {
             $.addEvent(document, 'DOMContentLoaded', $.ready);
-        } else 
+        } else
         if ($.browser.msie) {
             (function () {
                 try {
@@ -623,8 +886,8 @@ $.extend($, {
                     return;
                 }
                 $.ready();
-            })();            
-            /*            
+            })();
+            /*
             document.write('<s'+'cript id="ie-srax-loader" defer="defer" src="/'+'/:"></s'+'cript>');
             var defer = document.getElementById("ie-srax-loader");
             defer.onreadystatechange = function(){
@@ -635,34 +898,38 @@ $.extend($, {
             };
             defer = null;
             **/
-	} else 
+	} else
         if ($.browser.safari){
 		$.safariTimer = setInterval(function(){
-			if (document.readyState == "loaded" || 
+			if (document.readyState == "loaded" ||
 				document.readyState == "complete") {
 				clearInterval($.safariTimer);
 				$.safariTimer = null;
 				$.ready();
 			}
-		}, 10); 
+		}, 10);
          }
          $.addEvent(window, 'load', $.ready);
     },
     /**
-    * Регистрация Функций на событии onReady 
+     * en:
+     *
+    * ru: Регистрация Функций на событии onReady
     * @param {Function} handler функция, которая должна выполниться
     **/
     onReady : function(handler){
         if ($.isReady) {
             handler();
         } else {
-            $.readyHndlr.push(handler);        
+            $.readyHndlr.push(handler);
             $.initOnReady();
         }
     },
 
     /**
-    * Метод для выполнения зарегистрированных функций на событии onReady 
+     * en:
+     *
+    * ru: Метод для выполнения зарегистрированных функций на событии onReady
     **/
     ready : function(){
         if ($.isReady) return;
@@ -678,7 +945,9 @@ $.extend($, {
     },
 
     /**
-    * Функция прикрепления события к обьекту 
+     * en:
+     *
+    * ru: Функция прикрепления события к обьекту
     * пример: SRAX.addEvent(window, 'load', function() {alert('onload')})
     * @param {Object} obj объект к которому прикрепляеться событие
     * @param {String} name имя события (без префикса on)
@@ -690,7 +959,9 @@ $.extend($, {
     },
 
     /**
-    * Функция открепления события с обьекта 
+     * en:
+     *
+    * ru: Функция открепления события с обьекта
     * пример: SRAX.delEvent(window, 'load', function() {alert('onload')})
     * @param {Object} obj объект от которого открепляется событие
     * @param {String} name имя события (без префикса on)
@@ -701,7 +972,7 @@ $.extend($, {
 	     else obj.removeEventListener(name, handler, false);
     },
 
-    /**
+    /** en:
     * Функция получения объекта
     * @param {String/Object} obj id объекта или сам объект
     * @return {Object} объект
@@ -711,7 +982,9 @@ $.extend($, {
     },
 
     /**
-    * List No Load Scripts - LNLS <br>
+     * en:
+     *
+    * ru: List No Load Scripts - LNLS <br>
     * Ф??нкция очистки LIST_NO_LOAD_SCRIPTS <br>
     * обнуление (очистка) текущего списка
     **/
@@ -720,7 +993,9 @@ $.extend($, {
     },
 
     /**
-    * Current Page List No Load- CPLNL <br>
+     * en:
+     *
+    * ru: Current Page List No Load- CPLNL <br>
     * Инициализация LIST_NO_LOAD_SCRIPTS или LIST_NO_LOAD_LINKS <br>
     * все скрипты или линки из <head> текущей страницы попадают в список скриптов или линков, которые повторно не загружаются
     * @param {String} type параметр обрабатываемого типа script или link
@@ -734,9 +1009,11 @@ $.extend($, {
             arr.push(src);
         }
     },
-    
+
     /**
-    * Current Page List No Load Scripts - CPLNLS <br>
+     * en:
+     *
+    * ru: Current Page List No Load Scripts - CPLNLS <br>
     * Инициализация LIST_NO_LOAD_SCRIPTS <br>
     * все скрипты из <head> текущей страницы попадают в список скриптов, которые повторно не загружаются
     * @param {Boolean} clear параметр предварительного обнуления (очистки) текущего списка
@@ -747,7 +1024,9 @@ $.extend($, {
     },
 
     /**
-    * List No Load Links - LNLL <br>
+     * en:
+     *
+    * ru: List No Load Links - LNLL <br>
     * Функция очистки LIST_NO_LOAD_LINKS <br>
     * обнуление (очистка) текущего списка
     **/
@@ -756,7 +1035,9 @@ $.extend($, {
     },
 
     /**
-    * Current Page List No Load links - CPLNLL <br>
+     * en:
+     *
+    * ru: Current Page List No Load links - CPLNLL <br>
     * Инициализация LIST_NO_LOAD_LINKS <br>
     * все линки из <head> текущей страницы попадают в список линков, которые повторно не загружаются
     * @param {Boolean} clear параметр предварительного обнуления (очистки) текущего списка
@@ -767,49 +1048,59 @@ $.extend($, {
     },
 
     /**
-    * Значение : эквивалент - то что надо заменить в hash ссылке (используется для сокращения ссылок), аналог ЧПУ
+     * en:
+     *
+    * ru: Значение : эквивалент - то что надо заменить в hash ссылке (используется для сокращения ссылок), аналог ЧПУ
     **/
     linkEqual : {
     },
 
     /**
-    * Функция для прямой (обратной) замены linkEqual значений в ссылке на их эквивалентные значения <br> 
+     * en:
+     *
+    * ru: Функция для прямой (обратной) замены linkEqual значений в ссылке на их эквивалентные значения <br>
     * @param {String} url URL ссылка
-    * @param {Boolean} reverse прямая (false) или обратная (true) замена 
+    * @param {Boolean} reverse прямая (false) или обратная (true) замена
     * @return {String} результат ??амены
     **/
     replaceLinkEqual : function(url, reverse){
         var r = 'replaceAll', le = $.linkEqual;
-        
-        // преобразование '?' в '[~q~]' -> хак для Оперы - Опера не воспринимает в location.hash все что после ? в ссылке с # 
+
+        // преобразование '?' в '[~q~]' -> хак для Оперы - Опера не воспринимает в location.hash все что после ? в ссылке с #
         // к примеру http://cold.udelau.ru/index.php#:ax:center:/ajax.php?block=passport&module=showfolders
         // без хака location.hash будет равен #:ax:center:/ajax.php - т.е. история не будет срабатывать
         if (!reverse) url = url[r]('?', '[~q~]')
         for (var i in le) url = reverse ? url[r](le[i],i) : url[r](i, le[i]);
-        if (reverse) url = url[r]('[~q~]', '?')            
+        if (reverse) url = url[r]('[~q~]', '?')
         return url;
     },
 
     /**
-    * Объект-контейнер - при использовании модели запроса #2 (один ко многим - один запрос, много блоков) - соответств??е ИД блоков ответа сервера - ИД блокам клиента <br><br>
+     * en:
+     *
+    * ru: Объект-контейнер - при использовании модели запроса #2 (один ко многим - один запрос, много блоков) - соответств??е ИД блоков ответа сервера - ИД блокам клиента <br><br>
     * Пример:<br>
     * SRAX.Model2Blocks['id-all-layer'] = {'block-m-left':'left','block-content':'all'}; <br>
     **/
     Model2Blocks : {},
 
     /**
-    * Список XMLHTTP ActiveXObject движков
+     * en:
+     *
+    * ru: Список XMLHTTP ActiveXObject движков
     **/
     IE_XHR_ENGINE : ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP'],
 
     /**
-    * Функция инициализации XMLHttpRequest объекта  
+     * en:
+     *
+    * ru: Функция инициализации XMLHttpRequest объекта
     * @return {Object} XMLHttpRequest объект
     **/
     getXHR : function() {
         if (window.XMLHttpRequest && !(window.ActiveXObject && location.protocol == 'file:')) {
             return new XMLHttpRequest();
-        } else 
+        } else
         if (window.ActiveXObject){
           for (var i = 0; i < $.IE_XHR_ENGINE.length; i++){
             try {
@@ -818,24 +1109,30 @@ $.extend($, {
           }
         }
     },
-    
+
     /**
-    * Функция очистки URL от имени хотса  
+     * en:
+     *
+    * ru: Функция очистки URL от имени хотса
     * @param {String} url URL
     * @return {String} результрующий URL
     **/
     delHost : function(url){
-        if (url && url.startWith($.host)) url = url.replace($.host, '');  
+        if (url && url.startWith($.host)) url = url.replace($.host, '');
         return url;
     },
-    
+
     /**
-    * Протокол + хост  
+     * en:
+     *
+    * ru: Протокол + хост
     **/
     host : location.protocol + '//' + location.host,
 
     /**
-    * Функция препроцессорной обработки данных, 
+     * en:
+     *
+    * ru: Функция препроцессорной обработки данных,
     * если переопределена вызывается перед вызовом callback функции,
     * одна для всех запросов данных
     * @param {Object} ops входящие параметры (ops.xhr - объект XmlHttpRequest, thread - процесс владелец)
@@ -845,7 +1142,9 @@ $.extend($, {
     },
 
     /**
-    * Функция препр??цессорной обработки HTML, 
+     * en:
+     *
+    * ru: Функция препр??цессорной обработки HTML,
     * если переопределена вызывается перед вызовом callback функции,
     * одна для всех запросов HTML
     * @param {Object} ops входящие параметры (ops.xhr - объект XmlHttpRequest, thread - процесс владелец)
@@ -855,7 +1154,9 @@ $.extend($, {
     },
 
     /**
-    * Объект процесса XHR запроса 
+     * en:
+     *
+    * ru: Объект процесса XHR запроса
     * @param {String} id запроса
     **/
     XHRThread : function(id) {
@@ -864,10 +1165,10 @@ $.extend($, {
             inprocess : 0,
             id : id,
             setOptions : function(options, overwrite){
-                if (!options.url && options.src) options.url = options.src;    
-                if (!options.cb && options.callback) options.cb = options.callback;    
-                if (options.cbo == null && options.callbackOps != null) options.cbo = options.callbackOps;    
-                if (options.anticache == null && options.nocache != null) options.anticache = options.nocache;            
+                if (!options.url && options.src) options.url = options.src;
+                if (!options.cb && options.callback) options.cb = options.callback;
+                if (options.cbo == null && options.callbackOps != null) options.cbo = options.callbackOps;
+                if (options.anticache == null && options.nocache != null) options.anticache = options.nocache;
                 if (overwrite) ops = {};
                 $.extend(ops, options);
                 if (ops.async == null) ops.async = true;
@@ -883,20 +1184,20 @@ $.extend($, {
             },
             getXHR : function(){
                 if (!xhr) xhr = $.getXHR();
-                return xhr; 
+                return xhr;
             },
             onProgressXHR : function(){
                 var xhr = _this.getXHR();
-                try{    
+                try{
                   xhr.onprogress = function(e){
                       _this.fireEvent('progress', {
                           id : id,
-                          thread : _this,                                  
+                          thread : _this,
                           event : e,
                           position : e.position,
                           total : e.totalSize,
-                          percent : Math.round(100 * e.position / e.totalSize) 
-                      })                            
+                          percent : Math.round(100 * e.position / e.totalSize)
+                      })
                   }
                 } catch (ex){}
                 return _this;
@@ -904,9 +1205,9 @@ $.extend($, {
             openXHR : function(){
                 var method = _this.getMethod(),
                     xhr = _this.getXHR(),
-                    url = ($.browser.msie && location.protocol == 'file:' && ops.url.startWith('/') ?  'file://' : '') + ops.url;                        
+                    url = ($.browser.msie && location.protocol == 'file:' && ops.url.startWith('/') ?  'file://' : '') + ops.url;
                 if (ops.user) xhr.open(method.toUpperCase(), url, ops.async, ops.user, ops.pswd);
-                else xhr.open(method.toUpperCase(), url, ops.async);        
+                else xhr.open(method.toUpperCase(), url, ops.async);
                 return _this;
             },
             sendXHR : function(useAnticache, processRequest, params){
@@ -923,7 +1224,7 @@ $.extend($, {
                         xhr[rh](i, ops.headers[i]);
                     }
                 }
-                if (method == 'post') xhr[rh]('Content-Type', 'application/x-www-form-urlencoded; Charset=' + D.CHARSET);                                        
+                if (method == 'post') xhr[rh]('Content-Type', 'application/x-www-form-urlencoded; Charset=' + D.CHARSET);
                 $.showLoading(_this.inprocess, _this.getLoader());
                 xhr.send((method == 'post') ? params : null);
                 if (!ops.async) processRequest();
@@ -931,14 +1232,14 @@ $.extend($, {
             init : function(){
                 if (_this.inprocess) _this.abort();
                 _this.inprocess = 1;
-                return _this;   
+                return _this;
             },
             getParams : function(){
                 var params = $.createQuery(ops.form),
                     method = _this.getMethod();
                 if (ops.params) {
                     if (params != '' && !ops.params.startWith('&')) params += '&';
-                    params += ops.params; 
+                    params += ops.params;
                 }
                 return params;
             },
@@ -956,7 +1257,7 @@ $.extend($, {
                             if (ind1 == -1) ind1 = url.indexOf('?'+kv[0]+'=');
                             if (ind1 > -1) {
                                 ind2 =  url.indexOf('&', ind1+1);
-                                var endUrl = ind2 > -1 ? url.substring(ind2+1) : '';  
+                                var endUrl = ind2 > -1 ? url.substring(ind2+1) : '';
                                 url = url.substring(0, ind1 + 1) + endUrl;
                             }
                         }
@@ -964,7 +1265,7 @@ $.extend($, {
                     }
                 }
                 return url;
-            }, 
+            },
             abort : function(){
                 _this.inprocess = 0;
                 if (!xhr) return;
@@ -975,14 +1276,14 @@ $.extend($, {
                 xhr = null;
                 $.showLoading(0, _this.getLoader());
             },
-            _getLoader : function(isdax){               
-                if (!_this.loader) _this.loader = ops.loader == null ? $.getLoader(id, isdax) : $.get(ops.loader);   
+            _getLoader : function(isdax){
+                if (!_this.loader) _this.loader = ops.loader == null ? $.getLoader(id, isdax) : $.get(ops.loader);
                 return _this.loader;
-            },    
+            },
             getMethod : function(){
                 var m = ops.method ? ops.method : (ops.form ? ops.form.method : 'get');
                 return m && m.toLowerCase() == 'post' ? 'post':'get';
-            }            
+            }
         }
         var xhr, ops = _this.options;
         $.addEventsListener(_this);
@@ -990,12 +1291,14 @@ $.extend($, {
     },
 
     /**
-    * Объект процесса запроса данных
+     * en:
+     *
+    * ru: Объект процесса запроса данных
     * @param {String} id запроса
     **/
     DATAThread : function(id) {
-        var thread = $.XHRThread(id),        
-            ops, 
+        var thread = $.XHRThread(id),
+            ops,
             startTime;
 
         $.Data.thread[id] = thread;
@@ -1023,10 +1326,10 @@ $.extend($, {
 
                 if (thread.fireEvent('beforerequest', options) !== false){
                     startTime = $.getTime();
-                    var params = thread.init().getParams(), 
+                    var params = thread.init().getParams(),
                         useAnticache = ops.anticache != null ? ops.anticache : D.DAX_ANTICACHE;
                     ops.url = thread.buildUrl(ops.url, params);
-                    
+
                     if (ops.text || ops.xml){
                         processRequest({readyState:4,status:ops.status == null ? 200:ops.status, responseText:ops.text, responseXML:ops.xml})
                         ops.text = ops.xml = null;
@@ -1034,7 +1337,7 @@ $.extend($, {
                         thread.onProgressXHR().openXHR().sendXHR(useAnticache, processRequest, params);
                     }
                     if (D.DEBUG_AJAX) log(method + ' ' + ops.url + ' params:' + params + ' id:' + id);
-                    thread.fireEvent('afterrequest', options);                    
+                    thread.fireEvent('afterrequest', options);
                 }
             } catch (ex){
                 thread.abort();
@@ -1050,7 +1353,7 @@ $.extend($, {
             if (xhr.readyState == 4) {
               thread.inprocess = 0;
               $.showLoading(thread.inprocess, thread.getLoader());
-              var status = xhr.isAbort ? -1 : xhr.status, 
+              var status = xhr.isAbort ? -1 : xhr.status,
                   success = (status >= 200 && status < 300) || status == 304 || (status == 0 && location.protocol == 'file:'),
                   text = xhr.responseText,
                   xml = xhr.responseXML,
@@ -1059,7 +1362,7 @@ $.extend($, {
                    url:ops.url,
                    id:id,
                    status:status,
-                   success:success, 
+                   success:success,
                    cbo:ops.cbo, callbackOps:ops.cbo,
                    options:ops,
                    text:text,
@@ -1070,12 +1373,12 @@ $.extend($, {
                    **/
                    responseText:text,
                    responseXML:xml,
-                   time: $.getTime() - startTime                   
+                   time: $.getTime() - startTime
                }
               thread.fireEvent('response', o);
               if (status > -1 && $.DaxPreprocessor(o) !== false && ops.cb) {
                    ops.cb(o, id, success, ops.cbo);
-                   if (D.DEBUG_AJAX) log('callback id:' + id);                   
+                   if (D.DEBUG_AJAX) log('callback id:' + id);
               }
 
               if ((ops.destroy != null) ? ops.destroy : D.DAX_AUTO_DESTROY){
@@ -1097,20 +1400,22 @@ $.extend($, {
                    thread.destroy();
               }
           }
-        }        
+        }
 
         thread.destroy = function(){
             $.Data.thread[id] = null;
             delete $.Data.thread[id];
         }
-        
+
         return thread;
     },
 
     /**
-    * Функция отображения/скрытия объекта лоадер-сигнализатор запроса HTML (картника с играющей загрузкой)
+     * en:
+     *
+    * ru: Функция отображения/скрытия объекта лоадер-сигнализатор запроса HTML (картника с играющей загрузкой)
     * @param {Boolean} show показать/скрыть
-    * @param {String} obj елемент loader 
+    * @param {String} obj елемент loader
     **/
     showLoading : function(show, obj){
         var s = obj ? obj.style : 0;
@@ -1128,48 +1433,56 @@ $.extend($, {
                 if (s.visibility) s.visibility = 'hidden'; else s.display = 'none';
             }
           }
-        } 
+        }
     },
 
     /**
-    * Функция доступа к объекту лоадер-сигнализатор запроса (картника с играющей загрузкой)
+     * en:
+     *
+    * ru: Функция доступа к объекту лоадер-сигнализатор запроса (картника с играющей загрузкой)
     * @param {String} obj id родительского элемента
-    * @param {Boolean} isdax если = false или null запрос HTML, если = true - запрос данных    
-    * @return {Object} объект лоадер-сигнализатор запроса HTML 
+    * @param {Boolean} isdax если = false или null запрос HTML, если = true - запрос данных
+    * @return {Object} объект лоадер-сигнализатор запроса HTML
     **/
-    getLoader : function(obj, isdax){        
+    getLoader : function(obj, isdax){
         var g = $.get;
         if (obj) obj = g((typeof obj == 'string' ? obj : obj.id) + D.loaderSufix);
         return obj || g(isdax ? D.loader2 : D.loader) || g(isdax ? D.loader : D.loader2);
     },
 
     /**
-    * Функция для кодирования симовлов
+     * en:
+     *
+    * ru: Функция для кодирования симовлов
     * @param {String} text текст
     * @return {String} закодированный текст
     **/
     encode : encodeURIComponent,
 
     /**
-    * Фу??кция для декодирования симовлов
+     * en:
+     *
+    * ru: Фу??кция для декодирования симовлов
     * @param {String} text закодированный текст
     * @return {String} декодированный текст
     **/
     decode : decodeURIComponent,
 
     /**
-    * Функция авто-сборки параметров
-    * @param {String/Element} obj id формы или сама форма 
+     * en:
+     *
+    * ru: Функция авто-сборки параметров
+    * @param {String/Element} obj id формы или сама форма
     * @return {String} строка завернутых параметров (пример: 'name1=value1&name2=value2')
     **/
     createQuery : function(obj, ops) {
         obj = $.get(obj);
         if (!obj) return '';
         if (!ops) ops = {};
-        var names = [], 
-            vals = [], 
-            e = $.encode, 
-            inputs = obj.getElementsByTagName("input");       
+        var names = [],
+            vals = [],
+            e = $.encode,
+            inputs = obj.getElementsByTagName("input");
         for(var i = 0; i < inputs.length; i++ ) {
           var inp = inputs[i],
               type = inp.type.toLowerCase(),
@@ -1191,14 +1504,14 @@ $.extend($, {
                   names.push(name);
                   vals.push((value == null || value == '') ? inp.checked : value);
                 }
-                break;                
+                break;
           }
         }
 
-        var selects = obj.getElementsByTagName("select");       
+        var selects = obj.getElementsByTagName("select");
         for(var i = 0; i < selects.length; i++ ) {
             var sel = selects[i],
-                type = sel.type.toLowerCase(), 
+                type = sel.type.toLowerCase(),
                 name = sel.name ? sel.name : sel.id;
             if (!name || sel.selectedIndex == -1) continue;
             if (type == 'select-multiple'){
@@ -1208,13 +1521,13 @@ $.extend($, {
                         vals.push(e(sel.options[j].value));
                     }
                 }
-            } else {            
+            } else {
               names.push(e(name));
               vals.push(e(sel.options[sel.selectedIndex].value));
             }
-        }   
+        }
 
-        var textareas = obj.getElementsByTagName("textarea");       
+        var textareas = obj.getElementsByTagName("textarea");
         for(var i = 0; i < textareas.length; i++) {
             var ta = textareas[i],
                 name = ta.name ? ta.name : ta.id;
@@ -1223,7 +1536,7 @@ $.extend($, {
             vals.push(e(ta.value));
         }
         var query = [];
-        for (var i = 0, len = names.length; i < len; i++){ 
+        for (var i = 0, len = names.length; i < len; i++){
             if (ops.skipEmpty && vals[i] == '') continue;
             query.push(names[i] + '=' + vals[i]);
         }
@@ -1233,30 +1546,34 @@ $.extend($, {
     },
 
     /**
-    * Функция присвоения к обьекту obj атрибутов выделяемых из строки параметров params
+     * en:
+     *
+    * ru: Функция присвоения к обьекту obj атрибутов выделяемых из строки параметров params
     * @param {String} params строка параметров разделенная пробелами (к примеру &lt;link href="/path/style.css" type="text/css">)
     * @param {Object} obj объект, которому присвоить распарсенные параметры
     **/
     applyParams : function(params, obj){
         var arr = params.split(' ');
         for (var i = arr.length -1, len = 0; i >= len; i--){
-            var el = arr[i], 
+            var el = arr[i],
                 ind1 = el.indexOf("=");
             //if (ind1 == -1 && i > 0) arr[i-1] += ' ' + arr[i];
             if (ind1 > -1){
-                var ind = $.indexOfAttrMarks(el,ind1+1), 
+                var ind = $.indexOfAttrMarks(el,ind1+1),
                     name = el.substring(0, ind1).trim(),
-                    val = el.substring(ind[0] + 1, ind[1]).trim(); 
+                    val = el.substring(ind[0] + 1, ind[1]).trim();
                 obj[name] = val;
             } else if (el.indexOf('<') == -1 && el.indexOf('>') == -1){
                 obj[el] = el;
-            }            
+            }
         }
         return obj;
     },
-    
+
     /**
-    * Функция выделения маркеров (' или ") значения атрибута
+     * en:
+     *
+    * ru: Функция выделения маркеров (' или ") значения атрибута
     * @param {String} str строка
     * @return {Array} arr массив из 2-х значений (первое - стартовая позиция, второе - конечная позиция)
     **/
@@ -1266,7 +1583,7 @@ $.extend($, {
             ind1 = str.indexOf(m, start),
             ind2 = str.indexOf('"', start);
         if (ind2 > -1 && (ind2 < ind1 || ind1 == -1)) {
-            ind1 = ind2; 
+            ind1 = ind2;
             m = '"';
         }
         if (ind1 > -1){
@@ -1283,9 +1600,11 @@ $.extend($, {
         }
         return [ind1, ind2];
     },
-    
+
     /**
-    * Функция выделения значения необходимого параметра из строки параметров
+     * en:
+     *
+    * ru: Функция выделения значения необходимого параметра из строки параметров
     * @param {String} params строка завернутых параметров (пример: 'name1=value1&name2=value2')
     * @param {String} name имя необходимого параметра
     * @return {String} значение необходимого параметра
@@ -1294,15 +1613,17 @@ $.extend($, {
         var ind1 = params.toLowerCase().indexOf(' ' + name);
         if (ind1 > -1){
             var ind = $.indexOfAttrMarks(params, ind1 + name.length + 1);
-            return params.substring(ind[0] + 1, ind[1]); 
+            return params.substring(ind[0] + 1, ind[1]);
         }
     },
-    
+
     /**
-    * Функция для преобразования зарезервированных в HTML символов (ampl; &lt; и другие)
-    * @param {String} str текст для преобразовния 
-    * @return {String} результат преобразовния 
-    * 
+     * en:
+     *
+    * ru: Функция для преобразования зарезервированных в HTML символов (ampl; &lt; и другие)
+    * @param {String} str текст для преобразовния
+    * @return {String} результат преобразовния
+    *
     **/
     entitiesConvertor : function(str){
         if (str == null) return str;
@@ -1312,7 +1633,9 @@ $.extend($, {
     },
 
     /**
-    * Функция создания объекта &lt;script>
+     * en:
+     *
+    * ru: Функция создания объекта &lt;script>
     * @param {String} text текст-тело скрипта
     * @return {Object} объект &lt;script>
     **/
@@ -1334,49 +1657,56 @@ $.extend($, {
         var src = (script.src ? script.src : '').trim().toLowerCase(),
             bool = src.startWith('javascript:');
         if (src == '//:' || bool){
-            if (bool) text += '\n' + src.substring(11);            
+            if (bool) text += '\n' + src.substring(11);
             script.src = '';
         }
 
         if (text.length > 0)
             if ($.browser.msie) {
-                script.text = text; 
+                script.text = text;
             } else {
-                script.appendChild(document.createTextNode(text)); 
+                script.appendChild(document.createTextNode(text));
             }
 
-        if (!script.id) script.id = script.src;                
+        if (!script.id) script.id = script.src;
         return script;
     },
-    
+
     /**
-    * Функция добавлени?? стиля
+     * en:
+     *
+    * ru: Функция добавлени?? стиля
     * @param {String} url путь к css стилю или непосредственно его текст
     * @param {String} seal id используемое для изоляции стиля
     **/
     addCss : function(url, seal){
         if (url.indexOf('{') > -1){
              $.addStyle('<style>'+url+'</style>', seal, seal);
-        } else {                
+        } else {
              $.addLink('<link rel="stylesheet" href="'+url+'">', seal, seal);
         }
     },
-    
+
     /**
-    * Функция выделения и применения объекта &lt;style>
+     * en:
+     *
+    * ru: Функция выделения и применения объекта &lt;style>
     * @param {String} text текст-тело стиля
-    * @param {String} idLayer id родительского элемента 
+    * @param {String} idLayer id родительского элемента
     * @param {Boolean} seal флаг использования изоляции стиля
     **/
     addStyle : function(text, idLayer, seal){
         text = text.toLowerCase();
+
+        //log('My Style Check: ' + text);
+
         var ind1 = text.indexOf('<style'),
             ind2 = text.indexOf('>', ind1 + 1),
             ind3 = text.indexOf('</style>', ind2 + 1),
             params = text.substring(ind1, ind2+1),
             obj = $.applyParams(params, {}),
             skip = obj[X('skip')];
-        if (skip == 'true' || skip == '1') return;        
+        if (skip == 'true' || skip == '1') return;
 
         text = text.substring(ind2 + 1, ind3);
 
@@ -1384,13 +1714,16 @@ $.extend($, {
         while (ind1 > -1){
             ind2 = text.indexOf('(', ind1 + 1);
             ind3 = text.indexOf(')', ind2 + 1);
-            var href = text.substring(ind2 + 1, ind3);
+            var href = text.substring(ind2 + 1, ind3).replace(/["\']/g ,'');
+
             href = '<link rel="stylesheet" type="text/css" href="' + href + '"/>';
             $.addLink(href, idLayer, seal);
             text = text.substring(0,ind1)+text.substring(ind3+1);
             ind1 = text.indexOf('@import ');
         }
+
         if (seal && typeof idLayer == 'string') text = $.sealStyle(text, idLayer);
+
         if (text.length > 0){
             var style = document.createElement('style');
             style.type = 'text/css';
@@ -1402,17 +1735,19 @@ $.extend($, {
                 } else {
                     var cssText = document.createTextNode(text);
                     style.appendChild(cssText);
-                }                        
+                }
             }
-            $.getHead().appendChild(style);  
+            $.getHead().appendChild(style);
             if (D.DEBUG_STYLE) log('Style ' + text);
         }
     },
 
     /**
-    * Функция изоляции css<br>
+     * en:
+     *
+    * ru: Функция изоляции css<br>
     * используется для решения конфликтов между подгружаемыми стилями
-    * 
+    *
     * @param {String} text текст-тело стиля
     * @return {String} обработаный текст-тело стиля
     **/
@@ -1427,12 +1762,14 @@ $.extend($, {
             ind1 = text.indexOf('}', ind2);
             if (ind1 > -1) res += text.substring(ind2, ind1+1);
             ind2 = ind1 == -1 ? -1 : text.indexOf('{', ind1);
-        }        
+        }
         return res;
     },
 
     /**
-    * Функция выделения и применения объекта &lt;link>
+     * en:
+     *
+    * ru: Функция выделения и применения объекта &lt;link>
     * @param {String} text текст-тело линка
     **/
     addLink : function(text, idLayer, seal){
@@ -1451,29 +1788,29 @@ $.extend($, {
                 //$.getHead().appendChild(link);
                 //return;
             }
-            
-            var href = (seal && typeof idLayer == 'string') ? (idLayer + ':'+link.href) : link.href;            
-            
+
+            var href = (seal && typeof idLayer == 'string') ? (idLayer + ':'+link.href) : link.href;
+
             if ($.indexOfCacheSrc($.linksCache, href) > -1) {
                 var repeat = link[X('repeat')];
                 if (!D.LINK_REPEAT || repeat == 'false' || repeat == '0'){
-                        return; 
+                        return;
                 }
             } else {
                 $.linksCache.push(href);
             }
 
             if ($.indexOfCacheSrc($.LIST_NO_LOAD_LINKS, href) > -1) return;
-            
+
             if (seal && link.rel == 'stylesheet') {
                 try {
                     dax(link.href, {
                         cb:function(resp, id, status, idLayer) {
-                            var text = status ? resp.responseText : '';  
+                            var text = status ? resp.responseText : '';
                             $.addStyle('<style>'+text+'</style>', idLayer, 1);
                         },
                         id: (idLayer ? idLayer + ':' : '') + link.href,
-                        cbo: idLayer                        
+                        cbo: idLayer
                     })
                     return;
                 } catch(ex){
@@ -1484,35 +1821,39 @@ $.extend($, {
             if (document.createStyleSheet) {
                 document.createStyleSheet(link.href);
             } else {
-                $.getHead().appendChild(link);  
+                $.getHead().appendChild(link);
             }
 
             if (D.DEBUG_LINK) log('append LINK ' + link.href);
-                        
+
         }
     },
 
     /**
-    * Функция определения принадлежности к HTML коментариям,<br>
+     * en:
+     *
+    * ru: Функция определения принадлежности к HTML коментариям,<br>
     * используется для определения того что кусок нижеследующий за параметром text зако??ентирован или нет
-    * 
+    *
     * @param {String} text текст HTML
     * @return {Boolean} результат проверки принадлежности (true - да, false - нет)
     **/
-    isHTMLComment : function(text){  
+    isHTMLComment : function(text){
         var ind1 = text.lastIndexOf('<!--'),
             ind2 = text.indexOf('-->', ind1 + 4);
         return (ind1 > -1 && ind2 == -1);
     },
 
     /**
-    * Функция определения принаджлежности к HTML части (т.е. что не пренадлежит не скрипту и не стилю),<br>
+     * en:
+     *
+    * ru: Функция определения принаджлежности к HTML части (т.е. что не пренадлежит не скрипту и не стилю),<br>
     * используется для определения к чему относится нижеследующее за параметром text
-    * 
+    *
     * @param {String} text текст HTML
     * @return {Boolean} результат проверки принадлежности (true - да, false - нет)
     **/
-    isHTML : function(text){        
+    isHTML : function(text){
         text = text.toLowerCase();
         function isNoEntry(type){
             var ind1 = text.lastIndexOf('<'+type),
@@ -1523,10 +1864,12 @@ $.extend($, {
         }
         return isNoEntry('script') && isNoEntry('style');
     },
-    
+
     /**
-    * Функция коррекции относительных ссылок для href и src<br><br>
-    * 
+     * en:
+     *
+    * ru: Функция коррекции относительных ссылок для href и src<br><br>
+    *
     * @param {String} text текст HTML
     * @param {String} url URL адрес HTML
     * @param {String} type тип (href или src)
@@ -1536,23 +1879,25 @@ $.extend($, {
         if (url.indexOf('/') == -1) url = location.pathname;
         var ind1 = url.lastIndexOf('/');
         url = url.substring(0, ind1+1);
-        
+
         ind1 = text.toLowerCase().indexOf(' ' + type);
         while (ind1 > -1){
             var ind = $.indexOfAttrMarks(text, ind1 + 2);
             if ($.isHTML(text.substring(0, ind1 + 2)) && ind[0] > -1 && ind[1] > -1){
-                var val = text.substring(ind[0] + 1, ind[1]); 
+                var val = text.substring(ind[0] + 1, ind[1]);
                 if (!val.startWith('/') && !val.startWith('#') && $.parseUri(val).protocol == ''){
-                        text = text.substring(0, ind[0] + 1) + url + text.substring(ind[0] + 1); 
+                        text = text.substring(0, ind[0] + 1) + url + text.substring(ind[0] + 1);
                   }
             }
             ind1 = text.toLowerCase().indexOf(type, ind1 + 2);
         }
         return text;
     },
-    
+
     /**
-    * Функция поиска индекса элемента в указанном массиве
+     * en:
+     *
+    * ru: Функция поиска индекса элемента в указанном массиве
     * @param {Array} arr массив
     * @param {String/Element/Function/Object/Any} el элемент
     * @param {Integer} start индекс начала поиска
@@ -1570,7 +1915,9 @@ $.extend($, {
     },
 
     /**
-    * Минимальная сериализация обьектов, примеяется при сравнения параметров фильтров
+     * en:
+     *
+    * ru: Минимальная сериализация обьектов, примеяется при сравнения параметров фильтров
     * @param {String/Array/Object/Function} obj объект
     * @return {String} сериализированый объект
     **/
@@ -1578,7 +1925,7 @@ $.extend($, {
          switch (typeof obj){
             case 'function': return obj.toString();
             case 'string': return '"' + obj.replaceAll('"','\\"') + '"';
-            case 'object': 
+            case 'object':
               if (obj == null) return null;
               //if (obj.toSource) return  obj.toSource();
               var str = '';
@@ -1586,18 +1933,20 @@ $.extend($, {
                   for (var i = 0, l = obj.length; i < l; i++) str += ',' + $.toSource(obj[i])
                   if (str.length > 0) str = str.substring(1);
                   return '[' + str + ']';
-              }                  
+              }
               for (var i in obj) str += ',' + i + ':' + $.toSource(obj[i]);
               return '{' + (str.length > 0 ? str.substring(1) : str) + '}';
          }
          return obj;
     },
-    
+
     /**
-    * Функция удаления элемента в указанном массиве
+     * en:
+     *
+    * ru: Функция удаления элемента в указанном массиве
     * @param {Array} arr массив
     * @param {String/Element/Function/Object/Any} el элемент
-    * @param {Boolean} source true или false (по умолчанию) - флаг использовать при стравнении ф-цию toSource()  
+    * @param {Boolean} source true или false (по умолчанию) - флаг использовать при стравнении ф-цию toSource()
     * @return {Array} новый массив
     **/
     arrayRemoveOf : function(arr, el, source){
@@ -1605,10 +1954,12 @@ $.extend($, {
       for (var i = 0; i < arr.length; i++) if ((source && el == $.toSource(arr[i])) || el == arr[i]) arr.splice(i--, 1);
       return arr;
     },
-    
+
     /**
-    * Функция преобразования Collection в Array 
-    * @param {Collection} col эллемент Collection 
+     * en:
+     *
+    * ru: Функция преобразования Collection в Array
+    * @param {Collection} col эллемент Collection
     * @return {Array} массив
     **/
     collectionToArray :function (col){
@@ -1616,9 +1967,11 @@ $.extend($, {
     	for (var i = 0, len = col.length; i < len; i++) arr[i] = col[i];
     	return arr;
     },
-        
+
     /**
-    * Функция проверки содержит ли кеш-массив указанный линк
+     * en:
+     *
+    * ru: Функция проверки содержит ли кеш-массив указанный линк
     * @param {Array} arr кеш-массив
     * @param {String} src src или href линк
     * @return {Integer} результат проверки (-1 = не содержит)
@@ -1631,10 +1984,12 @@ $.extend($, {
         }
         return ind;
     },
-    
+
     /**
-    * Обобщенная функция парсинга и применения объектов &lt;link>,&lt;style>,&lt;title>,&lt;script><br><br>
-    * 
+     * en:
+     *
+    * ru: Обобщенная функция парсинга и применения объектов &lt;link>,&lt;style>,&lt;title>,&lt;script><br><br>
+    *
     * Список параметров: <br>
     * text - текст HTML <br>
     * idLayer - id родительского элемента<br>
@@ -1642,7 +1997,7 @@ $.extend($, {
     * add - добавление (true) или перезапись (false)
     * owner - объект-владелец (в основном скрипт) данного процеса (введен для отслеживания окончания document.write)
     * rc - использовать (true) или не использовать (false - по умолчанию) коррекцию относительных ссылок <br>
-    * 
+    *
     * @param {Object} options опции парсинга HTML
     **/
     parsingText : function(options){
@@ -1659,16 +2014,16 @@ $.extend($, {
             n = 'relativeCorrection';
         text = $.Include.fix(text);
         if (options.rc == null ? D.RELATIVE_CORRECTION : options.rc) {
-            text = $[n](text, url, 'src'); 
-            text = $[n](text, url, 'href'); 
-            text = $[n](text, url, 'action'); 
+            text = $[n](text, url, 'src');
+            text = $[n](text, url, 'href');
+            text = $[n](text, url, 'action');
         }
 
-        text = $.parsingLinkAndStyle(text, idLayer, options.seal);        
+        text = $.parsingLinkAndStyle(text, idLayer, options.seal);
         text = $.parsingFrameset(text);
 
         n = 'substring';
-        var ind01 = text.toLowerCase().indexOf('<head>'),
+        var ind01 = text.toLowerCase().indexOf('<head'),
             start = '';
         if (ind01 > -1)  {
             start += text[n](0, ind01);
@@ -1677,6 +2032,7 @@ $.extend($, {
             start = text;
             text = '';
         }
+
         var ind02 = text.toLowerCase().indexOf('</head>'),
             end = '';
         if (ind02 > -1) {
@@ -1689,18 +2045,24 @@ $.extend($, {
             o = $.parsingTitle(text, idLayer, notitle);
 
         text = start + o.text + end;
+
         if (!add) text = $.parsingLoadUnload(text, idLayer);
+
         var obj = $.parsingScript(text, idLayer, owner && owner[X('noax')]);
+
+
 
         new $.loadHtml(idLayer, obj.scripts, obj.html, url, add, owner, options.onload, options.scope, o.title);
     },
-    
+
     /**
-    * Функция парсинга событий body -> onload & onunload
+     * en:
+     *
+    * ru: Функция парсинга событий body -> onload & onunload
     * @param {String} text текст HTML
     * @param {String} idLayer id родительского элемента
     * @return {String} текст HTML
-    **/    
+    **/
     parsingLoadUnload : function(text, idLayer){
         var onload, onunload,
             ind1 = text.toLowerCase().indexOf('<body');
@@ -1708,12 +2070,12 @@ $.extend($, {
             var ind2 = text.indexOf('>', ind1+1);
             if (ind2 > -1){
                 var body = text.substring(ind1, ind2 + 1);
-                onload = $.getParam(body, 'onload'); 
+                onload = $.getParam(body, 'onload');
                 onunload = $.getParam(body, 'onunload');
                 text = text.substring(0, ind1) + body.replaceAll('load', '') + text.substring(ind2 + 1);
             }
         }
-        
+
         var n = 'LoadUnloadContainer';
         if (!$[n][idLayer]) $[n][idLayer] = {};
         $[n][idLayer].onload = onload;
@@ -1724,7 +2086,9 @@ $.extend($, {
     },
 
     /**
-    * Функция парсинга &lt;title>
+     * en:
+     *
+    * ru: Функция парсинга &lt;title>
     * @param {String} text текст HTML
     * @param {idLayer} id родительского элемента
     * @param {notitle} длаг отмены изменения title
@@ -1749,12 +2113,15 @@ $.extend($, {
     },
 
     /**
-    * Функция изменения &lt;title>
+     * en:
+     *
+    * ru: Функция изменения &lt;title>
     * @param {String} text текст HTML
     * @param {idLayer} id родительского элемента
     * @return {Boolean} результат изменения
     **/
     titleChange : function(title, idLayer){
+
         var oldTitle = document.title, ops = {oldTitle:oldTitle, newTitle:title};
         if ($.Html.fireEvent(idLayer, 'beforetitlechange', ops) !== false){
             document.title = title;
@@ -1765,7 +2132,9 @@ $.extend($, {
     },
 
     /**
-    * Функция парсинга &lt;frameset>
+     * en:
+     *
+    * ru: Функция парсинга &lt;frameset>
     * @param {String} text текст HTML
     * @return {String} текст HTML
     **/
@@ -1785,7 +2154,9 @@ $.extend($, {
     },
 
     /**
-    * Функция последовательного парсинга &lt;link> и &lt;style>
+     * en:
+     *
+    * ru: Функция последовательного парсинга &lt;link> и &lt;style>
     * @param {String} text текст HTML
     * @return {String} текст HTML
     **/
@@ -1795,13 +2166,13 @@ $.extend($, {
             html = '',
             ind1 = -1,
             ind2 = -1;
-        
+
         if ((l1 < s1 && l1 > -1) || s1 == -1){
             ind1 = l1;
-            ind2 = text.indexOf('>', ind1 + 1);            
+            ind2 = text.indexOf('>', ind1 + 1);
         } else {
             ind1 = s1;
-            ind2 = text.toLowerCase().indexOf('</style>', ind1 + 1);    
+            ind2 = text.toLowerCase().indexOf('</style>', ind1 + 1);
         }
 
         while(ind1 > -1 && ind2 > -1){
@@ -1817,29 +2188,31 @@ $.extend($, {
             l1 = text.toLowerCase().indexOf('<link');
             s1 = text.toLowerCase().indexOf('<style');
 
-            
+
             if ((l1 < s1 && l1 > -1) || s1 == -1){
                 ind1 = l1;
                 ind2 = text.indexOf('>', ind1 + 1);
             } else {
                 ind1 = s1;
-                ind2 = text.toLowerCase().indexOf('</style>', ind1 + 1);    
+                ind2 = text.toLowerCase().indexOf('</style>', ind1 + 1);
             }
 
         }
 
         if (text.length > 0) html += text;
-        return html; 
-        
+        return html;
+
     },
 
     /**
-    * Функция парсинга &lt;script>
+     * en:
+     *
+    * ru: Функция парсинга &lt;script>
     * @param {String} text текст HTML
     * @param {String} idLayer id родительского элемента
     * @return {String} текст HTML
     **/
-    parsingScript : function(text, idLayer, noax){        
+    parsingScript : function(text, idLayer, noax){
         var ltext = text.toLowerCase(),
             ind1 = ltext.indexOf('<script'),
             ind2 = ltext.indexOf('</'+'script>', ind1 + 1),
@@ -1847,7 +2220,7 @@ $.extend($, {
             ind3 = text.indexOf('>', ind1 + 1),
             ind4 = text.indexOf('/>', ind1 + 1);
         if (ind3 > -1 && ind4 !=- 1 && ind3 == ind4 + 1) {
-            ind2 = ind4; 
+            ind2 = ind4;
             n = 2;
         }
 
@@ -1856,8 +2229,10 @@ $.extend($, {
             placeIndex = 0,
             place;
         while(ind1 > -1 && ind2 > -1){
+
             if (ind1 > 0) html.push(text.substring(0, ind1));
-            var script = $.makeScript(text.substring(ind1, ind2 + n));                
+            var script = $.makeScript(text.substring(ind1, ind2 + n));
+
             if (noax) script[X('noax')] = 1;
             text = text.substring(ind2 + n);
             ltext = text.toLowerCase();
@@ -1867,10 +2242,10 @@ $.extend($, {
             ind3 = text.indexOf('>', ind1 + 1);
             ind4 = text.indexOf('/>', ind1 + 1);
             if (ind3 > -1 && ind4 !=- 1 && ind3 == ind4 + 1) {
-                ind2 = ind4; 
+                ind2 = ind4;
                 n = 2;
             }
-            
+
 
             if (html.length == 0 || !$.isHTMLComment(html.join(''))){
                 if (true || text.toLowerCase().indexOf('<body') == -1) {
@@ -1880,20 +2255,24 @@ $.extend($, {
                     }
                     script.place = place;
                     var old_place = $.get(place);
-                    if (old_place) old_place.id += '_old'; 
+                    if (old_place) old_place.id += '_old';
                 }
 
                 var skip = script[X('skip')];
                 if (skip == 'true' || skip == '1') continue;
+//here all script.src
                 if (script.src) {
-                    if (script.src.indexOf('fullajax.js') > -1 || //script.src.indexOf('linker.js') > -1 ||
-                    $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1) continue;
+                    if (script.src.indexOf('fullajax.js') > -1  || //script.src.indexOf('linker.js') > -1 ||
+                   $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1) continue;
+
                     var ind = $.indexOfCacheSrc($.scriptsCache[0],script.src);
+//only part
+
                     if (ind > -1) {
                         var repeat = script[X('repeat')];
                         if ((repeat == null || (repeat != 'false' && repeat != '0')) && D.SCRIPT_SRC_REPEAT_APPLY){
                             $.scriptsCache[1][ind].place = script.place;
-                            script = $.cloneScript($.scriptsCache[1][ind]);                    
+                            script = $.cloneScript($.scriptsCache[1][ind]);
                         } else {
                             script = $.makeScript('<script type="text/javascript">//no repeat '+script.src+'</'+'script>');
                         }
@@ -1909,14 +2288,20 @@ $.extend($, {
                         }
                     }
                 }
+
+
+
                 var h = X('head'), head = script[h];
                 ltext = text.toLowerCase();
-                script[h] = head == null ? ltext.indexOf('<head>') == -1 && ltext.indexOf('</head>') > -1 : (head == '1' || head == 'true');
+                script[h] = head == null ? ltext.indexOf('<head') == -1 && ltext.indexOf('</head>') > -1 : (head == '1' || head == 'true');
                 scripts.push(script);
             }
+
         }
 
         if (text.length > 0) html.push(text);
+
+//console.log(scripts.length);
 
         return {
             scripts:scripts,
@@ -1926,7 +2311,9 @@ $.extend($, {
 
 
     /**
-    * Функция завершения загрузки скрип??а &lt;script>
+     * en:
+     *
+    * ru: Функция завершения загрузки скрип??а &lt;script>
     * @param {Object} resp объект ответ
     * @param {String} id id процесса загрузки скрипта
     **/
@@ -1949,17 +2336,21 @@ $.extend($, {
     },
 
     /**
-    * Функция проверки кросс-доменности адреса
-    * @param {String} url URL адрес 
+     * en:
+     *
+    * ru: Функция проверки кросс-доменности адреса
+    * @param {String} url URL адрес
     **/
     isXss : function(url){
-        url = (url || '').toLowerCase();    
+        url = (url || '').toLowerCase();
         return (url.startWith('http:') || url.startWith('https:')) && !url.startWith($.host);
     },
 
     /**
-    * Функция начала загрузки скрипта &lt;script>
-    * @param {String} url URL адрес скрипта 
+     * en:
+     *
+    * ru: Функция начала загрузки скрипта &lt;script>
+    * @param {String} url URL адрес скрипта
     **/
     startLoadScript : function(script) {
         try{
@@ -1969,7 +2360,7 @@ $.extend($, {
                 cb:$.finishLoadScript,
                 id:src,
                 cbo: script,
-                anticache: script[X('nocache')]                
+                anticache: script[X('nocache')]
             })
         } catch (ex){
             if (!script.id) script.id = script.src;
@@ -1977,10 +2368,12 @@ $.extend($, {
             //log(ex);
         }
     },
-    
+
 
     /**
-    * Функция клонировани?? скриптов
+     * en:
+     *
+    * ru: Функция клонировани?? скриптов
     * @param {Object} old объект скрипт
     * @return {Object} script объект скрипт
     **/
@@ -1992,21 +2385,24 @@ $.extend($, {
             try{
                 var val = old[params[i]];
                 if (options[params[i]] != null) val = options[params[i]];
-                if (val != null && val != '') script[params[i]] = val;        
+                if (val != null && val != '') script[params[i]] = val;
             } catch (ex){}
         }
         return script;
     },
 
     /**
-    * Функция последовательного применения скриптов
+     * en:
+     *
+    * ru: Функция последовательного применения скриптов
     * @param {Array} scripts скрипты
     * @param {String} idLayer id родительского элемента
     * @param {String} url URL адрес запроса
     * @param {Function} func функция, которая выполнится после окончания
     **/
-    serialApplyScripts : function(scripts, idLayer, url, func){	
-        var i = 0;        
+    serialApplyScripts : function(scripts, idLayer, url, func){
+        var i = 0;
+
         this.checkload = function() {
             if (i >= scripts.length) {
                 $.docWriteTraper.apply(idLayer);
@@ -2015,8 +2411,10 @@ $.extend($, {
                 }
             } else {
                 if (scripts[i].src) {
+
                     var ind = $.indexOfCacheSrc($.scriptsTemp[0],scripts[i].src);
                     if (ind > -1 && !(scripts[i][X('noax')] && scripts[i][X('nocache')])) {
+
                         var place = scripts[i].place;
                         scripts[i] = $.cloneScript($.scriptsTemp[1][ind]);
                         scripts[i].place = place;
@@ -2045,15 +2443,17 @@ $.extend($, {
             this.recall = function() {_this.checkload()};
             setTimeout(this.recall, 10);
         }
-        this.checkload();			
+        this.checkload();
     },
-	  
+
     /**
-    * Функция рендеринга тела и скрип??ов страницы
+     * en:
+     *
+    * ru: Функция рендеринга тела и скрип??ов страницы
     * @param {idLayer} id родительского элемента
     * @param {Array} scripts скрипты блока <body>
     * @param {Array} html текст HTML
-    * @param {String} url URL адрес скрипта 
+    * @param {String} url URL адрес скрипта
     * @param {Boolean} add добавление (true) или перезапись (false)
     * @param {Object} owner объект-владелец данного процеса
     * @param {Array/Function/String} onload функция, которая вызывается после полной загрузки контента
@@ -2061,21 +2461,21 @@ $.extend($, {
     **/
     loadHtml : function(idLayer, scripts, html, url, add, owner, onload, scope, title){
         $.removeScripts(scripts);
-        
+
         var ops = {
             id: idLayer,
-            scripts: scripts, 
-            html: html, 
-            url: url, 
-            add: add, 
-            owner: owner, 
+            scripts: scripts,
+            html: html,
+            url: url,
+            add: add,
+            owner: owner,
             scope: scope,
             title: title
         }
 
         $.Html.fireEvent(idLayer,'unload', ops);
         if (!add) $.execUnloadBody(idLayer);
-        
+
         var head = [], other = [], places = [];
         for (var i = 0; i < scripts.length; i++){
             var s = scripts[i], isHead = s[X('head')], arr = isHead ? head : other;
@@ -2084,9 +2484,9 @@ $.extend($, {
         }
         if (places.length) $[add ? 'addTo' : 'writeTo'](places, idLayer);
         new $.serialApplyScripts(head, idLayer, url, function(){
-            $[$.Model2Blocks[idLayer] ? 'paintHtml2' : 'paintHtml'](html.join(''), idLayer, url, add);        
+            $[$.Model2Blocks[idLayer] ? 'paintHtml2' : 'paintHtml'](html.join(''), idLayer, url, add);
             if (!add) $.Effect.use(idLayer);
-          
+
             new $.serialApplyScripts(other, idLayer, url, function(){
                     if (D.USE_FILTER_WRAP) {
                         var model2 = $.Model2Blocks[idLayer];
@@ -2097,7 +2497,7 @@ $.extend($, {
                             }
                         } else $.Filter.wrap(idLayer, url);
                     }
-                    $.Include.parse();                    
+                    $.Include.parse();
                     if (owner) {
                         owner.inprocess = 0;
                         if (owner.countproc) owner.countproc--;
@@ -2114,28 +2514,32 @@ $.extend($, {
                         if ($.Html.storage.length > 0) thread.request();
                     }
                     if (thread) $.showLoading(0, thread.getLoader());
-                    
-            })          
+
+            })
         })
     },
 
     /**
-    * Функция для эмуляции события onload
+     * en:
+     *
+    * ru: Функция для эмуляции события onload
     * @param {String} idLayer id родительского элемента
-    * @param {String} url URL адрес скрипта 
+    * @param {String} url URL адрес скрипта
     **/
     execLoadBody : function(idLayer, url){
         if ($.LoadUnloadContainer[idLayer].onload) {
             $.parsingText({id:idLayer, url:url, text:'<script id="'+X('script'+D.sprt+'temp')+'" type="text/javascript">'+$.LoadUnloadContainer[idLayer].onload+'</'+'script>', add:1});
         }
         if ($.isCOL){
-            window._onload(); 
+            window._onload();
         }
     },
-    
-    
+
+
     /**
-    * Функция для захвата события window.onload, определенного с помощью javascript <br>
+     * en:
+     *
+    * ru: Функция для захвата события window.onload, определенного с помощью javascript <br>
     * желательно вызывать данную функцию перед закрывающим тегом </body>, т.е. в самую последну?? очередь
     **/
     captureOnLoad : function(){
@@ -2151,29 +2555,32 @@ $.extend($, {
                 } catch (ex){
                     error(ex);
                 }
-            }            
+            }
         }
         window.onloadHandlers.push(window.onload);
         window.onload = function(){
             window.onload = null;
             window._onload();
         }
-        
+
         window._addEvent = window[window.attachEvent ? 'attachEvent' : 'addEventListener'];
 
         window.addEventListener = window.attachEvent = function(name, handler, bool){
+
             if (name == 'load'){
                 window.onloadHandlers.push(handler);
             } else {
                 window._addEvent(name, handler, bool);
             }
         }
-                
+
         $.isCOL = 1;
     },
 
     /**
-    * Функция для эмуляции события onload
+     * en:
+     *
+    * ru: Функция для эмуляции события onload
     * необходимо доработать - отслеживать окончание загрузки ресурсов, которые подключенные через document.write
     * @param {String} idLayer id родительского элемента
     * @param {Boolean} last флаг вызова unload последнего парсинга HTML (текущего HTML для idLayer)
@@ -2182,21 +2589,23 @@ $.extend($, {
         var luc = $.LoadUnloadContainer[idLayer],
             name = last ? 'nextonunload' : 'onunload';
         $.execFunc(luc[name]);
-        luc[name] = null; 
+        luc[name] = null;
     },
 
     /**
-    * Функция для рендеринга HTML в заданном элементе - при запросе каждого блока по отдельности 
+     * en:
+     *
+    * ru: Функция для рендеринга HTML в заданном элементе - при запросе каждого блока по отдельности
     * @param {String} html текст HTML
     * @param {String} idLayer id родительского элемента
     * @param {Boolean} add добавление (true) или перезапись (false)
     **/
     paintHtml : function(html, idLayer, url, add){
         var options = {
-            html: html, 
+            html: html,
             id: idLayer,
             url: url,
-            add: add 
+            add: add
         }
         if (add) {
             if ($.Html.fireEvent(idLayer,'beforepaintadd', options) !== false){
@@ -2214,7 +2623,9 @@ $.extend($, {
     },
 
     /**
-    * Функция для рендеринга HTML в заданном элементе - при запросе всех блоков в одном потоке (модель запроса #2 - специально разработанно для Joomla)
+     * en:
+     *
+    * ru: Функция для рендеринга HTML в заданном элементе - при запросе всех блоков в одном потоке (модель запроса #2 - специально разработанно для Joomla)
     * @param {String} html текст HTML
     * @param {String} idLayer id родительского элемента
     * @param {Boolean} add добавление (true) или перезапись (false)
@@ -2231,7 +2642,7 @@ $.extend($, {
                 text = html.substring(ind2 + m.begin.length, ind3);
             if (blocks[id]) {
                 var options = {
-                    html: text, 
+                    html: text,
                     id: id,
                     url: url,
                     block: blocks[id],
@@ -2260,13 +2671,15 @@ $.extend($, {
     },
 
     /**
-    * Обьект-ловушка для обработки document.write и document.writeln
+     * en:
+     *
+    * ru: Обьект-ловушка для обработки document.write и document.writeln
     **/
     docWriteTraper : new function(){
         var scripts = {},
             urls = {},
             texts = {};
-        
+
         this.add = function(text, id, url, script){
             if (script.inprocessTO) clearTimeout(script.inprocessTO);
             script.inprocess = 1;
@@ -2333,7 +2746,9 @@ $.extend($, {
     },
 
     /**
-    * Функция добавления скрипта
+     * en:
+     *
+    * ru: Функция добавления скрипта
     * @param {Object/String} script объект скрипт / входной параметр типа String, тогда обозначает URL адрес скрипта
     * @param {String/Function} idLayer id родительского элемента / если входной параметр script типа String, тогда idLayer обозначает callback функцию, которая выполнится после загрузки скрипта
     * @param {String/Boolean} url URL адрес скрипта / если входной параметр script типа String, тогда url обозначает флаг отключения использования AJAX загрузки скрипта
@@ -2347,28 +2762,30 @@ $.extend($, {
             idLayer = script.callback || script.cb;
             url = script.noax;
             place = script.place;
-            nocache = script.anticache == null ? script.nocache : script.anticache; 
+            nocache = script.anticache == null ? script.nocache : script.anticache;
             storage = script.storage;
             noblock = script.noblock;
             script = script.src || script.url;
-        }    
+        }
+
         if ($.Storage && (storage == null ? D.USE_STORAGE : storage) && $.Storage.isPosible() && !$.Storage.isReady){
             $.Storage.onReady(function(){$.addScript(script, idLayer, url, nocache, place, storage)});
             return;
         }
+
         if (typeof script == 'string'){
             var span = document.createElement('span');
             span.cb = idLayer ? idLayer : function(){};
             span.id = $.genId();
             span.style.display = 'none';
             PM(span, 1);
-            
+
             var scripts = document.getElementsByTagName('script');
             place = $.get(place);
             if (place){
               place.innerHTML = '';
               place = place.appendChild(span);
-            } else { 
+            } else {
               for (var i = 0, len = scripts.length; i < len; i++){
                   var text = scripts[i].innerHTML,
                       ind1 = text.indexOf('SRAX.addScript');
@@ -2385,8 +2802,11 @@ $.extend($, {
             hax({id:span.id, url:script, html:'<body onload="SRAX.get(\''+span.id+'\').cb()"><script type="text/javascript" src="'+script+'"'+(url?' '+X('noax')+'="1"':'')+(nocache?' '+X('nocache')+'="1"':'')+(noblock?' '+X('noblock')+'="1"':'')+'></script></body>', nohistory:1, storage:storage});
             return;
         }
+
         /**
-        * Ловушка для обработки document.write и document.writeln
+         * en:
+         *
+        * ru: Ловушка для обработки document.write и document.writeln
         * @param {text} текст-тело скрипта
         * @return {text} текст-тело скрипта
         **/
@@ -2405,8 +2825,10 @@ $.extend($, {
             log('append script -> ' + ids);
         }
 
+
         if (script.src) {
-            script.inprocess = 1; 
+
+            script.inprocess = 1;
             $.xssLoading = !script[X('noblock')];
             script.onerror = script.onload = script.onreadystatechange = function(){
                 var t = this;
@@ -2420,15 +2842,19 @@ $.extend($, {
                 }
             }
         }
-        
-        $.getHead().appendChild(script); 
-    },   
+
+        $.getHead().appendChild(script);
+
+    },
 
     /**
-    * Функция немедленного исполнения скрипта через eval
+     * en:
+     *
+    * ru: Функция немедленного исполнения скрипта через eval
     * @param {String} text текст скрипта
     **/
     evalScript : function(text) {
+
         try{
             if ($.browser.safari){
                 window._evalCode = text;
@@ -2441,9 +2867,11 @@ $.extend($, {
         }
         return 1;
     },
-    
+
     /**
-    * Функция удаления скриптов
+     * en:
+     *
+    * ru: Функция удаления скриптов
     * @param {Array} scripts объекты скрипты
     **/
     removeScripts : function(scripts) {
@@ -2454,7 +2882,7 @@ $.extend($, {
             var id = i < scripts.length ? scripts[i].id : X('script'+D.sprt+'temp');
             for (var j = 0, len = s.length; j < len; j++){
                 if (id ? s[j].id == id : s[j].innerHTML == scripts[i].innerHTML) {
-                  arr.push(s[j]);                    
+                  arr.push(s[j]);
                   break;
                 }
             }
@@ -2466,16 +2894,18 @@ $.extend($, {
             }
         }
     },
-   
+
     /**
-    * Функция выполения функций :)
+     * en:
+     *
+    * ru: Функция выполения функций :)
     * @param {Function/String} func - обьект-функция или функция в формате String
     * @param {Array} args - массив аргументов, которые необходимо передать в функцию
-    **/   
+    **/
     execFunc : function(func, args, scope){
         if (func instanceof Array) {
             for (var i = 0, l = func.length; i < l; i++) $.execFunc(func[i], args, scope);
-        } else    
+        } else
         if (func){
             try{
                 if (!scope) scope = window;
@@ -2483,26 +2913,28 @@ $.extend($, {
                     func = func.trim();
                     if (func.startWith('function') && func.endWith('}')) {
                         func = $.browser.msie ? 'SRAX.tmp=' + func : '(' + func + ')';
-                     }  
+                     }
                     (function(){
                       func = window['eval'](func)
-                    }).call(scope)                
+                    }).call(scope)
                     if (typeof func != 'function') return;
                 }
                 func.apply(scope, args);
             } catch (ex){
                 error(ex);
             }
-        }        
+        }
     },
-   
+
     /**
-    * Объект процесса запроса HTML
+     * en:
+     *
+    * ru: Объект процесса запроса HTML
     * @param {String} id родительского элемента, в который вставляется результат запроса HTML (если null - тогда в document.body)
     **/
     HTMLThread : function(id){
         var thread = $.XHRThread(id),
-            ops, 
+            ops,
             startTime;
 
         $.Html.thread[id] = thread;
@@ -2516,7 +2948,7 @@ $.extend($, {
             ops.params = params;
             thread.request();
         }
-        
+
         thread.request = function(){
             ops = thread.getOptions();
             var method = thread.getMethod();
@@ -2527,11 +2959,11 @@ $.extend($, {
                     options:ops,
                     thread:thread
                 }
-                
+
                 if (thread.fireEvent('beforerequest', options) !== false){
                     var action = function() {
                         startTime = $.getTime();
-                        var params = thread.init().getParams(),                                                                                                
+                        var params = thread.init().getParams(),
                             ind = location.href.indexOf('#'),
                             href = (ind == -1) ? location.href : location.href.substring(0, ind),
                             useAnticache = ops.html != null || (href.endWith(ops.url) || (ops.anticache != null ? ops.anticache : D.HAX_ANTICACHE));
@@ -2564,7 +2996,7 @@ $.extend($, {
                 throw ex;
             }
         }
-          
+
         function processRequest(xhr) {
           if (!xhr || !xhr.readyState) xhr = thread.getXHR();
             try{
@@ -2572,17 +3004,17 @@ $.extend($, {
                     var status = xhr.isAbort ? -1 : xhr.status,
                         success = (status >= 200 && status < 300) || status == 304 || (status == 0 && location.protocol == 'file:'),
                         text = xhr.responseText;
-                    
+
                     try{
                         var all = [], headers = {};
                         try {
-                            all = xhr.getAllResponseHeaders().split('\n');                        
+                            all = xhr.getAllResponseHeaders().split('\n');
                         } catch (e){}
                         for (var i = 0, len = all.length; i < len; i++){
                             var ind = all[i].indexOf(':');
-                            if (ind > -1) headers[all[i].substring(0,ind).toLowerCase()] = all[i].substring(ind+2);                        
-                        }                        
-                        var ct = headers['content-type']; 
+                            if (ind > -1) headers[all[i].substring(0,ind).toLowerCase()] = all[i].substring(ind+2);
+                        }
+                        var ct = headers['content-type'];
                         if (ct) {
                             var arr = ['application/x-javascript', 'application/javascript', 'text/javascript', 'application/json', 'text/json'];
                             for (var i = 0, len = arr.length; i < len; i++){
@@ -2599,7 +3031,7 @@ $.extend($, {
                          url:ops.url,
                          id:id,
                          status:status,
-                         success:success, 
+                         success:success,
                          cbo:ops.cbo, callbackOps:ops.cbo,
                          options:ops,
                          text:text,
@@ -2611,7 +3043,7 @@ $.extend($, {
                          time: $.getTime() - startTime
                     }
                     thread.fireEvent('response', o);
-                    
+
                     if (status > -1 && $.HtmlPreprocessor(o) !== false) {
                         if (ops.cb) {
                             $.execFunc(ops.cb, [o, id, success, ops.cbo], ops.scope);
@@ -2639,7 +3071,7 @@ $.extend($, {
                     if ((ops.destroy != null) ? ops.destroy : D.HAX_AUTO_DESTROY){
                          thread.destroy();
                     }
-                } 
+                }
             } catch (ex){
                 error(ex);
                 thread.fireEvent('exception',
@@ -2657,17 +3089,17 @@ $.extend($, {
                 }
             }
         }
-  
+
         thread.destroy = function(){
             $.Html.thread[id] = null;
             delete $.Html.thread[id];
         }
-        
+
         var HTMLHistory = thread.history = {
-            storage : [],        
-            
+            storage : [],
+
             startPageHtml : null,
-            
+
             startPageOps : null,
 
             startPageUrl : null,
@@ -2678,7 +3110,7 @@ $.extend($, {
                 if (this.storage.length == 0 || this.current <= 0) return null;
                 return this.storage[HTMLHistory.current][0]
             },
-            
+
             add : function (loc, data, o) {
                 loc = decodeURIComponent(loc);
                 if (loc.href) loc = loc.href;
@@ -2686,7 +3118,7 @@ $.extend($, {
                 var host = location.host,
                     ind = loc.indexOf(host);
                 if (ind > -1) loc = loc.substring(ind + host.length);
-                    
+
                 loc = $.replaceLinkEqual(loc);
                 if (ops.startpage){
                     ops.startpage = 0;
@@ -2705,11 +3137,11 @@ $.extend($, {
                                 if (layer) {
                                     var str = layer.innerHTML,
                                         ax = D.model2Marker.ax,
-                                        begin = ax + i + D.model2Marker.begin, 
+                                        begin = ax + i + D.model2Marker.begin,
                                         end = ax + i + D.model2Marker.end;
                                     str = str.replaceAll(begin, '').replaceAll(end, '');
                                     html.push(begin + str + end);
-                                }                                
+                                }
                             }
                         } else {
                             var layer = $.get(id);
@@ -2721,7 +3153,15 @@ $.extend($, {
                     }
                 if (useHist) {
                     var title = $.parsingTitle(data, id, 1).title;
-                    $.History.add(id, loc, null, title);
+                    if(history.pushState && D.USE_HTML5_HISTORY){ // use HTML5 history
+                    	if(!history.poped){ // whether it not walk through history, looka at init
+	                    	history.pushState({fullajax:{id:id}}, title, loc);
+                    	}else {
+                    		history.poped = false;
+                    	}
+                    } else { // use FullAjax history */
+                    	$.History.add(id, loc, null, title);
+                    }
                 }
 
 
@@ -2730,28 +3170,28 @@ $.extend($, {
                     this.storage.splice(0,1);
                 }
 
-                this.storage.length = this.current; 
+                this.storage.length = this.current;
                 this.storage.push([$.replaceLinkEqual(loc, 1), data, o]);
-            }, 
+            },
 
             get : function (val) {
                 return this.storage[val];
             },
 
             getIndex : function(loc, ind){
-                for (var i = ind || 0, len = this.storage.length; i < len; i++)                
-                    if (this.storage[i] != null && loc == this.storage[i][0]) 
+                for (var i = ind || 0, len = this.storage.length; i < len; i++)
+                    if (this.storage[i] != null && loc == this.storage[i][0])
                         return i;
                 return -1;
             }
 
         }
-  
+
         thread.go2History = function(loc){
             if (HTMLHistory.currentUrl() != loc) {
                 var uhc = ops.historycache != null ? ops.historycache : D.USE_HISTORY_CACHE;
                 if (!uhc || !thread.go2UrlHistory(loc)) {
-                    loc = $.replaceLinkEqual(loc, 1);                    
+                    loc = $.replaceLinkEqual(loc, 1);
                     var ind = HTMLHistory.getIndex(loc, 2),
                         o = {
                           url: loc,
@@ -2762,7 +3202,7 @@ $.extend($, {
                 }
             }
         }
-        
+
         thread.go2UrlHistory = function(loc) {
             var ind = HTMLHistory.getIndex(loc);
             if (ind > -1) {
@@ -2772,8 +3212,8 @@ $.extend($, {
             }
         }
 
-        thread.go = function(val) {   
-            var curr = HTMLHistory.current + val; 
+        thread.go = function(val) {
+            var curr = HTMLHistory.current + val;
             if (curr < 0) curr = 0; else if (curr > HTMLHistory.storage.length - 1) curr = HTMLHistory.storage.length - 1;
             if (curr == 0) return thread.go2StartPage();
             HTMLHistory.current = curr;
@@ -2792,10 +3232,10 @@ $.extend($, {
             if (h.startPageHtml) {
               var o = $.extend({
                     startpage:1,
-                    owner:thread, 
-                    text:h.startPageHtml, 
-                    id:id, 
-                    url:h.startPageUrl 
+                    owner:thread,
+                    text:h.startPageHtml,
+                    id:id,
+                    url:h.startPageUrl
                   }, h.startPageOps || ops, 1)
               $.parsingText(o);
             }
@@ -2805,12 +3245,14 @@ $.extend($, {
         thread.getSrartPageUrl = function(){
             return HTMLHistory.startPageUrl;
         }
-        
-        return thread; 
+
+        return thread;
     },
 
     /**
-    * Функция для замены прямых ссылок в текущем href на их эквиваленты
+     * en:
+     *
+    * ru: Функция для замены прямых ссылок в текущем href на их эквиваленты
     **/
     replaceHref: function(){
         var l = location,
@@ -2820,9 +3262,11 @@ $.extend($, {
             l.replace(h.substring(0, ind) + $.replaceLinkEqual(h.substring(ind)))
         }
     },
-    
+
     /**
-    * Функция перехода по ax ссылкам
+     * en:
+     *
+    * ru: Функция перехода по ax ссылкам
     * @param {String} hash ссылка
     * @param {Object} ops опции
     **/
@@ -2831,35 +3275,50 @@ $.extend($, {
         for (var id in curAx)
             hax($.extend({id:id, url:curAx[id]}, ops));
     },
-    
+
     /**
-    * Функция обработки прямой AJAX ссылки
+     * en: The function of processing a direct link AJAX
+     * ru: Функция обработки прямой AJAX ссылки
     **/
     directLink: function(){
         $.onReady(function(){
             $.replaceHref();
             var hash = $.getHash();
-            $.History.setCurrent(hash);
+            //save link in history
+            if(hash.length && history.pushState && D.USE_HTML5_HISTORY){
+            	var curAx = $.parseAxHash(hash),
+            		url = location.href,
+            		obj = $.parseUri(url),
+            		opt = $.Filter.getOptions(obj.path, obj.query);
+            	history.pushState({fullajax:{id:''}}, null, curAx[opt.id]);
+            } else {
+            	$.History.setCurrent(hash);
+            }
             $.go2Hax(1, hash);
-        })        
+
+        })
     },
-    
+
     /**
-    * Функция проверки наличия прямой ссылки
-    * @param elId - ID элемента 
+     * en:
+     *
+    * ru: Функция проверки наличия прямой ссылки
+    * @param elId - ID элемента
     *     если указан - проверка идет на наличие прямой AJAX ссылки для указанного элемента
-    *     если не указан - проверка идет на наличие любой прямой AJAX ссылки 
+    *     если не указан - проверка идет на наличие любой прямой AJAX ссылки
     * @return {Boolean} результат проверки
     **/
     isDirectLink: function(elId){
         var obj = FLAX.parseAxHash(FLAX.getHash());
-        if (elId) return !!obj[elId]; else for (var i in obj) return true; 
+        if (elId) return !!obj[elId]; else for (var i in obj) return true;
         return false;
     },
-    
+
 
     /**
-    * Функция перехода по аякс ссылке
+     * en:
+     *
+    * ru: Функция перехода по аякс ссылке
     * @return {Object} объект аякс ссылки
     **/
     go2Hax : function(startPage, href){
@@ -2892,12 +3351,12 @@ $.extend($, {
                     options = $.Filter.getOptions(obj.path, obj.query);
                     ind = url.indexOf('?');
                     if (ind > -1 && options.params){
-                        var search = '&'+url.substring(ind+1)+'&', 
+                        var search = '&'+url.substring(ind+1)+'&',
                             arr = options.params.split('&');
                         for (var k = 0; k < arr.length; k++){
                             if (search.indexOf('&'+arr[k]+'&') > -1) arr.splice(k--, 1);
                         }
-                        options.params = arr.join('&'); 
+                        options.params = arr.join('&');
                     }
                 if (!options) options = {};
                 options.id = id;
@@ -2907,7 +3366,7 @@ $.extend($, {
                 //hax(url, {id:id, nohistory:startPage, startPage:startPage, rc:options.rc});
             }
         }
-        
+
         for (var id in prevAx){
             if (prevAx[id] && $.Html.thread[id]) {
                 options.id = id;
@@ -2923,8 +3382,10 @@ $.extend($, {
     },
 
     /**
-    * Функция формирования ax ссылок
-    * @param {String} hash строка-якорь адреса 
+     * en:
+     *
+    * ru: Функция формирования ax ссылок
+    * @param {String} hash строка-якорь адреса
     * @param {String/Object} el индентификатор контейнера или сам элемент контейнер
     * @param {String} url URL ссылки
     * @param {String} prefix префикс ссылки
@@ -2949,10 +3410,12 @@ $.extend($, {
         }
         return $.makeAxLevel((hash.startWith('#') ? '' : '#') + hash, prefix, id);
     },
-    
+
     /**
-    * Функция формирования ax ссылок в зависимости от уровня вложенности 
-    * @param {String} hash строка-якорь адреса 
+     * en:
+     *
+    * ru: Функция формирования ax ссылок в зависимости от уровня вложенности
+    * @param {String} hash строка-якорь адреса
     * @param {String} id индентификатор контейнера
     * @param {String} prefix префикс ссылки
     * @return {String} результирующий hash
@@ -2962,7 +3425,7 @@ $.extend($, {
         if (ind1 > -1){
             var ll = D.lvl.length,
               sprt = D.sprt_url,
-              lvl = parseInt(id.substring(ind1 + ll)), 
+              lvl = parseInt(id.substring(ind1 + ll)),
               mark = sprt+prefix+sprt,
               ind2 = hash.indexOf(mark);
             while (ind2 > -1){
@@ -2972,9 +3435,9 @@ $.extend($, {
                 if (ind4 > -1){
                     var itemLvl = parseInt(itemId.substring(ind4 + ll));
                     if (itemLvl > lvl){
-                        var ind5 = hash.indexOf(sprt, ind3+1); 
+                        var ind5 = hash.indexOf(sprt, ind3+1);
                         hash = hash.substring(0, ind2) + (ind5 > -1 ? hash.substring(ind5) : '');
-                        ind3 = ind2 - 1; 
+                        ind3 = ind2 - 1;
                     }
                 }
                 ind2 = hash.indexOf(mark, ind3+1);
@@ -2982,15 +3445,18 @@ $.extend($, {
         }
         return hash;
     },
-    
+
     /**
-    * Список возможных интересующих аттрибутов (используется для оптимизации парсинга аттрибутов в IE (attributes.length >= 109) и устранения баги в IE8beta1 с attributes.length)
+     * en:
+    * ru: Список возможных интересующих аттрибутов (используется для оптимизации парсинга аттрибутов в IE (attributes.length >= 109) и устранения баги в IE8beta1 с attributes.length)
     **/
     attrs : ['id', 'src', 'url', 'method', 'form', 'params', 'callback', 'cb', 'callbackOps', 'cbo','nohistory', 'cut', 'rc', 'overwrite',  'destroy', 'html',
       'anticache', 'nocache', 'startpage', 'async', 'historycache', 'seal' , 'user', 'pswd', 'storage', 'etag', 'headers', 'add', 'target', 'onload', 'loader'],
-        
+
     /**
-    * Функция парсинга атрибутов
+     * en:
+     *
+    * ru: Функция парсинга атрибутов
     * @param {Node} элемент
     * @return {Object} объект опции
     **/
@@ -3005,7 +3471,7 @@ $.extend($, {
                 var name = attr.nodeName.substring(prefix.length),
                     val = attr.nodeValue;
                 val = (val == '1' || val == 'true') ? 1 : ((val == '0' || val == 'false') ? 0 : val);
-                if (!ops) ops = {}; 
+                if (!ops) ops = {};
                 ops[name] = val;
             }
         }
@@ -3013,8 +3479,10 @@ $.extend($, {
     },
 
     /**
-    * Функция парсинга ax ссылок
-    * @param {String} href адрес    
+     * en:
+     *
+    * ru: Функция парсинга ax ссылок
+    * @param {String} href адрес
     * @param {String} prefix префикс ссылки
     * @return {Object} объект слой-ссылка
     **/
@@ -3032,7 +3500,7 @@ $.extend($, {
                 ind3 = loc.indexOf(sprt);
             while (ind3 > -1 && loc.substring(ind3, ind3+2) == sprt+'/'){
                 ind3 = loc.indexOf(sprt,ind3+1);
-            }            
+            }
             if (ind3 > -1) loc = loc.substring(0,ind3);
             if (loc && idLayer) {
                 locAx[idLayer] = loc;
@@ -3042,7 +3510,9 @@ $.extend($, {
     },
 
     /**
-    * Метод-адптер для доступа к document.head
+     * en:
+     *
+    * ru: Метод-адптер для доступа к document.head
     * @return {Object} document.head
     **/
     getHead : function(){
@@ -3050,7 +3520,9 @@ $.extend($, {
     },
 
     /**
-    * Метод-адптер для получения location.hash
+     * en:
+     *
+    * ru: Метод-адптер для получения location.hash
     * @return {Object} location.hash
     **/
     getHash : function(){
@@ -3058,36 +3530,45 @@ $.extend($, {
     },
 
     /**
-    * Метод-адптер для присвоения нового значения для location.hash
-    * предназначен для устранения баги с переопределением location.hash 
+     * en:
+     *
+    * ru: Метод-адптер для присвоения нового значения для location.hash
+    * предназначен для устранения баги с переопределением location.hash
     * в некоторых версиях ИЕ несрабатывает установка нового значения
-    *         
-    * @param {String} hash новое значение    
+    *
+    * @param {String} hash новое значение
     **/
     setHash : function(hash){
         var l = location;
-        //if (!l.hash2) 
+        //if (!l.hash2)
         l.hash = hash;
         if (l.hash2 || decodeURIComponent(l.hash) != decodeURIComponent(hash)) l.hash2 = hash;
     },
-    
+
     /**
-    * Объект - менеджер истории
+     * en:
+    * ru: Объект - менеджер истории
     **/
     History : {
         /**
-        * Предыдущий hash адрес страницы 
+         * en:
+         *
+        * ru: Предыдущий hash адрес страницы
         **/
         previous:null,
 
         /**
-        * Текущий hash адрес страницы 
+         * en:
+         *
+        * ru: Текущий hash адрес страницы
         **/
         current:null,
 
         /**
-        * Метод для установки текущего hash адреса 
-        * @param {hash} текущий hash адрес страницы 
+         * en:
+         *
+        * ru: Метод для установки текущего hash адреса
+        * @param {hash} текущий hash адрес страницы
         **/
         setCurrent : function(hash){
             $.History.previous = $.History.current;
@@ -3097,7 +3578,7 @@ $.extend($, {
         prefixListener : {
         },
 
-        check : function(){   
+        check : function(){
             var hash = $.getHash();
             var curr = $.History.current;
             if ($.browser.msie && $.History.frame) {
@@ -3123,15 +3604,15 @@ $.extend($, {
                     $.History.prefixListener[i]();
                 }
             }
-        }, 
-        
+        },
+
         write : function(title, hash){
             var frame = $.History.frame,
             doc = (frame.contentWindow || frame.contentDocument).document;
             doc.open();
-            doc.write('<head><title>'+ (title || '') + '</title></head><body>'+hash+'</body>');                    
+            doc.write('<head><title>'+ (title || '') + '</title></head><body>'+hash+'</body>');
             doc.close();
-            
+
         },
 
         add : function(id, loc, prefix, title){
@@ -3142,7 +3623,7 @@ $.extend($, {
                     hash:hash,
                     rhash:rhash,
                     id:id,
-                    url:loc,                
+                    url:loc,
                     loc:loc, //deprecated
                     prefix:prefix
                 })
@@ -3157,16 +3638,16 @@ $.extend($, {
                     if ($.browser.safari){
                         $.History.frame = frame = document.createElement('form');
                         frame.method = 'get';
-                        document.body.insertBefore(frame,document.body.firstChild);                        
+                        document.body.insertBefore(frame,document.body.firstChild);
 
                         var action = '';
                         if ($.History.previous) action = $.History.previous;
 
                         frame.action = action;
                         frame.submit();
-                    } else 
+                    } else
                     **/
-                    if ($.browser.msie) {                  
+                    if ($.browser.msie) {
                         $.History.frame = frame = document.createElement('iframe');
                         frame.style.display = 'none';
                         frame.src = 'javascript:true';
@@ -3178,9 +3659,9 @@ $.extend($, {
                 if ($.browser.safari && false){
                     frame.action = rhash;
                     frame.submit();
-                } else 
+                } else
                 **/
-                if ($.browser.msie) $.History.write(title, rhash); 
+                if ($.browser.msie) $.History.write(title, rhash);
             }
             $.History.setCurrent(rhash);
         }
@@ -3188,8 +3669,9 @@ $.extend($, {
     },
 
     /**
-    * @deprecated - аналог $.Html.on(id, 'load', handler);    
-    *     
+     *
+    * @deprecated - аналог $.Html.on(id, 'load', handler);
+    *
     * Объект триггер контекста<br><br>
     *
     * пример: <br>
@@ -3199,7 +3681,7 @@ $.extend($, {
     /*
     ContentTrigger : {
         triggers : {},
-        
+
         add : function(options){
             if (!options) options = {};
             if (!options.id) options.id = 'document.body';
@@ -3214,8 +3696,8 @@ $.extend($, {
             if (!id) id = 'document.body';
             for (var el in $.ContentTrigger.triggers){
                 if (el == id || el == '*') return $.ContentTrigger.triggers[el];
-            }        
-        }, 
+            }
+        },
 
         use : function(id, url){
             var trigger = $.ContentTrigger.get(id);
@@ -3225,11 +3707,13 @@ $.extend($, {
                 }
             }
         }
-        
+
     },*/
-    
+
     /**
-    * Объект эффект - для добавления эффекта изменения контента <br><br>
+     * en:
+     *
+    * ru: Объект эффект - для добавления эффекта изменения контента <br><br>
     *
     * пример: <br>
     * <pre>
@@ -3252,7 +3736,7 @@ $.extend($, {
 
     Effect : {
         effects : {},
-        
+
         add : function(options){
             if (!options) options = {};
             if (!options.id) options.id = 'document.body';
@@ -3267,8 +3751,8 @@ $.extend($, {
             if (!id) id = 'document.body';
             for (var el in $.Effect.effects){
                 if (el == id || el == '*') return $.Effect.effects[el];
-            }        
-        }, 
+            }
+        },
 
         use : function(id, start, cb){
             try{
@@ -3277,7 +3761,7 @@ $.extend($, {
                     for (var i = 0, len = effect.length; i < len; i++){
                         var func = (i == effect.length - 1) ? cb : null;
                         if (!effect[i]) continue;
-                        if (start) {                
+                        if (start) {
                             if (effect[i].start) effect[i].start(id, func);
                         } else {
                             if (effect[i].end) effect[i].end(id, func);
@@ -3294,7 +3778,7 @@ $.extend($, {
 
     /**
     * @deprecated - аналог $.Html.on(id,'beforepaint', handler), $.Html.on(id,'afterpaint', handler);
-    *        
+    *
     * Менеджер событий прорисовки HTML контента <br><br>
     *
     * пример: <br>
@@ -3324,8 +3808,8 @@ $.extend($, {
             if (!id) id = 'document.body';
             for (var el in $.PaintHtmlEvent.events){
                 if (el == id || el == '*') return $.PaintHtmlEvent.events[el];
-            }        
-        }, 
+            }
+        },
 
         use : function(id, after){
             var events = $.PaintHtmlEvent.get(id);
@@ -3341,7 +3825,9 @@ $.extend($, {
     },*/
 
     /**
-    * Объект фильтр ссылок - для "авто-заворачивания" в AJAX <br><br>
+     * en:
+     *
+    * ru: Объект фильтр ссылок - для "авто-заворачивания" в AJAX <br><br>
     *
     * пример: <br>
     * SRAX.Filter.add({'id':'header','url':'header'});  <br><br>
@@ -3357,12 +3843,12 @@ $.extend($, {
     * target - true заворачивать ссылки с атрибутом target (_self,  _parent, _top, _blank) или false - не заворачивать (по умолчанию) <br>
     * type - если = 'skip', тогда отмена "AJAX заворачивания"; если = 'data', тогда для запроса используется dax, иначе используется hax <br>
     * handler - функция обработки клика, если не указана, тогда используется функция в соответсвии с type <br>
-    * + все опции из hax   
-    *    
+    * + все опции из hax
+    *
     **/
     Filter : {
         schema : {},
-        
+
         add : function(options){
             if (!options) options = {};
             if (!options.id) options.id = 'document.body';
@@ -3376,13 +3862,13 @@ $.extend($, {
 
         remove : function (options){
             if (!options) options = {};
-            if (!options.id) options.id = 'document.body';            
+            if (!options.id) options.id = 'document.body';
             var arr = this.schema[options.id];
             if (!arr) return;
             $.arrayRemoveOf(arr, options, 1);
             this.schema[options.id] = arr;
         },
-        
+
         clear : function(id){
             this.schema[id ? id : 'document.body'] = null;
         },
@@ -3397,14 +3883,14 @@ $.extend($, {
             for (var el in this.schema){
                 var arr = this.schema[el];
                 if (!arr) continue;
-                
+
                 function getLength(arr, path, type){
-                    var pathLength = 0;                
+                    var pathLength = 0;
                     for (var j = 0, l = arr.length; j < l; j++){
                         var p = arr[j],
-                            bool = p && path && (p == '*' || 
+                            bool = p && path && (p == '*' ||
                         (p instanceof RegExp && p.test(path)) ||
-                        ((!type || type == 'contain') && path.indexOf(p) > -1) || 
+                        ((!type || type == 'contain') && path.indexOf(p) > -1) ||
                         (type == 'start' && path.startWith(p)) ||
                         (type == 'end' && path.endWith(p)))
                         if (bool && pathLength < p.length) pathLength = p.toString().length;
@@ -3419,20 +3905,20 @@ $.extend($, {
                         jl = arr[i].join || arr[i].joinLogic,
                         length = jl == 'and' ? urlLength + queryLength : (urlLength > queryLength ? urlLength : queryLength);
                     if (lengthEquals < length) {
-                        lengthEquals = length;     
+                        lengthEquals = length;
                         options = {};
                         for(var j in arr[i]) options[j] = arr[i][j];
                         options.filterSchemaId = el;
                         if (owner && owner.nodeName == 'FORM') {
                             if (owner.attributes['method']) options.method = owner.attributes['method'].nodeValue;
                             options.form = owner;
-                        }                            
+                        }
                     }
                 }
             }
             return options;
         },
-        
+
         parseStartUrl : function(url){
             return url.substring(0, url.indexOf('/', 1));
         },
@@ -3440,7 +3926,7 @@ $.extend($, {
         getParentPath : function(){
             var p = location.pathname, ind = p.lastIndexOf('/');
             return ind > -1 ? p.substring(0, ind+1) : '';
-        },	
+        },
 
         parseAxAttr : function(owner){
             if (owner.iswrapped) return;
@@ -3451,7 +3937,7 @@ $.extend($, {
                   ops.form = owner;
               }
               ops.scope = owner;
-            }            
+            }
             return ops;
         },
 
@@ -3464,7 +3950,7 @@ $.extend($, {
                 if (!url) {
                     url = location.href;
                     var ind = url.indexOf('#');
-                    url = ind == -1 ? url : url.substring(0, ind); 
+                    url = ind == -1 ? url : url.substring(0, ind);
                 }
                 var a = document.createElement('a');
                 a.href = url;
@@ -3477,11 +3963,11 @@ $.extend($, {
                 var uri = $.parseUri(owner.href);
                 url = uri.path;
                 query = uri.query;
-                //var parent = this.getParentPath();            
+                //var parent = this.getParentPath();
                 //if (url.substring(0,parent.length) == parent) url = url.substring(parent.length);
                 //var startUrl = this.parseStartUrl(url);
             }
-            if (query && query.startWith('?')) query = query.substring(1);            
+            if (query && query.startWith('?')) query = query.substring(1);
             if ($.browser.opera || $.browser.msie) url = '/' + url;
             var ops = this.getOptions(url, query, owner);
             if (!ops && !options) return;
@@ -3494,11 +3980,13 @@ $.extend($, {
             if (options.id == null) return;
             this.wrapOps(owner, options);
         },
-        
+
         /**
-        * Функция отключения ссылок на пустой якорь<br>
+         * en:
+         *
+        * ru: Функция отключения ссылок на пустой якорь<br>
         * используется для отключения ссылок типа href="#" для того чтобы они не сбивали историю
-        * 
+        *
         * @param {layer} layer id элемента или сам елемент
         **/
         wrapSharp : function(owner, options, url){
@@ -3520,7 +4008,7 @@ $.extend($, {
                   }
                 }
                 if (href == current || href == url){
-                    if (!options) options = {}; 
+                    if (!options) options = {};
                     owner.sharp = options.sharp = 1;
                     this.wrapOps(owner, options);
                 }
@@ -3545,14 +4033,14 @@ $.extend($, {
                             owner.setAttributeNode(onprev);
                         }
                     } else owner[onprevevent] = owner[onevent];
-                }                    
-                
+                }
+
                 if (event == 'submit'){
-                    var inputs = owner.getElementsByTagName('input');                    
+                    var inputs = owner.getElementsByTagName('input');
                     for (var i = 0, l = inputs.length; i < l; i++){
                         var type = inputs[i].type;
                         if (type != 'image' && type != 'submit') continue;
-                        SRAX.addEvent(inputs[i], 'click', type == 'image' ? 
+                        SRAX.addEvent(inputs[i], 'click', type == 'image' ?
                             function(e){
                                 if (!e) e = window.event;
                                 var trgt = e.target || e.srcElement,
@@ -3565,9 +4053,9 @@ $.extend($, {
                                 if (prefix) prefix += '.';
                                 if (value && name != null) param += name + '=' + value + '&';
                                 param = '&' + param + prefix + 'x='+x + '&' + prefix + 'y=' + y;
-                                owner.submitValue = param; 
-                            } 
-                            : 
+                                owner.submitValue = param;
+                            }
+                            :
                             function(e){
                                 if (!e) e = window.event;
                                 var trgt = e.target || e.srcElement,
@@ -3575,15 +4063,15 @@ $.extend($, {
                                     value = trgt.getAttribute('value'),
                                     param = '';
                                 if (name != null) param += '&' + name + '=' + value;
-                                owner.submitValue = param; 
+                                owner.submitValue = param;
                             }
                         )
                     }
                 }
-                
+
                 owner[onevent] = function(e){
                     e = e || window.event || {};
-                    if (e.ctrlKey || e.shiftKey) return;                
+                    if (e.ctrlKey || e.shiftKey) return;
                     try{
                         var res = null;
                         if ($.browser.msie){
@@ -3604,7 +4092,7 @@ $.extend($, {
                     } catch (ex){
                         error(ex);
                     }
-                    
+
                     var o = this.options;
                     if (this.nodeName == 'FORM' && this.enctype == 'multipart/form-data'){
                         if (o.multipart) o.multipart(this);
@@ -3613,7 +4101,7 @@ $.extend($, {
                     if (!o.sharp){
                         try{
                             if (o.handler){
-                                o.handler(this, o); 
+                                o.handler(this, o);
                             } else {
                               var url = this.getAttribute('action') || this.href;
                               if (!url) url = location.href;
@@ -3624,22 +4112,22 @@ $.extend($, {
                               url = $.delHost(url);
                               var changer = o.changer || o.urlChanger;
                               url = changer ? changer(url, this) : url;
-  
+
                               var ind = url.indexOf('#');
                               if (ind > -1) url = url.substring(0,ind);
-                              
-                              window[o.type == 'data' ? 'dax' : 'hax'](url, o);                            
+
+                              window[o.type == 'data' ? 'dax' : 'hax'](url, o);
                             }
                         } catch (ex){
                             error(ex);
                         }
                     }
-                    return false;                    
+                    return false;
                 }
-                
+
                 if (event == 'submit'){
                     owner.submit = owner.onsubmit;
-                }            
+                }
         },
 
         wrap : function(layer, url){
@@ -3650,22 +4138,22 @@ $.extend($, {
             var a, nn = layer.nodeName;
             if (nn == 'A' || nn == 'FORM' || nn == 'AREA') a = [layer]; else {
                 layer = $.get(layer);
-                if (!layer) return;            
+                if (!layer) return;
                 if (PM(layer)) layer = document;
                 var c2a = $.collectionToArray,
-                    gebtn = 'getElementsByTagName'; 
+                    gebtn = 'getElementsByTagName';
                 a = c2a(layer[gebtn]('a')).concat(c2a(layer[gebtn]('form')), c2a(layer[gebtn]('area')));
             }
             for (var i = 0, len = a.length; i < len; i++){
-                var obj = a[i], 
+                var obj = a[i],
                     axWrap = obj.attributes[X('wrap')],
                     noWraped = axWrap == null || (axWrap.nodeValue != 'false' && axWrap.nodeValue != '0' && axWrap.nodeValue != false);
-                if (obj.iswrapped) obj.iswrapped = !!(obj.onclick || obj.onsubmit);                
-                if (!$.isXss(obj.href || obj.action) && !obj.iswrapped && noWraped) {                
+                if (obj.iswrapped) obj.iswrapped = !!(obj.onclick || obj.onsubmit);
+                if (!$.isXss(obj.href || obj.action) && !obj.iswrapped && noWraped) {
                     var options = this.parseAxAttr(obj),
-                        res = this.fireEvent('beforewrap', 
+                        res = this.fireEvent('beforewrap',
                         {
-                          el: obj, 
+                          el: obj,
                           ops: options,
                           layer: layer,
                           url: url
@@ -3677,44 +4165,49 @@ $.extend($, {
                 }
                 obj = null;
             }
-            a = null; 
+            a = null;
             return this;
         }
-                
+
     },
 
 
     /**
-    * Объект Include - для реализации автоматического подключения страниц, кусков HTML <br><br>
+     * en:
+     *
+    * ru: Объект Include - для реализации автоматического подключения страниц, кусков HTML <br><br>
     *
-    * Пример: 
+    * Пример:
     * <body>
-    *    <include src="header.html"></include> 
-    *    <include src="middle.html"></include> 
-    *    <include src="footer.html"></include> 
-    * </body> 
+    *    <include src="header.html"></include>
+    *    <include src="middle.html"></include>
+    *    <include src="footer.html"></include>
+    * </body>
     *
     **/
 
     Include : {
         /**
-        * Функция для парсинга тегов &lt;include>
+         * en:
+        * ru: Функция для парсинга тегов &lt;include>
         **/
         parse : function(el){
             if (el) el = $.get(el); else el = document;
             var include = el.getElementsByTagName('include');
             while (include.length > 0) $.Include.apply(include[0]);
         },
-        
+
         /**
-        * Реализация include
+         * en:
+         *
+        * ru: Реализация include
         * @param {String/Object} el индентификатор элемента include или сам элемент include
         **/
         apply : function(el){
-            el = $.get(el);        
+            el = $.get(el);
             var ops = $.parseAttr(el),
                 o = $.parseAttr(el, X(''));
-            $.extend(ops, o);            
+            $.extend(ops, o);
             if (ops && (ops.url || ops.src)){
                 var a = document.createElement('a');
                 if (!ops.url) ops.url = ops.src;
@@ -3728,13 +4221,15 @@ $.extend($, {
                 span.id = ops.id = el.id ? el.id : $.genId();
                 PM(span, 1);
                 el.parentNode.replaceChild(span, el);
-                if (ops.nohistory == null) ops.nohistory = 1; 
+                if (ops.nohistory == null) ops.nohistory = 1;
                 hax(ops);
-            } 
+            }
         },
-        
+
         /**
-        * Функция для фиксации тега <include> 
+         * en:
+         *
+        * ru: Функция для фиксации тега <include>
         * IE игнорирует этот тег, если он вне тега <body> и если перед <include> нет текста
         * FF игнорирует этот тег, если тег прописан заглавными <INCLUDE>
         * @param {String} text текст
@@ -3748,19 +4243,21 @@ $.extend($, {
             }
             return text;
         }
-        
-    }, 
+
+    },
 
 
     /**
-    * Объект квази-AJAX аплоадер файлов<br><br>
+     * en:
+     *
+    * ru: Объект квази-AJAX аплоадер файлов<br><br>
     *
     * пример использования <br>
     * &lt;form action="/upload.jsp" method="post" enctype="multipart/form-data" onsubmit="new SRAX.Uploader(this, startCallback, finishCallback)"> <br>
     * &nbsp;&nbsp;&nbsp;&nbsp;  &lt;input type="file" name="form[file]" /> <br>
     * &lt;/form>
     *
-    * @param {String/Element} form id формы или сама форма 
+    * @param {String/Element} form id формы или сама форма
     * @param {Function} beforeStart выполняемая функция до начала загрузки
     * @return {Function} afterFinish выполняемая функция после окончания загрузки
     * @param {Boolean} manual флаг старта загрузки вручную (form.submit())
@@ -3799,13 +4296,13 @@ $.extend($, {
                     setAfterFinish(afterFinish);
                     if (manual) form.submit()
                 }
-                if (manual) iframe._onload = set; else set(); 
+                if (manual) iframe._onload = set; else set();
             } else iframe._onload = function(){}
             form.appendChild(container);
             form.setAttribute('target', id);
             if (beforeStart) beforeStart(_this);
         }
-        
+
         this.init();
 
         this.getIframe = function(){
@@ -3822,11 +4319,13 @@ $.extend($, {
            SRAX.remove(container);
            container = null;
         }
-        
+
     },
 
     /**
-    * Метод для добавления объекту интерфейса модели событий
+     * en:
+     *
+    * ru: Метод для добавления объекту интерфейса модели событий
     *
     * @param {obj} обьект или конструктор обьекта
     *
@@ -3843,7 +4342,7 @@ $.extend($, {
                 this.events[event].push(func);
             }
         }
-        obj.un = function(arr, func, equal){        
+        obj.un = function(arr, func, equal){
             if (!(arr instanceof Array)) arr = [arr];
             for (var i = 0, l = arr.length; i < l; i++){
                 var event = arr[i];
@@ -3877,7 +4376,7 @@ $.extend($, {
                     }
                 }
                 return res;
-            } 
+            }
         }
         return obj;
     },
@@ -3926,7 +4425,7 @@ $.extend($, {
                     var arr = toall[event];
                     $.arrayRemoveOf(arr, func, !equal);
                     toall[event] = arr;
-                } else 
+                } else
                    toall[event] = [];
             } else
                 toall = {};
@@ -3939,7 +4438,7 @@ $.extend($, {
         obj.un = function(arr, event, func, equal){
             if (!(arr instanceof Array)) arr = [arr];
             for (var i = 0, l = arr.length; i < l; i++){
-                var id = arr[i];        
+                var id = arr[i];
                 if (!func) {
                     if (id){
                         if (registered[id]) {
@@ -3947,8 +4446,8 @@ $.extend($, {
                         }
                     } else
                         registered = {};
-    
-                    var list = {};            
+
+                    var list = {};
                     if (id) list[id] = this.thread[id]; else list = this.thread;
                     for (var j in list)
                         if (list[j]) list[j].unall(event);
@@ -3966,25 +4465,30 @@ $.extend($, {
         obj.fireEvent = function(id, event, options){
             if (this.thread[id]) return this.thread[id].fireEvent(event, options);
         }
-        
+
         return obj;
     },
 
 
     /**
-    * Контейнер объектов процесса запроса HTML
+     * en:
+    * ru: Контейнер объектов процесса запроса HTML
     **/
     Html : {
         thread : {},
 
         /**
-        * Флаг асинхронного выполнения hax
-        * @type Boolean 
+         * en:
+         *
+        * ru: Флаг асинхронного выполнения hax
+        * @type Boolean
         **/
         ASYNCHRONOUS : 1,
 
         /**
-        * Хранилище для реализации синхронных hax
+         * en:
+         *
+        * ru: Хранилище для реализации синхронных hax
         * @type Array
         **/
         storage :[]
@@ -3992,15 +4496,19 @@ $.extend($, {
     },
 
     /**
-    * Контейнер объектов процесса запроса данных
+     * en:
+     *
+    * ru: Контейнер объектов процесса запроса данных
     **/
     Data : {
         thread : {}
     },
 
     /**
-    * Функция проигрывания звуковых файлов
-    * 
+     * en:
+     *
+    * ru: Функция проигрывания звуковых файлов
+    *
     * @param {src} путь к звуковому файлу
     * @param {timeout} интервал в секундах, через который произвести удаление елемента - по умолчанию 10сек( если timeout <= 0 остается навсегда)
     **/
@@ -4008,59 +4516,65 @@ $.extend($, {
         var div = document.createElement('div');
         if (timeout == null) timeout = 10;
         div.setAttribute('style','position:absolute;top:-1000px;left:-1000px');
-        if (window.ActiveXObject){   
+        if (window.ActiveXObject){
             var sound = document.createElement('bgsound');sound.src = src;div.appendChild(sound);
         } else {
             div.innerHTML = '<embed src="'+src+'" loop="false" autostart="true" hidden="true" mastersound>';
-        } 
+        }
         document.body.appendChild(div);
         if (timeout > 0)
             setTimeout(function(){div.firstChild.src = '';document.body.removeChild(div)}, timeout*1000);
     },
 
     /**
-    * Экспериментальный метод включения режима чтения с любого адресса (это не безопасно) <br>
+     * en:
+     *
+    * ru: Экспериментальный метод включения режима чтения с любого адресса (это не безопасно) <br>
     * UniversalBrowserRead
-    *  
-    **/    
+    *
+    **/
     enableUBR : function(){
         netscape.security.PrivilegeManager.enablePrivilege ("UniversalBrowserRead"); //for Firefox
     },
 
     /**
-    * Экспериментальный объект менеджер лоадеров-сигнализатор??в
+     * en:
+     *
+    * ru: Экспериментальный объект менеджер лоадеров-сигнализатор??в
     **/
     Loader : {
         show: function(){
             $.showLoading(1, $.getLoader());
         },
-        
+
         hide: function(){
             $.showLoading(0, $.getLoader());
         }
     },
 
-    parseUri : function (source, ops) { 
-        var options = { 
-            strictMode: 0, 
-            key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"], 
-            q: { 
-                name: "queryKey", 
-                parser: /(?:^|&)([^&=]*)=?([^&]*)/g 
-            }, 
-            parser: { 
-                strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/, 
-                loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ 
-            } 
+    parseUri : function (source, ops) {
+        var options = {
+            strictMode: 0,
+            key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+            q: {
+                name: "queryKey",
+                parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+            },
+            parser: {
+                strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+                loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+            }
         }
-        var o = ops ? ops : options, value = o.parser[o.strictMode ? "strict" : "loose"].exec(source); 
-        for (var i = 0, uri = {}; i < 14; i++) { uri[o.key[i]] = value[i] || ""; } 
-        uri[o.q.name] = {}; 
-        uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) { if ($1) uri[o.q.name][$1] = $2; }); return uri;         
+        var o = ops ? ops : options, value = o.parser[o.strictMode ? "strict" : "loose"].exec(source);
+        for (var i = 0, uri = {}; i < 14; i++) { uri[o.key[i]] = value[i] || ""; }
+        uri[o.q.name] = {};
+        uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) { if ($1) uri[o.q.name][$1] = $2; }); return uri;
     },
 
     /**
-    * Функция для отображения ошибок запроса HTML страниц
+     * en:
+     *
+    * ru: Функция для отображения ошибок запроса HTML страниц
     * @param {String} url URL адрес запроса
     * @param {Integer} status код сообщения
     * @return {String} statusText текст сообщения
@@ -4071,7 +4585,9 @@ $.extend($, {
     },
 
     /**
-    * Функция replaceHtml по утверждению ее создателя быстрей чем innerHTML
+     * en:
+     *
+    * ru: Функция replaceHtml по утверждению ее создателя быстрей чем innerHTML
     * @param {String/Element} el родительский элемент
     * @param {String} html текст HTML
     *
@@ -4080,7 +4596,7 @@ $.extend($, {
     * <br>
     * This is much faster than using (el.innerHTML = value) when there are many
     * existing descendants, because in some browsers, innerHTML spends much longer
-    * removing existing elements than it does creating new ones. 
+    * removing existing elements than it does creating new ones.
     **/
     replaceHtml : function (el, html) {
             var oldEl = (typeof el === "string" ? document.getElementById(el) : el);
@@ -4097,7 +4613,9 @@ $.extend($, {
     },
 
     /**
-    * Функция добавления HTML в родительский элемент
+     * en:
+     *
+    * ru: Функция добавления HTML в родительский элемент
     * @param {String/Element} elem родительский элемент
     * @param {String} html текст HTML
     **/
@@ -4105,8 +4623,8 @@ $.extend($, {
         var x = elem ? $.get(elem) : document.body;
         html = html.join ? html.join('') : html;
         if (!x) return warn('Warning => addTo : element = ' + elem + ' not found, html = ' + html.trim().substring(0, 20) + '...');
-            
-        var div = document.createElement('div');        
+
+        var div = document.createElement('div');
         div.innerHTML = html;
         var asm = PM(x);
         while (div.childNodes.length > 0)
@@ -4115,7 +4633,9 @@ $.extend($, {
     },
 
     /**
-    * Функция рендеринга HTML в родительском элементе
+     * en:
+     *
+    * ru: Функция рендеринга HTML в родительском элементе
     * @param {String/Element} elem родительский элемент
     * @param {String} html текст HTML
     **/
@@ -4126,9 +4646,11 @@ $.extend($, {
         if (PM(x)) $.addTo(html,x); else x.innerHTML = html;
         return x;
     },
-    
+
     /**
-    * Функция удаления элемента из родительского элемента
+     * en:
+     *
+    * ru: Функция удаления элемента из родительского элемента
     * @param {String/Element} el удаляемый элемент
     **/
     remove : function(arr){
@@ -4140,7 +4662,9 @@ $.extend($, {
     },
 
     /**
-    * Функция замены элемента другим элементом
+     * en:
+     *
+    * ru: Функция замены элемента другим элементом
     * @param {String/Element} nEl новый ??лемент
     * @param {String/Element} oEl заменямый элемент
     **/
@@ -4151,7 +4675,9 @@ $.extend($, {
     },
 
     /**
-    * Функция генерации уникального Id
+     * en:
+     *
+    * ru: Функция генерации уникального Id
     **/
     genId : function(){
         return X('genid'+D.sprt) + ($.lastGenId ? ++$.lastGenId : $.lastGenId=1);
@@ -4159,23 +4685,29 @@ $.extend($, {
 })
 var D = $.Default;
 /**
-* Функция для формирования имени атрибута с префиксом 
-**/ 
+* en:
+*
+* ru: Функция для формирования имени атрибута с префиксом
+**/
 var X = function(str){
     return D.prefix+D.sprt+str;
 }
 /**
-* Функция для формирования имени параметра/достуа к значению параметра/присвоению значения параметру 'ax:place:mark' - применяется для указания места вставки HTML 
-**/ 
+* en:
+*
+* ru: Функция для формирования имени параметра/достуа к значению параметра/присвоению значения параметру 'ax:place:mark' - применяется для указания места вставки HTML
+**/
 var PM = $.placeMark = function(el, bool){
     var pm = X('place'+D.sprt+'mark');
-    if (el && bool != null) el[pm] = bool; 
-    return el ? (bool == null ? el[pm] : el) : pm; 
+    if (el && bool != null) el[pm] = bool;
+    return el ? (bool == null ? el[pm] : el) : pm;
 }
 
 /**
-* Функция для формирования HTML кода элемента, обозначающего местоположение скрипта    
-**/ 
+* en:
+*
+* ru: Функция для формирования HTML кода элемента, обозначающего местоположение скрипта
+**/
 var SP = function(place){
     return '<span id="'+place+'" style="display:none"><!--place of script # ' + place + '//--></span>'
 }
@@ -4192,4 +4724,4 @@ arrayRemoveOf = $.arrayRemoveOf;
 })(SRAX)
 
 SRAX.init();
-} 
+}
