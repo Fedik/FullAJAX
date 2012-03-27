@@ -1,13 +1,19 @@
 ﻿/**
-* Fullajax = AJAX & AHAH library
-* http://www.fullajax.ru
-* SiRusAjaX - SRAX v1.0.4 build 12
-* Copyright(c) 2007-2010, Ruslan Sinitskiy.
-* http://fullajax.ru/#:license
-*
-* some fix by Fedir: 2011.05.26
-* HTML5 history by Fedir: 2012.03.17
-**/
+ * Fullajax = AJAX & AHAH library
+ * 
+ * SiRusAjaX - SRAX v1.1
+ * 
+ * version: 1.1
+ * 
+ * GPL licenses:
+ *    http://www.gnu.org/licenses/gpl.html
+ * 
+ * @author Ruslan Sinitskiy
+ * 
+ * @site http://www.fullajax.ru
+ * @site https://github.com/Fedik/FullAJAX
+ * 
+ **/
 
 if (!window.SRAX || window.SRAX.TYPE != 'full'){
 
