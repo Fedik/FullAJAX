@@ -1,6 +1,8 @@
 #FullAJAX - official version on github
 ##What is FullAJAX?
-FullAJAX = AJAX (Asynchronous JavaScript and XML) + AHAH (Asynchronous HTML and HTTP) - technology conversion websites and web applications in AJAX
+ FullAJAX = AJAX (Asynchronous JavaScript and XML) + AHAH (Asynchronous HTML and HTTP) 
+
+ Technology conversion websites and web applications in AJAX
 
 Some base info:
 
