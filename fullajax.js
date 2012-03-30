@@ -906,9 +906,9 @@ $.extend($, {
 	         }
          $.addEvent(window, 'load', $.ready);
     },
-    /**
-     * en:
-     *
+   /**
+    * en: register funcion on onReady event
+    *
     * ru: Регистрация Функций на событии onReady
     * @param {Function} handler функция, которая должна выполниться
     **/
@@ -921,9 +921,9 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: method for execute registered function on onReady event
+    *
     * ru: Метод для выполнения зарегистрированных функций на событии onReady
     **/
     ready : function(){
@@ -939,11 +939,15 @@ $.extend($, {
         $.readyHndlr = null;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The function attach event to an  object
+    * example: FLAX.addEvent(window, 'load', function() {alert('onload')})
+    * @param {Object} obj oject to event attach
+    * @param {String} name - name of event(without prefix "on")
+    * @param {Function} handler - function that will executed
+    *
     * ru: Функция прикрепления события к обьекту
-    * пример: SRAX.addEvent(window, 'load', function() {alert('onload')})
+    * пример: FLAX.addEvent(window, 'load', function() {alert('onload')})
     * @param {Object} obj объект к которому прикрепляеться событие
     * @param {String} name имя события (без префикса on)
     * @param {Function} handler функция, которая должна выполниться
@@ -953,11 +957,15 @@ $.extend($, {
 	     else obj.addEventListener(name, handler, false);
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The function detach event from an  object
+    * example: FLAX.delEvent(window, 'load', function() {alert('onload')})
+    * @param {Object} obj oject to event dettach
+    * @param {String} name - name of event(without prefix "on")
+    * @param {Function} handler - function that will detached
+    *
     * ru: Функция открепления события с обьекта
-    * пример: SRAX.delEvent(window, 'load', function() {alert('onload')})
+    * пример: FLAX.delEvent(window, 'load', function() {alert('onload')})
     * @param {Object} obj объект от которого открепляется событие
     * @param {String} name имя события (без префикса on)
     * @param {Function} handler функция, которая должна открепится
@@ -1117,9 +1125,9 @@ $.extend($, {
         return url;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: protocol + host
+    *
     * ru: Протокол + хост
     **/
     host : location.protocol + '//' + location.host,
@@ -1210,9 +1218,9 @@ $.extend($, {
                     xhr = _this.getXHR();
                 xhr.onreadystatechange = ops.async ? processRequest : function(){};
                 var rh = 'setRequestHeader';
-                if (ops.cut) xhr[rh]('AJAX_CUT_BLOCK', ops.cut);
+                if (ops.cut) xhr[rh]('Ajax-Cut-Block', ops.cut);
                 if (useAnticache) xhr[rh]('If-Modified-Since', 'Sat, 1 Jan 2000 00:00:00 GMT');
-                xhr[rh]('AJAX_ENGINE', 'Fullajax');
+                xhr[rh]('Ajax-Engine', 'Fullajax');
                 xhr[rh]('X-Requested-With', 'XMLHttpRequest');
                 if (ops.headers){
                     for (var i in ops.headers){
