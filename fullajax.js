@@ -1,18 +1,18 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
- * 
+ *
  * SiRusAjaX - SRAX v1.1
- * 
- * version: 1.1
- * 
+ *
+ * version: 1.2
+ *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * @author Ruslan Sinitskiy
- * 
+ *
  * @site http://www.fullajax.ru
  * @site https://github.com/Fedik/FullAJAX
- * 
+ *
  **/
 
 if (!window.SRAX || window.SRAX.TYPE != 'full'){
@@ -474,9 +474,9 @@ $.extend($, {
     /**
      * en: versions of the libraries
      *
-    * ru: Идентификатор версии библиотек??
+    * ru: Идентификатор версии библиотеки
     **/
-    version : 'SRAX v1.0.4 build 12',
+    version : '1.2',
 
     /**
      *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -871,7 +871,7 @@ $.extend($, {
     },
 
     /**
-     * en:
+     * en: initialisation event-triger of document ready
      *
     * ru: Инициализация события-триггера готовоности документа
     **/
@@ -893,28 +893,17 @@ $.extend($, {
                 }
                 $.ready();
             })();
-            /*
-            document.write('<s'+'cript id="ie-srax-loader" defer="defer" src="/'+'/:"></s'+'cript>');
-            var defer = document.getElementById("ie-srax-loader");
-            defer.onreadystatechange = function(){
-                if(this.readyState == "complete") {
-                    this.parentNode.removeChild(this);
-                    $.ready();
-                }
-            };
-            defer = null;
-            **/
-	} else
-        if ($.browser.safari){
-		$.safariTimer = setInterval(function(){
-			if (document.readyState == "loaded" ||
-				document.readyState == "complete") {
-				clearInterval($.safariTimer);
-				$.safariTimer = null;
-				$.ready();
-			}
-		}, 10);
-         }
+		} else
+	        if ($.browser.safari){
+				$.safariTimer = setInterval(function(){
+					if (document.readyState == "loaded" ||
+						document.readyState == "complete") {
+						clearInterval($.safariTimer);
+						$.safariTimer = null;
+						$.ready();
+					}
+				}, 10);
+	         }
          $.addEvent(window, 'load', $.ready);
     },
     /**
