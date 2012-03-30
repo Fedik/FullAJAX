@@ -1156,9 +1156,10 @@ $.extend($, {
     HtmlPreprocessor : function (ops){
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: object of XHR request proccess
+    * @param {String} - id of request
+    *
     * ru: Объект процесса XHR запроса
     * @param {String} id запроса
     **/
@@ -1293,9 +1294,10 @@ $.extend($, {
         return _this;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: object of DATA request proccess
+    * @param {String} - id of request
+    *
     * ru: Объект процесса запроса данных
     * @param {String} id запроса
     **/
@@ -1836,7 +1838,7 @@ $.extend($, {
      * en:
      *
     * ru: Функция определения принадлежности к HTML коментариям,<br>
-    * используется для определения того что кусок нижеследующий за параметром text зако??ентирован или нет
+    * используется для определения того что кусок нижеследующий за параметром text закоментирован или нет
     *
     * @param {String} text текст HTML
     * @return {Boolean} результат проверки принадлежности (true - да, false - нет)
@@ -3293,7 +3295,7 @@ $.extend($, {
             		url = location.href,
             		obj = $.parseUri(url),
             		opt = $.Filter.getOptions(obj.path, obj.query);
-            	history.pushState({fullajax:{id:''}}, null, curAx[opt.id]);
+            	history.pushState({fullajax:{id:opt.id}}, null, curAx[opt.id]);
             } else {
             	$.History.setCurrent(hash);
             }
@@ -3671,47 +3673,6 @@ $.extend($, {
 
     },
 
-    /**
-     *
-    * @deprecated - аналог $.Html.on(id, 'load', handler);
-    *
-    * Объект триггер контекста<br><br>
-    *
-    * пример: <br>
-    * SRAX.ContentTrigger.add({id:'header', handler:myFunction, options:{'opt1':'val1'}});
-    *
-    **/
-    /*
-    ContentTrigger : {
-        triggers : {},
-
-        add : function(options){
-            if (!options) options = {};
-            if (!options.id) options.id = 'document.body';
-
-            var arr = $.ContentTrigger.triggers[options.id];
-            if (!arr) arr = [];
-            arr.push(options);
-            $.ContentTrigger.triggers[options.id] = arr;
-        },
-
-        get : function(id){
-            if (!id) id = 'document.body';
-            for (var el in $.ContentTrigger.triggers){
-                if (el == id || el == '*') return $.ContentTrigger.triggers[el];
-            }
-        },
-
-        use : function(id, url){
-            var trigger = $.ContentTrigger.get(id);
-            if (trigger) {
-                for (var i = 0, len = trigger.length; i < len; i++){
-                    if (trigger[i] && trigger[i].handler) trigger[i].handler(url, trigger[i].options);
-                }
-            }
-        }
-
-    },*/
 
     /**
      * en:
@@ -3779,57 +3740,9 @@ $.extend($, {
 
     },
 
-    /**
-    * @deprecated - аналог $.Html.on(id,'beforepaint', handler), $.Html.on(id,'afterpaint', handler);
+   /**
+    * en:
     *
-    * Менеджер событий прорисовки HTML контента <br><br>
-    *
-    * пример: <br>
-    * SRAX.PaintHtmlEvent.add({id:'menu', handler:function(options){alert('Menu Update')}, after:true}); <br><br>
-    *
-    * Список параметров: <br>
-    * id - id блока <br>
-    * handler - функция, вызываемая при данном событии <br>
-    * after - false (по умолчанию) - вызывется перед изменением или false - вызывется после изменения контента <br>
-    *
-    **/
-    /*
-    PaintHtmlEvent : {
-        events : {},
-
-        add : function(options){
-            if (!options) options = {};
-            if (!options.id) options.id = 'document.body';
-
-            var arr = $.PaintHtmlEvent.events[options.id];
-            if (!arr) arr = [];
-            arr.push(options);
-            $.PaintHtmlEvent.events[options.id] = arr;
-        },
-
-        get : function(id){
-            if (!id) id = 'document.body';
-            for (var el in $.PaintHtmlEvent.events){
-                if (el == id || el == '*') return $.PaintHtmlEvent.events[el];
-            }
-        },
-
-        use : function(id, after){
-            var events = $.PaintHtmlEvent.get(id);
-            if (events) {
-                for (var i = 0, len = events.length; i < len; i++){
-                    if (events[i] && events[i].handler) {
-                        if ((!after && !events[i].after) || (after && events[i].after)) events[i].handler(events[i].options);
-                    }
-                }
-            }
-        }
-
-    },*/
-
-    /**
-     * en:
-     *
     * ru: Объект фильтр ссылок - для "авто-заворачивания" в AJAX <br><br>
     *
     * пример: <br>
