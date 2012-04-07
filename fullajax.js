@@ -3254,9 +3254,9 @@ $.extend($, {
         return thread;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Function to replace the direct links in the current href to their counterpart
+    *
     * ru: Функция для замены прямых ссылок в текущем href на их эквиваленты
     **/
     replaceHref: function(){
@@ -3268,9 +3268,11 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: function for go to ax links
+    * @param {String} hash link
+    * @param {Object} ops options
+    *
     * ru: Функция перехода по ax ссылкам
     * @param {String} hash ссылка
     * @param {Object} ops опции
@@ -3282,31 +3284,41 @@ $.extend($, {
     },
 
     /**
-     * en: The function of processing a direct link AJAX
+     * en: The function processing of a direct ax link
      * ru: Функция обработки прямой AJAX ссылки
     **/
     directLink: function(){
         $.onReady(function(){
-            $.replaceHref();
+            //$.replaceHref(); ??? works strange in Chrome
             var hash = $.getHash();
-            //save link in history
-            if(hash.length && history.pushState && D.USE_HTML5_HISTORY){
-            	var curAx = $.parseAxHash(hash),
+            //save link in history and do request if it Fullajax link
+            if( hash.length && history.pushState && D.USE_HTML5_HISTORY){
+            	var curUrl,
+            		curAx = $.parseAxHash(hash),
             		url = location.href,
             		obj = $.parseUri(url),
             		opt = $.Filter.getOptions(obj.path, obj.query);
-            	history.pushState({fullajax:{id:opt.id}}, null, curAx[opt.id]);
+            	//check if Fullajax link exist
+				if (opt.id in curAx){
+					curUrl = curAx[opt.id];
+				} else {
+					curUrl = url;
+				}
+            	history.pushState({fullajax:{id:opt.id}}, null, curUrl);
             } else {
             	$.History.setCurrent(hash);
             }
-            $.go2Hax(1, hash);
-
+           $.go2Hax(1, hash);
         })
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Function for check is direct link
+    * @param elId - ID of element
+    * 	if given = check direct link for given element
+    * 	else = check if exist any direct link
+    * @return {Boolean) check result
+    *
     * ru: Функция проверки наличия прямой ссылки
     * @param elId - ID элемента
     *     если указан - проверка идет на наличие прямой AJAX ссылки для указанного элемента
@@ -3320,9 +3332,10 @@ $.extend($, {
     },
 
 
-    /**
-     * en:
-     *
+   /**
+    * en: functions go to AJAX link
+    * @return {Object} object of AJAX link
+    *
     * ru: Функция перехода по аякс ссылке
     * @return {Object} объект аякс ссылки
     **/
