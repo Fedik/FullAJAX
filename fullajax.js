@@ -3741,7 +3741,22 @@ $.extend($, {
     },
 
    /**
-    * en:
+    * en: Object of links filter for wrap for AJAX
+    * example:
+    * FLAX.Filter.add({'id':'header','url':'header'});
+    *
+    * list of parameters:
+    * id - id of the block <br>
+    * url - link to or array of links (RegExp or array with RegExp) <br>
+    * urlType - 'contain' (default) or 'start' or 'end' - respectively, contains a, begins or ends <br>
+    * query - string or array queries for request (RegExp or array with RegExp terms for request) <br>
+    * queryType - 'contain' (default) or 'start' or 'end' - respectively, contains a, begins or ends <br>
+    * join (joinLogic) - logical join url and query - 'or' (default) or 'and' <br>
+    * changer (urlChanger) - Function changes links wrap  urlChanger: function (url, owner) {return url.replace ('index.php', 'mypage.php')} <br>
+    * target - if true - wrap links with attribute target (_self, _parent, _top, _blank) or false - not wrap (default) <br>
+    * type - if = 'skip', then no "AJAX wrap", if = 'data', then uses dax for request, otherwise uses hax <br>
+    * handler - Function data processing clicks. if not set, uses the function that depends of event type <br>
+    * + All Options from the hax
     *
     * ru: Объект фильтр ссылок - для "авто-заворачивания" в AJAX <br><br>
     *
