@@ -796,7 +796,7 @@ $.extend($, {
         // html5 history tricks
 
         // http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
-        var popped = ('state' in window.history), //Chrome 5 not support "state"
+        var popped = ('state' in window.history), //Chrome still not support "state"
         	initialURL = location.href;
 
         $.addEvent(window, 'popstate', function(e){
@@ -810,11 +810,8 @@ $.extend($, {
 			if ( initialPop || !D.USE_HTML5_HISTORY || location.hash) return;
         	//if ( initialPop || !D.USE_HTML5_HISTORY || !e.state) return;
 
-		    var url = location.href,
-				obj = $.parseUri(url),
-			    options = $.Filter.getOptions(obj.path, obj.query);
-		    hax (url, options);
-		    history.poped = true;
+			$.go2HaxHTML5();
+			history.poped = true;
         });
 
 
@@ -3325,7 +3322,25 @@ $.extend($, {
         return false;
     },
 
+    /**
+     * function for refrash page when used HTML5 history navigation
+     */
+	go2HaxHTML5: function(){;
+		var url = location.href,
+			obj = $.parseUri(url),
+			opt = $.Filter.getOptions(obj.path, obj.query);
 
+		if(opt.id in $.Html.thread){
+			var action = function(){
+               $.Html.thread[opt.id].go2History(obj.relative);
+            }
+            if (!$.Effect.use(opt.id, 1, action)) action();
+		} else {
+			hax (url, opt);
+		}
+
+
+	},
    /**
     * en: functions go to AJAX link
     * @return {Object} object of AJAX link
