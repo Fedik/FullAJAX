@@ -792,19 +792,21 @@ $.extend($, {
         $.addContainerListener($.Data);
 
 
-        /*
-         * html5 history
-		 */
-        //http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
+
+        // html5 history trick
+        // http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
         var popped = ('state' in window.history),
         	initialURL = location.href;
 
-        $.addEvent(window,'popstate',function(e){
+        $.addEvent(window, 'popstate', function(e){
         	// Ignore inital popstate that some browsers fire on page load
         	var initialPop = !popped && location.href == initialURL;
         	popped = true;
 
-        	if ( initialPop || !D.USE_HTML5_HISTORY ) return;
+        	//a popstate event is dispatched to the window every time the active history entry changes
+        	//so need ignore click on #hach link
+
+        	if ( initialPop || !D.USE_HTML5_HISTORY || location.hash) return;
 
 		    var url = location.href,
 				obj = $.parseUri(url),
@@ -868,9 +870,9 @@ $.extend($, {
 
     },
 
-    /**
-     * en: initialisation event-triger of document ready
-     *
+   /**
+    * en: initialisation event-triger of document ready
+    *
     * ru: Инициализация события-триггера готовоности документа
     **/
     initOnReady : function(){
@@ -3287,7 +3289,7 @@ $.extend($, {
     **/
     directLink: function(){
         $.onReady(function(){
-            //$.replaceHref(); ??? works strange in Chrome
+            $.replaceHref();
             var hash = $.getHash();
             //save link in history and do request if it Fullajax link
             if( hash.length && history.pushState && D.USE_HTML5_HISTORY){
@@ -3427,7 +3429,11 @@ $.extend($, {
             if (ind3 > -1) oldUrl = oldUrl.substring(0,ind3);
             hash = hash.replace(oldUrl,axid + url);
         } else {
-            hash += axid + url;
+            //hash += axid + url;
+
+            //changed because builds not right link
+        	//if click to anhor like href="#some-id" then on real link..
+        	hash = axid + url;
         }
         return $.makeAxLevel((hash.startWith('#') ? '' : '#') + hash, prefix, id);
     },
@@ -3619,7 +3625,7 @@ $.extend($, {
             }
 
             var hash = $.replaceLinkEqual(hash);
-            if (curr != null && hash != curr){
+            if (curr != null && hash != curr && $.isDirectLink()){
                 $.History.setCurrent(hash);
                 for (var i in $.History.prefixListener){
                     $.History.prefixListener[i]();
@@ -3906,7 +3912,8 @@ $.extend($, {
                 query = uri.query;
                 delete a;
             } else {
-                if (!owner.href) return;
+                //if (!owner.href) return;
+            	if (!owner.href || owner.hash) return; //ignore <a> without link and with #hash link
                 var uri = $.parseUri(owner.href);
                 url = uri.path;
                 query = uri.query;
