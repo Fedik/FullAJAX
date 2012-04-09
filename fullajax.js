@@ -1,8 +1,6 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * SiRusAjaX - SRAX v1.1
- *
  * version: 1.2
  *
  * GPL licenses:
@@ -3399,9 +3397,14 @@ $.extend($, {
         return curAx;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: build Fullajax link
+    * @param {String} hash string of curent hash
+    * @param {String/Object} el id of container or container element
+    * @param {String} url - link
+    * @param {String} prefix - prefix of link
+    * @return {String} hash
+    *
     * ru: Функция формирования ax ссылок
     * @param {String} hash строка-якорь адреса
     * @param {String/Object} el индентификатор контейнера или сам элемент контейнер
@@ -3925,9 +3928,11 @@ $.extend($, {
             this.wrapOps(owner, options);
         },
 
-        /**
-         * en:
-         *
+       /**
+        * en: function for disable links with empty anchor
+        * uses for disable links like href="#" for not breack history
+        * @param {layer} layer id of element or element
+        *
         * ru: Функция отключения ссылок на пустой якорь<br>
         * используется для отключения ссылок типа href="#" для того чтобы они не сбивали историю
         *
@@ -3959,6 +3964,11 @@ $.extend($, {
             }
         },
 
+	   /**
+		* en: final wrap function, assign event calbacks for element
+		* @param {owner} element
+		* @param {options} options
+		**/
         wrapOps : function(owner, options){
                 if (!options) return;
                 owner.options = options;
