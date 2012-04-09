@@ -3158,7 +3158,8 @@ $.extend($, {
                     }
                 if (useHist) {
                     var title = $.parsingTitle(data, id, 1).title;
-                    if(history.pushState && D.USE_HTML5_HISTORY){ // use HTML5 history
+                    //@todo: move in to History.add
+                    if($.History.isHTML5Enabled()){ // use HTML5 history
                     	if(!history.poped){ // whether it not walk through history, looka at init
 	                    	history.pushState({fullajax:{id:id}}, title, loc);
                     	}else {
@@ -3292,7 +3293,7 @@ $.extend($, {
             $.replaceHref();
             var hash = $.getHash();
             //save link in history and do request if it Fullajax link
-            if( hash.length && history.pushState && D.USE_HTML5_HISTORY){
+            if( hash.length && $.History.isHTML5Enabled()){
             	var curUrl,
             		curAx = $.parseAxHash(hash),
             		url = location.href,
@@ -3691,6 +3692,13 @@ $.extend($, {
                 if ($.browser.msie) $.History.write(title, rhash);
             }
             $.History.setCurrent(rhash);
+        },
+
+		/**
+		 * function for check whether HTML5 API History enabled
+		 */
+        isHTML5Enabled : function (){
+			return (history.pushState && D.USE_HTML5_HISTORY);
         }
 
     },
