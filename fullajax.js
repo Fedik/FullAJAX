@@ -793,9 +793,10 @@ $.extend($, {
 
 
 
-        // html5 history trick
+        // html5 history tricks
+
         // http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
-        var popped = ('state' in window.history),
+        var popped = ('state' in window.history), //Chrome 5 not support "state"
         	initialURL = location.href;
 
         $.addEvent(window, 'popstate', function(e){
@@ -805,8 +806,9 @@ $.extend($, {
 
         	//a popstate event is dispatched to the window every time the active history entry changes
         	//so need ignore click on #hach link
-
-        	if ( initialPop || !D.USE_HTML5_HISTORY || location.hash) return;
+        	//@todo: find better solution because history navigation works not right after click #hash
+			if ( initialPop || !D.USE_HTML5_HISTORY || location.hash) return;
+        	//if ( initialPop || !D.USE_HTML5_HISTORY || !e.state) return;
 
 		    var url = location.href,
 				obj = $.parseUri(url),
@@ -880,7 +882,7 @@ $.extend($, {
         $.isReadyInited = 1;
 
         //событие запускается после полного построения DOM, но раньше чем событие window.onload
-	      if ($.browser.mozilla || $.browser.opera) {
+	    if ($.browser.mozilla || $.browser.opera) {
             $.addEvent(document, 'DOMContentLoaded', $.ready);
         } else
         if ($.browser.msie) {
@@ -3158,16 +3160,7 @@ $.extend($, {
                     }
                 if (useHist) {
                     var title = $.parsingTitle(data, id, 1).title;
-                    //@todo: move in to History.add
-                    if($.History.isHTML5Enabled()){ // use HTML5 history
-                    	if(!history.poped){ // whether it not walk through history, looka at init
-	                    	history.pushState({fullajax:{id:id}}, title, loc);
-                    	}else {
-                    		history.poped = false;
-                    	}
-                    } else { // use FullAjax history */
-                    	$.History.add(id, loc, null, title);
-                    }
+                    $.History.add(id, loc, null, title);
                 }
 
 
@@ -3652,16 +3645,25 @@ $.extend($, {
                     rhash:rhash,
                     id:id,
                     url:loc,
-                    loc:loc, //deprecated
+                    //loc:loc, //deprecated
                     prefix:prefix
                 })
             if (res === false) return; else
             if (typeof res == 'string') rhash = $.replaceLinkEqual(res);
+            //HTML5 History tricks
+            if(this.isHTML5Enabled()){
+               	if(!history.poped){ // whether it not walk through history, look at init
+	               	history.pushState({fullajax:{id:id}}, title, loc);
+               	}else {
+               		history.poped = false;
+              	}
+              	return;
+            }
             $.setHash(rhash);
             if (($.browser.msie && $.browser.msieV < 8) || $.browser.safari){
                 var frame = $.History.frame;
                 if (!frame) {
-                    //Отключен хак истории для Safari, потому как в версии Safari 3.0.4 ??стория работает аналогично Firefox
+                    //Отключен хак истории для Safari, потому как в версии Safari 3.0.4 история работает аналогично Firefox
                     /*
                     if ($.browser.safari){
                         $.History.frame = frame = document.createElement('form');
