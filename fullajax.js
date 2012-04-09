@@ -3320,7 +3320,7 @@ $.extend($, {
     * @return {Boolean} результат проверки
     **/
     isDirectLink: function(elId){
-        var obj = FLAX.parseAxHash(FLAX.getHash());
+        var obj = $.parseAxHash($.getHash());
         if (elId) return !!obj[elId]; else for (var i in obj) return true;
         return false;
     },
@@ -3342,6 +3342,7 @@ $.extend($, {
                 oldHash:$.History.previous,
                 newHash:$.History.current
             }
+
         for (var id in curAx){
             i++;
             if (prevAx[id] == curAx[id]) {
@@ -3619,7 +3620,10 @@ $.extend($, {
             }
 
             var hash = $.replaceLinkEqual(hash);
-            if (curr != null && hash != curr && $.isDirectLink()){
+            //if (curr != null && hash != curr && $.isDirectLink()){//tried disabe request if link #hash, but it breack navigation
+            //if (curr != null && hash != curr && ($.isDirectLink() || !hash)){
+            if (curr != null && hash != curr){
+            	if(hash && !$.isDirectLink()) return;
                 $.History.setCurrent(hash);
                 for (var i in $.History.prefixListener){
                     $.History.prefixListener[i]();
