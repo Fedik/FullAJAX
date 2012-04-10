@@ -3331,14 +3331,14 @@ $.extend($, {
 			opt = $.Filter.getOptions(obj.path, obj.query);
 
 		if(opt.id in $.Html.thread){
-			var action = function(){
+			//var action = function(){
                $.Html.thread[opt.id].go2History(obj.relative);
-            }
-            if (!$.Effect.use(opt.id, 1, action)) action();
+            //}
+            //@todo: some tims Effect fires twise, before end of history
+            //if (!$.Effect.use(opt.id, 1, action)) action();
 		} else {
 			hax (url, opt);
 		}
-
 
 	},
    /**
