@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version: 1.2.2
+ * version:  1.2.2
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
