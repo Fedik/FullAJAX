@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version: 1.2.1
+ * version: 1.2.2
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
      *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.1',
+    version : '1.2.2',
 
     /**
      *  en: The ID of the library, to address the sharing of different parts of the library SRAX
