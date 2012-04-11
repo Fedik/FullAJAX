@@ -4101,6 +4101,8 @@ $.extend($, {
                             } else {
                               var url = this.getAttribute('action') || this.href;
                               if (!url) url = location.href;
+                              //IE not understand not latin chars :)
+                              url = ($.browser.msie) ? encodeURI(url) : url;
                               if (this.nodeName == 'FORM' && (!o.method || o.method.toLowerCase() != 'post')){
                                   var uri = $.parseUri(url);
                                   url = url.replace('?' + uri.query, '').replace('#' + uri.anchor, '');
