@@ -2131,7 +2131,9 @@ $.extend($, {
 
         var oldTitle = document.title, ops = {oldTitle:oldTitle, newTitle:title};
         if ($.Html.fireEvent(idLayer, 'beforetitlechange', ops) !== false){
-            document.title = title;
+        	var tmp = document.createElement('title');
+        	tmp.innerHTML = title;
+            document.title = tmp.text;
             $.Html.fireEvent(idLayer, 'titlechange', ops);
             return title;
         }
