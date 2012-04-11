@@ -3327,12 +3327,13 @@ $.extend($, {
      */
 	go2HaxHTML5: function(){;
 		var url = location.href,
-			obj = $.parseUri(url),
-			opt = $.Filter.getOptions(obj.path, obj.query);
+			linkObj = $.parseUri(url),
+			opt = $.Filter.getOptions(linkObj.path, linkObj.query);
 
-		if(opt.id in $.Html.thread){
+		if ($.Html.fireEvent(opt.id, 'beforehistorychange', opt) === false) return;
+		if (opt.id in $.Html.thread){
 			//var action = function(){
-               $.Html.thread[opt.id].go2History(obj.relative);
+               $.Html.thread[opt.id].go2History(linkObj.relative);
             //}
             //@todo: some tims Effect fires twise, before end of history
             //if (!$.Effect.use(opt.id, 1, action)) action();
