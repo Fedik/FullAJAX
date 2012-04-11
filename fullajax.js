@@ -846,15 +846,18 @@ $.extend($, {
         $.readyHndlr = [];
         $.onReady(function(){
             if (D.USE_FILTER_WRAP) $.Filter.wrap();
-            setInterval($.History.check, 200);
             $.initCPLNLS();
             $.initCPLNLL();
-            if ($.browser.opera){
-                var img = document.createElement('img');
-                img.setAttribute('style','position:absolute;left:-1px;top:-1px;opacity:0;width:0px;height:0px');
-                img.setAttribute('alt','');
-                img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
-                document.body.appendChild(img);
+            //use Fullajax history if HTMl5 disabled
+            if (!$.History.isHTML5Enabled()){
+            	setInterval($.History.check, 200);
+	            if ($.browser.opera){
+	                var img = document.createElement('img');
+	                img.setAttribute('style','position:absolute;left:-1px;top:-1px;opacity:0;width:0px;height:0px');
+	                img.setAttribute('alt','');
+	                img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
+	                document.body.appendChild(img);
+	            }
             }
             $.Include.parse();
         });
@@ -3639,7 +3642,7 @@ $.extend($, {
             //if (curr != null && hash != curr && $.isDirectLink()){//tried disabe request if link #hash, but it breack navigation
             //if (curr != null && hash != curr && ($.isDirectLink() || !hash)){
             if (curr != null && hash != curr){
-            	if(hash && !$.isDirectLink()) return;
+            	//if(hash && !$.isDirectLink()) return;
                 $.History.setCurrent(hash);
                 for (var i in $.History.prefixListener){
                     $.History.prefixListener[i]();
@@ -3672,7 +3675,7 @@ $.extend($, {
             if (typeof res == 'string') rhash = $.replaceLinkEqual(res);
             //HTML5 History tricks
             if(this.isHTML5Enabled()){
-               	if(!history.poped){ // whether it not walk through history, look at init
+               	if(!history.poped){ // whether it is not walk through history, look at init
 	               	history.pushState({fullajax:{id:id}}, title, loc);
                	}else {
                		history.poped = false;
