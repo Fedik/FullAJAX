@@ -2133,7 +2133,8 @@ $.extend($, {
         if ($.Html.fireEvent(idLayer, 'beforetitlechange', ops) !== false){
         	var tmp = document.createElement('title');
         	tmp.innerHTML = title;
-            document.title = tmp.text;
+        	//IE not support textContent
+            document.title = (tmp.textContent) ? tmp.textContent : tmp.innerText;
             $.Html.fireEvent(idLayer, 'titlechange', ops);
             return title;
         }
