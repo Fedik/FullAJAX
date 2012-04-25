@@ -469,84 +469,86 @@ SRAX.extend = function(dest, src, skipexist){
 $.extend($, {
 
 
-    /**
-     * en: versions of the libraries
-     *
+   /**
+    * en: versions of the libraries
+    *
     * ru: Идентификатор версии библиотеки
     **/
     version : '1.2.2',
 
-    /**
-     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
-     *
+   /**
+    *  en: The ID of the library, to address the sharing of different parts of the library SRAX
+    *
     * ru: Идентификатор данной библиотеки, для решения проблем совместного использования разных частей SRAX библиотеки
     **/
     TYPE : 'full',
 
-    /**
-     * en: Default settings
-     *
+   /**
+    * en: Default settings
+    *
     * ru: Параметры по умолчанию
     **/
     Default : {
-        /**
-         * en:  default prefix
-         *
+       /**
+        * en:  default prefix
+        *
         * ru: Префикс по умолчанию
         **/
         prefix: 'ax',
 
-        /**
-         * en: default separator  for prefix
-         *
+       /**
+        * en: default separator  for prefix
+        *
         * ru: Разделитель префикса по умолчанию
         **/
         sprt: ':',
-        /**
-         * en: default separator in URL
-         *
+   
+       /**
+        * en: default separator in URL
+        *
         * ru: Разделитель в URL по умолчанию
         **/
         sprt_url: ':',
-        /**
-         * en: markup for link level
-         *
+   
+       /**
+        * en: markup for link level
+        *
         * ru: Признак уровня ссылки
         **/
         lvl: '_lvl',
 
-        /**
-         * en: default id of loader element - signaling load an HTML
-         *
+       /**
+        * en: default id of loader element - signaling load an HTML
+        *
         * ru: id элемента-лоадера по умолчанию - сигнализатора загрузки HTML
         **/
         loader : 'loading',
 
-        /**
-         * en: default id of loader element - signaling load an data
-         *
+       /**
+        * en: default id of loader element - signaling load an data
+        *
         * ru: id элемента-лоадера по умолчанию - сигнализатора загрузки данных
         **/
         loader2 : 'loading2',
 
-        /**
-         * en: suffix of loader element for each thread
-         *
+       /**
+        * en: suffix of loader element for each thread
+        *
         * ru: суфикс элемента-лоадера для каждого потока
         **/
         loaderSufix : '_loading',
 
-        /**
-         * en: Flag for debug AJAX requests
-         *
+       /**
+        * en: Flag for debug AJAX requests
+        *
         * ru: Флаг дебагинга AJAX запросов
         * @type Boolean
         **/
         DEBUG_AJAX : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг дебагинга загрузки скриптов &lt;script>
         * @type Boolean
         **/
@@ -584,81 +586,81 @@ $.extend($, {
          */
         USE_HTML5_HISTORY : 1,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг отключения истории браузеров
         * @type Boolean
         **/
         NO_HISTORY : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг использования кеша истории HTML
         * @type Boolean
         **/
         USE_HISTORY_CACHE : 1,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Длина кеша истории HTML (по умолчанию = 100)
         * @type Boolean
         **/
         LENGTH_HISTORY_CACHE : 100,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг повторной переинициализации линков &lt;link>
         * @type Boolean
         **/
         LINK_REPEAT : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг использования кеша скриптов &lt;script>
         * @type Boolean
         **/
         USE_SCRIPT_CACHE : 1,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг повторной переинициализации скриптов &lt;script> с атрибутом src
         * @type Boolean
         **/
         SCRIPT_SRC_REPEAT_APPLY : 1,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг отключения загрузки скриптов с помощью AJAX
         * @type Boolean
         **/
         SCRIPT_NOAX : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг коррекции относительных ссылок для href и src
         * @type Boolean
         **/
         RELATIVE_CORRECTION : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг перезаписи событий при применении Filter.wrap
         * @type Boolean
         **/
         OVERWRITE : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: метки блока для модели запроса #2
         **/
         model2Marker : {
@@ -667,40 +669,40 @@ $.extend($, {
             end : ':end: //-->'
         },
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг авто удаления HTMLThread процесса после окончания запроса
         * @type Boolean
         **/
         HAX_AUTO_DESTROY : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг антикеш для HTMLThread
         * @type Boolean
         **/
         HAX_ANTICACHE : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг авто удаления DATAThread процесса после окончания запроса
         * @type Boolean
         **/
         DAX_AUTO_DESTROY : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en:
+        *
         * ru: Флаг антикеш для DATAThread
         * @type Boolean
         **/
         DAX_ANTICACHE : 0,
 
-        /** en:
-         *
+       /** en:
+        *
         * ru: Кодировка запросов (по умолчанию = 'UTF-8')
         * @type String
         **/
