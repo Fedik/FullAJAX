@@ -502,14 +502,14 @@ $.extend($, {
         * ru: Разделитель префикса по умолчанию
         **/
         sprt: ':',
-   
+
        /**
         * en: default separator in URL
         *
         * ru: Разделитель в URL по умолчанию
         **/
         sprt_url: ':',
-   
+
        /**
         * en: markup for link level
         *
@@ -547,47 +547,47 @@ $.extend($, {
         DEBUG_AJAX : 0,
 
        /**
-        * en:
+        * en: Flag for debug loading &lt;script>
         *
         * ru: Флаг дебагинга загрузки скриптов &lt;script>
         * @type Boolean
         **/
         DEBUG_SCRIPT : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en: Flag for debug loading &lt;link>
+        *
         * ru: Флаг дебагинга загрузки линков &lt;link>
         * @type Boolean
         **/
         DEBUG_LINK : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en: Flag for debug loading &lt;style>
+        *
         * ru: Флаг дебагинга загрузки стилей &lt;style>
         * @type Boolean
         **/
         DEBUG_STYLE : 0,
 
-        /**
-         * en:
-         *
+       /**
+        * en: Flag using auto-wrapping for Filter
+        *
         * ru: Флаг использования авто-аякс фильтра
         * @type Boolean
         **/
         USE_FILTER_WRAP : 1,
 
-        /**
-         * en:
-         *
-         * ru: Allow use HTML5 History Api
-         * @type boolean
-         */
+       /**
+        * en: Allow use HTML5 History Api
+        *
+        * ru:
+        * @type boolean
+        */
         USE_HTML5_HISTORY : 1,
 
        /**
-        * en:
+        * en: set 1 for disable browser history
         *
         * ru: Флаг отключения истории браузеров
         * @type Boolean
@@ -595,7 +595,7 @@ $.extend($, {
         NO_HISTORY : 0,
 
        /**
-        * en:
+        * en: Use cache HTML hstory
         *
         * ru: Флаг использования кеша истории HTML
         * @type Boolean
@@ -603,7 +603,7 @@ $.extend($, {
         USE_HISTORY_CACHE : 1,
 
        /**
-        * en:
+        * en: length of catche history (def = 100)
         *
         * ru: Длина кеша истории HTML (по умолчанию = 100)
         * @type Boolean
@@ -611,7 +611,7 @@ $.extend($, {
         LENGTH_HISTORY_CACHE : 100,
 
        /**
-        * en:
+        * en: flag reinitialise &lt;link>
         *
         * ru: Флаг повторной переинициализации линков &lt;link>
         * @type Boolean
@@ -619,7 +619,7 @@ $.extend($, {
         LINK_REPEAT : 0,
 
        /**
-        * en:
+        * en: use cache for scripts &lt;script>
         *
         * ru: Флаг использования кеша скриптов &lt;script>
         * @type Boolean
@@ -627,7 +627,7 @@ $.extend($, {
         USE_SCRIPT_CACHE : 1,
 
        /**
-        * en:
+        * en: flag reinitialise &lt;script> that have "scr" atribut
         *
         * ru: Флаг повторной переинициализации скриптов &lt;script> с атрибутом src
         * @type Boolean
