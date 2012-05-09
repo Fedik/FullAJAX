@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.2
+ * version:  1.2.3
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.2',
+    version : '1.2.3',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -1380,8 +1380,8 @@ $.extend($, {
                    /**
                    * responseText и responseXML - deprecated, оставлены для совместимости с предыдущими версиями - вместо нижеследующих полей лучше использовать text и xml соответсвенно
                    **/
-                   //responseText:text,
-                   //responseXML:xml,
+                   responseText:text,
+                   responseXML:xml,
                    time: $.getTime() - startTime
                }
               thread.fireEvent('response', o);
@@ -3051,7 +3051,7 @@ $.extend($, {
                          /**
                          * responseText - deprecated, оставлены для совместимости с предыдущими версиями - вместо нижеследующих полей лучше использовать text
                          **/
-                         //responseText:text,
+                         responseText:text,
                          time: $.getTime() - startTime
                     }
                     thread.fireEvent('response', o);
