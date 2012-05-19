@@ -823,7 +823,6 @@ $.extend($, {
         $.History.prefixListener.ax = $.go2Hax;
         $.readyHndlr = [];
         $.onReady(function(){
-        	console.log('ready')
             if (D.USE_FILTER_WRAP) $.Filter.wrap();
             $.initCPLNLS();
             $.initCPLNLL();
