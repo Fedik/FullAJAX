@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.3
+ * version:  1.2.4
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.3',
+    version : '1.2.4',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -793,30 +793,6 @@ $.extend($, {
 
         $.addContainerListener($.Data);
 
-
-
-        // html5 history tricks
-
-        // http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
-        var popped = ('state' in window.history), //Chrome still not support "state"
-        	initialURL = location.href;
-
-        $.addEvent(window, 'popstate', function(e){
-        	// Ignore inital popstate that some browsers fire on page load
-        	var initialPop = !popped && location.href == initialURL;
-        	popped = true;
-
-        	//a popstate event is dispatched to the window every time the active history entry changes
-        	//so need ignore click on #hach link
-        	//@todo: find better solution because history navigation works not right after click #hash
-			if ( initialPop || !D.USE_HTML5_HISTORY || location.hash) return;
-        	//if ( initialPop || !D.USE_HTML5_HISTORY || !e.state) return;
-
-			$.go2HaxHTML5();
-			history.poped = true;
-        });
-
-
         /**
          * en:
          *
@@ -847,6 +823,7 @@ $.extend($, {
         $.History.prefixListener.ax = $.go2Hax;
         $.readyHndlr = [];
         $.onReady(function(){
+        	console.log('ready')
             if (D.USE_FILTER_WRAP) $.Filter.wrap();
             $.initCPLNLS();
             $.initCPLNLL();
@@ -860,6 +837,20 @@ $.extend($, {
 	                img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
 	                document.body.appendChild(img);
 	            }
+            } else {
+            	//add event listener for popstate event
+            	//wait a little, because first popstate event that fires after onload we no need
+				setTimeout( function() {
+            		$.addEvent(window, 'popstate', function(e){
+						//a popstate event is dispatched to the window every time the active history entry changes
+			        	//@todo: so need to find way to handle this
+			        	//@todo: find better solution because history navigation works not right after click #hash
+						if (location.hash) return;
+
+						$.go2HaxHTML5();
+						history.popped = true;
+					});
+				}, 300 ); //10 is enough, 300 just in case for slow PC
             }
             $.Include.parse();
         });
@@ -3680,10 +3671,10 @@ $.extend($, {
             if (typeof res == 'string') rhash = $.replaceLinkEqual(res);
             //HTML5 History tricks
             if(this.isHTML5Enabled()){
-               	if(!history.poped){ // whether it is not walk through history, look at init
+               	if(!history.popped){ // whether it is not walk through history, look at init
 	               	history.pushState({fullajax:{id:id}}, title, loc);
                	}else {
-               		history.poped = false;
+               		history.popped = false;
               	}
               	return;
             }
