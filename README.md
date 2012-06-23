@@ -33,7 +33,7 @@ One of the main features FullAJAX – programming as usual and after connecting 
 * Two models request a HTML pages: one request for one block and one request for multiple blocks.
 * Ability to work when JavaScript disabled as the usual site.
 
-Check **[GitWiki](FullAJAX/wiki)** and **[External links](#external-links)** for more info
+Check **[GitWiki](https://github.com/Fedik/FullAJAX/wiki)** and **[External links](#external-links)** for more info
 
 ###External links:
 * <a href="http://getsite.org.ua/en/fullajax/what-is-fullajax">What is FullAJAX</a>
