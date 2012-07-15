@@ -1,7 +1,7 @@
 #FullAJAX - official version on github
 ##What is FullAJAX?
 
-JavaScript library FullAJAX = AJAX (Asynchronous JavaScript and XML) + AHAH (Asynchronous HTML and HTTP) - thing that make your site "full AJAX'ed".
+JavaScript library FullAJAX = AJAX (Asynchronous JavaScript and XML) + AHAH (Asynchronous HTML and HTTP) - thing that make your site "full AJAX'd".
 
 Allows to use AJAX technology to its fullest, and to quickly and easily implement AJAX for any site without knowledge of the intricacies of AJAX and programming in JavaScript. It's enough to know the basics of HTML.
 
