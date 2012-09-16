@@ -1571,9 +1571,13 @@ $.extend($, {
         return obj;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: allocate ' or "
+    * @param {String} str
+    * @return {Array} array with two values,
+    * 	first value - it the start position,
+    * 	second value - it the end position
+    *
     * ru: Функция выделения маркеров (' или ") значения атрибута
     * @param {String} str строка
     * @return {Array} arr массив из 2-х значений (первое - стартовая позиция, второе - конечная позиция)
@@ -1602,9 +1606,12 @@ $.extend($, {
         return [ind1, ind2];
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: find the parameter in the parameters string
+    * @param {String} params the parameters string (example: 'name1=value1&name2=value2')
+    * @param {String} name of the parameter that need to find
+    * @return {String} value of the parameter
+    *
     * ru: Функция выделения значения необходимого параметра из строки параметров
     * @param {String} params строка завернутых параметров (пример: 'name1=value1&name2=value2')
     * @param {String} name имя необходимого параметра
@@ -1618,9 +1625,11 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: function for convert HTML characters (ampl; &lt; and other)
+    * @param {String} str text for convert
+    * @return {String} result
+    *
     * ru: Функция для преобразования зарезервированных в HTML символов (ampl; &lt; и другие)
     * @param {String} str текст для преобразовния
     * @return {String} результат преобразовния
@@ -1633,9 +1642,11 @@ $.extend($, {
         return $.tempDiv[this.browser.msie ? 'innerText' : 'textContent'];
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: make &lt;script> object
+    * @param {String} text the script body
+    * @return {Object} script object
+    *
     * ru: Функция создания объекта &lt;script>
     * @param {String} text текст-тело скрипта
     * @return {Object} объект &lt;script>
@@ -2213,9 +2224,9 @@ $.extend($, {
 
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: find &lt;script>
+    *
     * ru: Функция парсинга &lt;script>
     * @param {String} text текст HTML
     * @param {String} idLayer id родительского элемента
@@ -2310,8 +2321,6 @@ $.extend($, {
 
         if (text.length > 0) html.push(text);
 
-//console.log(scripts.length);
-
         return {
             scripts:scripts,
             html:html
@@ -2400,9 +2409,9 @@ $.extend($, {
         return script;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The sequential apply scripts
+    *
     * ru: Функция последовательного применения скриптов
     * @param {Array} scripts скрипты
     * @param {String} idLayer id родительского элемента
@@ -2754,9 +2763,16 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: add script
+    * @param {Object/String} script
+    * @param {String/Function} idLayer
+    * @param {String/Boolean} url
+    * @param {-/Boolean} nocache
+    * @param {-/String} place
+    * @param {-/Boolean} storage
+    * @param {-/Boolean}
+    *
     * ru: Функция добавления скрипта
     * @param {Object/String} script объект скрипт / входной параметр типа String, тогда обозначает URL адрес скрипта
     * @param {String/Function} idLayer id родительского элемента / если входной параметр script типа String, тогда idLayer обозначает callback функцию, которая выполнится после загрузки скрипта
@@ -2856,14 +2872,14 @@ $.extend($, {
 
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The Instant script execution via eval
+    * @param {String} the script body
+    *
     * ru: Функция немедленного исполнения скрипта через eval
     * @param {String} text текст скрипта
     **/
     evalScript : function(text) {
-
         try{
             if ($.browser.safari){
                 window._evalCode = text;
@@ -2877,9 +2893,10 @@ $.extend($, {
         return 1;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: remove the scripts
+    * @param {Array} the scripts objects
+    *
     * ru: Функция удаления скриптов
     * @param {Array} scripts объекты скрипты
     **/
@@ -2904,9 +2921,11 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: function for execute functions
+    * @param {Function/String} func - function object or function string
+    * @param {Array} args arguments that need give for function
+    *
     * ru: Функция выполения функций :)
     * @param {Function/String} func - обьект-функция или функция в формате String
     * @param {Array} args - массив аргументов, которые необходимо передать в функцию
