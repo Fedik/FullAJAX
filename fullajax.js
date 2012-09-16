@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.5 dev
+ * version:  1.2.6
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.5 dev',
+    version : '1.2.6',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -1546,15 +1546,21 @@ $.extend($, {
         return params;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Function assignment the atributs (from the parameters string) to the object
+    *
     * ru: Функция присвоения к обьекту obj атрибутов выделяемых из строки параметров params
     * @param {String} params строка параметров разделенная пробелами (к примеру &lt;link href="/path/style.css" type="text/css">)
     * @param {Object} obj объект, которому присвоить распарсенные параметры
     **/
     applyParams : function(params, obj){
+    	//if some crazy human use the space around =
+    	if(params.indexOf(' =') != -1 || params.indexOf('= ') != -1){
+    		params = params.replace(/\s*=\s*/g, '=');
+    	}
+
         var arr = params.split(' ');
+
         for (var i = arr.length -1, len = 0; i >= len; i--){
             var el = arr[i],
                 ind1 = el.indexOf("=");
