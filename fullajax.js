@@ -1702,13 +1702,10 @@ $.extend($, {
     * @param {Boolean} seal флаг использования изоляции стиля
     **/
     addStyle : function(text, idLayer, seal){
-        text = text.toLowerCase();
 
-        //log('My Style Check: ' + text);
-
-        var ind1 = text.indexOf('<style'),
+        var ind1 = text.toLowerCase().indexOf('<style'),
             ind2 = text.indexOf('>', ind1 + 1),
-            ind3 = text.indexOf('</style>', ind2 + 1),
+            ind3 = text.toLowerCase().indexOf('</style>', ind2 + 1),
             params = text.substring(ind1, ind2+1),
             obj = $.applyParams(params, {}),
             skip = obj[X('skip')];
@@ -1716,7 +1713,7 @@ $.extend($, {
 
         text = text.substring(ind2 + 1, ind3);
 
-        ind1 = text.indexOf('@import ');
+        ind1 = text.toLowerCase().indexOf('@import ');
         while (ind1 > -1){
             ind2 = text.indexOf('(', ind1 + 1);
             ind3 = text.indexOf(')', ind2 + 1);
@@ -1725,7 +1722,7 @@ $.extend($, {
             href = '<link rel="stylesheet" type="text/css" href="' + href + '"/>';
             $.addLink(href, idLayer, seal);
             text = text.substring(0,ind1)+text.substring(ind3+1);
-            ind1 = text.indexOf('@import ');
+            ind1 = text.toLowerCase().indexOf('@import ');
         }
 
         if (seal && typeof idLayer == 'string') text = $.sealStyle(text, idLayer);
@@ -1781,9 +1778,9 @@ $.extend($, {
     * @param {String} text текст-тело линка
     **/
     addLink : function(text, idLayer, seal){
-        //text = text.toLowerCase();
+
         var ind1 = text.toLowerCase().indexOf('<link'),
-            ind2 = text.toLowerCase().indexOf('>', ind1 + 1);
+            ind2 = text.indexOf('>', ind1 + 1);
 
         if(ind1 > -1 && ind2 > -1){
             var params = text.substring(ind1, ind2 + 1),
