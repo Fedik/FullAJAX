@@ -2102,9 +2102,9 @@ $.extend($, {
         return text;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: find &lt;title>
+    *
     * ru: Функция парсинга &lt;title>
     * @param {String} text текст HTML
     * @param {idLayer} id родительского элемента
@@ -2129,31 +2129,27 @@ $.extend($, {
         return {text:text, title:title};
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: update the &lt;title>
+    *
     * ru: Функция изменения &lt;title>
     * @param {String} text текст HTML
     * @param {idLayer} id родительского элемента
     * @return {Boolean} результат изменения
     **/
     titleChange : function(title, idLayer){
-
         var oldTitle = document.title, ops = {oldTitle:oldTitle, newTitle:title};
         if ($.Html.fireEvent(idLayer, 'beforetitlechange', ops) !== false){
-        	var tmp = document.createElement('title');
-        	tmp.innerHTML = title;
-        	//IE not support textContent
-            document.title = (tmp.textContent) ? tmp.textContent : tmp.innerText;
+        	document.title = $.entitiesConvertor(title);
             $.Html.fireEvent(idLayer, 'titlechange', ops);
             return title;
         }
         return false;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: parse &lt;frameset>
+    *
     * ru: Функция парсинга &lt;frameset>
     * @param {String} text текст HTML
     * @return {String} текст HTML
