@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.4
+ * version:  1.2.5 dev
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.4',
+    version : '1.2.5 dev',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -710,9 +710,11 @@ $.extend($, {
 
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Logging function
+    * @param {String} type (log, warn, info, error)
+    * @param {Array} arguments
+    *
     * ru: Функция логирования
     * @param {String} type тип (log, warn, info, error)
     * @param {Array} аргументы
@@ -733,42 +735,42 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Get current time in miliseconds
+    *
     * ru: Метод для получения текущего времени в миллисекундах
     **/
     getTime : function(){
       return new Date().getTime();
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The scrips list that no need to cache
+    *
     * ru: Список скриптов, которые не должны кешироваться
     * @type Array
     **/
     LIST_NO_CACHE_SCRIPTS : [],
 
-    /**
-     * en:
-     *
+   /**
+    * en: The scrips list that no need to load
+    *
     * ru: Cписок скриптов, которые не должны загружаться
     * @type Array
     **/
     LIST_NO_LOAD_SCRIPTS : [],
 
-    /**
-     * en:
-     *
+   /**
+    * en: The links list that no need to load
+    *
     * ru: Cписок линков, которые не должны загружаться
     * @type Array
     **/
     LIST_NO_LOAD_LINKS : [],
 
-    /**
-     * en:
-     *
+   /**
+    * en: Initialisation
+    *
     * ru: Метод инициализации основных контейнеров и прочего
     **/
     init : function(){
@@ -1671,10 +1673,12 @@ $.extend($, {
         return script;
     },
 
-    /**
-     * en:
-     *
-    * ru: Функция добавлени?? стиля
+   /**
+    * en: Add style
+    * @param {String} url the style link or style text
+    * @param {String} seal id for style isolation
+    *
+    * ru: Функция добавления стиля
     * @param {String} url путь к css стилю или непосредственно его текст
     * @param {String} seal id используемое для изоляции стиля
     **/
@@ -1686,9 +1690,12 @@ $.extend($, {
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Find and apply &lt;style> object
+    * @param {String} text the style body
+    * @param {String} idLayer id of the parent element
+    * @param {Boolean} seal id for style isolation
+    *
     * ru: Функция выделения и применения объекта &lt;style>
     * @param {String} text текст-тело стиля
     * @param {String} idLayer id родительского элемента
@@ -1737,16 +1744,17 @@ $.extend($, {
                 }
             }
             $.getHead().appendChild(style);
-            if (D.DEBUG_STYLE) log('Style ' + text);
+            if (D.DEBUG_STYLE) log('append style:\n ' + text);
         }
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: css isolation, used for fix conflicts betwen loaded styles
+    * @param {String} text the style body
+    * @return {String} fixed style body
+    *
     * ru: Функция изоляции css<br>
     * используется для решения конфликтов между подгружаемыми стилями
-    *
     * @param {String} text текст-тело стиля
     * @return {String} обработаный текст-тело стиля
     **/
@@ -1765,16 +1773,18 @@ $.extend($, {
         return res;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: Function for find and apply &lt;link> object
+    * @param {String} text the full link string
+    *
     * ru: Функция выделения и применения объекта &lt;link>
     * @param {String} text текст-тело линка
     **/
     addLink : function(text, idLayer, seal){
-        text = text.toLowerCase();
-        var ind1 = text.indexOf('<link'),
-            ind2 = text.indexOf('>', ind1 + 1);
+        //text = text.toLowerCase();
+        var ind1 = text.toLowerCase().indexOf('<link'),
+            ind2 = text.toLowerCase().indexOf('>', ind1 + 1);
+
         if(ind1 > -1 && ind2 > -1){
             var params = text.substring(ind1, ind2 + 1),
                 link = document.createElement('link');
@@ -1783,10 +1793,10 @@ $.extend($, {
             var skip = link[X('skip')];
             if (skip == 'true' || skip == '1') return;
 
-            if (link.href && link.type == 'application/rss+xml'){
+            //if (link.href && link.type == 'application/rss+xml'){
                 //$.getHead().appendChild(link);
                 //return;
-            }
+            //}
 
             var href = (seal && typeof idLayer == 'string') ? (idLayer + ':'+link.href) : link.href;
 
@@ -2155,9 +2165,9 @@ $.extend($, {
         return text;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: The sequential parsing for &lt;link> and &lt;style>
+    *
     * ru: Функция последовательного парсинга &lt;link> и &lt;style>
     * @param {String} text текст HTML
     * @return {String} текст HTML
@@ -2824,7 +2834,7 @@ $.extend($, {
         if (D.DEBUG_SCRIPT) {
             var ids = script.id;
             if (!ids || ids == '') ids = script.innerHTML.trim().substring(0,100) + '\n...';
-            log('append script -> ' + ids);
+            log('append script:\n' + ids);
         }
 
 
@@ -4695,7 +4705,7 @@ var PM = $.placeMark = function(el, bool){
 }
 
 /**
-* en:
+* en: Function generate the HTML code that denotes the location of the script
 *
 * ru: Функция для формирования HTML кода элемента, обозначающего местоположение скрипта
 **/
