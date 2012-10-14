@@ -1,14 +1,14 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.6
+ * version:  1.2.7
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
  *
  * @author Ruslan Sinitskiy
+ * @author Fedir Zinchuk
  *
- * @site http://www.fullajax.ru
  * @site https://github.com/Fedik/FullAJAX
  *
  **/
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.6',
+    version : '1.2.7',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -3968,14 +3968,10 @@ $.extend($, {
                 query = uri.query;
                 delete a;
             } else {
-                //if (!owner.href) return;
-            	if (!owner.href || owner.hash) return; //ignore <a> without link and with #hash link
-                var uri = $.parseUri(owner.href);
+                if (!owner.href) return;
+            	var uri = $.parseUri(owner.href);
                 url = uri.path;
                 query = uri.query;
-                //var parent = this.getParentPath();
-                //if (url.substring(0,parent.length) == parent) url = url.substring(parent.length);
-                //var startUrl = this.parseStartUrl(url);
             }
             if (query && query.startWith('?')) query = query.substring(1);
             if ($.browser.opera || $.browser.msie) url = '/' + url;
@@ -3986,7 +3982,6 @@ $.extend($, {
             $.extend(options, ops, 1);
             if (options.type == 'skip' || options.type == 'nowrap' || (options.wrap != null && !options.wrap) || options.nowrap) return;
             if (!options.target && owner.attributes['target'] && owner.attributes['target'].nodeValue != '') return;
-            //if (options.filterSchemaId == 'document.body') options.id = null;
             if (options.id == null) return;
             this.wrapOps(owner, options);
         },
