@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.7
+ * version:  1.2.8
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.7',
+    version : '1.2.8',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -848,10 +848,14 @@ $.extend($, {
 			        	//@todo: find better solution because history navigation works not right after click #hash
 						if (location.hash) return;
 
-						$.go2HaxHTML5();
+						$.History.setCurrent($.getHash());
+						for (var i in $.History.prefixListener){
+		                    $.History.prefixListener[i]();
+		                }
+
 						history.popped = true;
 					});
-				}, 300 ); //10 is enough, 300 just in case for slow PC
+				}, 300 );
             }
             $.Include.parse();
         });
@@ -3348,26 +3352,6 @@ $.extend($, {
         return false;
     },
 
-    /**
-     * function for refrash page when used HTML5 history navigation
-     */
-	go2HaxHTML5: function(){;
-		var url = location.href,
-			linkObj = $.parseUri(url),
-			opt = $.Filter.getOptions(linkObj.path, linkObj.query);
-
-		if ($.Html.fireEvent(opt.id, 'beforehistorychange', opt) === false) return;
-		if (opt.id in $.Html.thread){
-			//var action = function(){
-               $.Html.thread[opt.id].go2History(linkObj.relative);
-            //}
-            //@todo: some tims Effect fires twise, before end of history
-            //if (!$.Effect.use(opt.id, 1, action)) action();
-		} else {
-			hax (url, opt);
-		}
-
-	},
    /**
     * en: functions go to AJAX link
     * @return {Object} object of AJAX link
@@ -3418,7 +3402,6 @@ $.extend($, {
                 options.nohistory = startPage;
                 options.startPage = startPage;
                 hax(url, options);
-                //hax(url, {id:id, nohistory:startPage, startPage:startPage, rc:options.rc});
             }
         }
 
@@ -3573,9 +3556,9 @@ $.extend($, {
         return locAx;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: method for get document.head
+    *
     * ru: Метод-адптер для доступа к document.head
     * @return {Object} document.head
     **/
@@ -3583,13 +3566,17 @@ $.extend($, {
         return document.getElementsByTagName('head')[0];
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: method that return curent hash from location.hash
+    * or from history.state ih HTML5 history enabled
+    *
     * ru: Метод-адптер для получения location.hash
-    * @return {Object} location.hash
+    * @return {String} hash
     **/
     getHash : function(){
+    	if ($.History.isHTML5Enabled() && history.state && history.state.fullajax) {
+    		return history.state.fullajax.hash || '';
+    	}
         return location.hash2 || location.hash;
     },
 
@@ -3609,28 +3596,29 @@ $.extend($, {
         if (l.hash2 || decodeURIComponent(l.hash) != decodeURIComponent(hash)) l.hash2 = hash;
     },
 
-    /**
-     * en:
+   /**
+    * en: Object of history managing
     * ru: Объект - менеджер истории
     **/
     History : {
-        /**
-         * en:
-         *
+       /**
+        * en: hash of the previous page
+        *
         * ru: Предыдущий hash адрес страницы
         **/
         previous:null,
 
-        /**
-         * en:
-         *
+       /**
+        * en: hash of the current page
+        *
         * ru: Текущий hash адрес страницы
         **/
         current:null,
 
-        /**
-         * en:
-         *
+       /**
+        * en: set current hash in History
+        * @param {hash} hash for current page
+        *
         * ru: Метод для установки текущего hash адреса
         * @param {hash} текущий hash адрес страницы
         **/
@@ -3662,10 +3650,7 @@ $.extend($, {
             }
 
             var hash = $.replaceLinkEqual(hash);
-            //if (curr != null && hash != curr && $.isDirectLink()){//tried disabe request if link #hash, but it breack navigation
-            //if (curr != null && hash != curr && ($.isDirectLink() || !hash)){
             if (curr != null && hash != curr){
-            	//if(hash && !$.isDirectLink()) return;
                 $.History.setCurrent(hash);
                 for (var i in $.History.prefixListener){
                     $.History.prefixListener[i]();
@@ -3696,48 +3681,29 @@ $.extend($, {
                 })
             if (res === false) return; else
             if (typeof res == 'string') rhash = $.replaceLinkEqual(res);
-            //HTML5 History tricks
+
             if(this.isHTML5Enabled()){
+            	//HTML5 History tricks
                	if(!history.popped){ // whether it is not walk through history, look at init
-	               	history.pushState({fullajax:{id:id}}, title, loc);
+               		//store id and hash
+	               	history.pushState({fullajax: {id: id, hash: hash }}, title, loc);
                	}else {
                		history.popped = false;
               	}
-              	return;
-            }
-            $.setHash(rhash);
-            if (($.browser.msie && $.browser.msieV < 8) || $.browser.safari){
-                var frame = $.History.frame;
-                if (!frame) {
-                    //Отключен хак истории для Safari, потому как в версии Safari 3.0.4 история работает аналогично Firefox
-                    /*
-                    if ($.browser.safari){
-                        $.History.frame = frame = document.createElement('form');
-                        frame.method = 'get';
-                        document.body.insertBefore(frame,document.body.firstChild);
+            } else {
+            	$.setHash(rhash);
+	            if ($.browser.msie && $.browser.msieV < 8){
+	                var frame = $.History.frame;
+	                if (!frame) {
+	                   $.History.frame = frame = document.createElement('iframe');
+	                   frame.style.display = 'none';
+	                   frame.src = 'javascript:true';
+	                   document.body.appendChild(frame);
+	                   $.History.write(document.title, $.History.previous || '');
+	                }
 
-                        var action = '';
-                        if ($.History.previous) action = $.History.previous;
-
-                        frame.action = action;
-                        frame.submit();
-                    } else
-                    **/
-                    if ($.browser.msie) {
-                        $.History.frame = frame = document.createElement('iframe');
-                        frame.style.display = 'none';
-                        frame.src = 'javascript:true';
-                        document.body.appendChild(frame);
-                        $.History.write(document.title, $.History.previous || '');
-                    }
-                }
-                /*
-                if ($.browser.safari && false){
-                    frame.action = rhash;
-                    frame.submit();
-                } else
-                **/
-                if ($.browser.msie) $.History.write(title, rhash);
+	                $.History.write(title, rhash);
+	            }
             }
             $.History.setCurrent(rhash);
         },
