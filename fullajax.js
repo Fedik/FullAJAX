@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.8
+ * version:  1.2.9
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -474,7 +474,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.8',
+    version : '1.2.9',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library SRAX
@@ -830,32 +830,32 @@ $.extend($, {
             $.initCPLNLL();
             //use Fullajax history if HTMl5 disabled
             if (!$.History.isHTML5Enabled()){
-            	setInterval($.History.check, 200);
-	            if ($.browser.opera){
-	                var img = document.createElement('img');
-	                img.setAttribute('style','position:absolute;left:-1px;top:-1px;opacity:0;width:0px;height:0px');
-	                img.setAttribute('alt','');
-	                img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
-	                document.body.appendChild(img);
-	            }
+              setInterval($.History.check, 200);
+              if ($.browser.opera){
+                  var img = document.createElement('img');
+                  img.setAttribute('style','position:absolute;left:-1px;top:-1px;opacity:0;width:0px;height:0px');
+                  img.setAttribute('alt','');
+                  img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
+                  document.body.appendChild(img);
+              }
             } else {
-            	//add event listener for popstate event
-            	//wait a little, because first popstate event that fires after onload we no need
-				setTimeout( function() {
-            		$.addEvent(window, 'popstate', function(e){
-						//a popstate event is dispatched to the window every time the active history entry changes
-			        	//@todo: so need to find way to handle this
-			        	//@todo: find better solution because history navigation works not right after click #hash
-						if (location.hash) return;
+                //add event listener for popstate event
+                //wait a little, because first popstate event that fires after onload we no need
+                setTimeout( function() {
+                  $.addEvent(window, 'popstate', function(e){
+                    //a popstate event is dispatched to the window every time the active history entry changes
+                    //@todo: so need to find way to handle this
+                    //@todo: find better solution because history navigation works not right after click #hash
+                    if (location.hash) return;
 
-						$.History.setCurrent($.getHash());
-						for (var i in $.History.prefixListener){
-		                    $.History.prefixListener[i]();
-		                }
+                    $.History.setCurrent($.getHash());
+                    for (var i in $.History.prefixListener){
+                      $.History.prefixListener[i]();
+                    }
 
-						history.popped = true;
-					});
-				}, 300 );
+                    history.popped = true;
+                  });
+                }, 300);
             }
             $.Include.parse();
         });
@@ -880,7 +880,7 @@ $.extend($, {
         $.isReadyInited = 1;
 
         //событие запускается после полного построения DOM, но раньше чем событие window.onload
-	    if ($.browser.mozilla || $.browser.opera) {
+      if ($.browser.mozilla || $.browser.opera) {
             $.addEvent(document, 'DOMContentLoaded', $.ready);
         } else
         if ($.browser.msie) {
@@ -893,17 +893,17 @@ $.extend($, {
                 }
                 $.ready();
             })();
-		} else
-	        if ($.browser.safari){
-				$.safariTimer = setInterval(function(){
-					if (document.readyState == "loaded" ||
-						document.readyState == "complete") {
-						clearInterval($.safariTimer);
-						$.safariTimer = null;
-						$.ready();
-					}
-				}, 10);
-	         }
+    } else
+          if ($.browser.safari){
+        $.safariTimer = setInterval(function(){
+          if (document.readyState == "loaded" ||
+            document.readyState == "complete") {
+            clearInterval($.safariTimer);
+            $.safariTimer = null;
+            $.ready();
+          }
+        }, 10);
+           }
          $.addEvent(window, 'load', $.ready);
     },
    /**
@@ -953,8 +953,8 @@ $.extend($, {
     * @param {Function} handler функция, которая должна выполниться
     **/
     addEvent : function(obj, name, handler) {
-	     if (obj.attachEvent) obj.attachEvent('on' + name, handler);
-	     else obj.addEventListener(name, handler, false);
+       if (obj.attachEvent) obj.attachEvent('on' + name, handler);
+       else obj.addEventListener(name, handler, false);
     },
 
    /**
@@ -971,8 +971,8 @@ $.extend($, {
     * @param {Function} handler функция, которая должна открепится
     **/
     delEvent : function(obj, name, handler) {
-	     if (obj.detachEvent) obj.detachEvent('on' + name, handler);
-	     else obj.removeEventListener(name, handler, false);
+       if (obj.detachEvent) obj.detachEvent('on' + name, handler);
+       else obj.removeEventListener(name, handler, false);
     },
 
     /** en:
@@ -1558,10 +1558,10 @@ $.extend($, {
     * @param {Object} obj объект, которому присвоить распарсенные параметры
     **/
     applyParams : function(params, obj){
-    	//if some crazy human use the space around =
-    	if(params.indexOf(' =') != -1 || params.indexOf('= ') != -1){
-    		params = params.replace(/\s*=\s*/g, '=');
-    	}
+      //if some crazy human use the space around =
+      if(params.indexOf(' =') != -1 || params.indexOf('= ') != -1){
+        params = params.replace(/\s*=\s*/g, '=');
+      }
 
         var arr = params.split(' ');
 
@@ -1929,6 +1929,8 @@ $.extend($, {
     * @param {String/Element/Function/Object/Any} el элемент
     * @param {Integer} start индекс начала поиска
     * @return {Integer} индекс элемента (= -1 если не найден)
+    *
+    * @todo: use Array.prototype.indexOf();
     **/
     arrayIndexOf : function(arr, el, start){
         var ind = -1;
@@ -1990,9 +1992,9 @@ $.extend($, {
     * @return {Array} массив
     **/
     collectionToArray :function (col){
-    	var arr = [];
-    	for (var i = 0, len = col.length; i < len; i++) arr[i] = col[i];
-    	return arr;
+      var arr = [];
+      for (var i = 0, len = col.length; i < len; i++) arr[i] = col[i];
+      return arr;
     },
 
     /**
@@ -2150,7 +2152,7 @@ $.extend($, {
     titleChange : function(title, idLayer){
         var oldTitle = document.title, ops = {oldTitle:oldTitle, newTitle:title};
         if ($.Html.fireEvent(idLayer, 'beforetitlechange', ops) !== false){
-        	document.title = $.entitiesConvertor(title);
+          document.title = $.entitiesConvertor(title);
             $.Html.fireEvent(idLayer, 'titlechange', ops);
             return title;
         }
@@ -3307,29 +3309,22 @@ $.extend($, {
     /**
      * en: The function processing of a direct ax link
      * ru: Функция обработки прямой AJAX ссылки
-    **/
+     **/
     directLink: function(){
         $.onReady(function(){
             $.replaceHref();
             var hash = $.getHash();
-            //save link in history and do request if it Fullajax link
-            if( hash.length && $.History.isHTML5Enabled()){
-            	var curUrl,
-            		curAx = $.parseAxHash(hash),
-            		url = location.href,
-            		obj = $.parseUri(url),
-            		opt = $.Filter.getOptions(obj.path, obj.query);
-            	//check if Fullajax link exist
-				if (opt.id in curAx){
-					curUrl = curAx[opt.id];
-				} else {
-					curUrl = url;
-				}
-            	history.pushState({fullajax:{id:opt.id}}, null, curUrl);
-            } else {
-            	$.History.setCurrent(hash);
+            if(hash.length && $.History.isHTML5Enabled()){
+              hash = $.replaceLinkEqual(hash, 1);
+              //get real link
+              var reg = new RegExp(D.sprt_url + D.prefix + D.sprt_url + '[A-Za-z0-9_\-]+' + D.sprt_url, 'g'),
+                link = hash.replace('#', '').replace(reg, '');
+
+              history.replaceState(null, null, link);
             }
-           $.go2Hax(1, hash);
+            //save hash in history and do request if it AX link
+            $.History.setCurrent(hash);
+            $.go2Hax(1, hash);
         })
     },
 
@@ -3389,14 +3384,14 @@ $.extend($, {
                     obj = $.parseUri(url),
                     options = $.Filter.getOptions(obj.path, obj.query);
                     ind = url.indexOf('?');
-                    if (ind > -1 && options.params){
-                        var search = '&'+url.substring(ind+1)+'&',
-                            arr = options.params.split('&');
-                        for (var k = 0; k < arr.length; k++){
-                            if (search.indexOf('&'+arr[k]+'&') > -1) arr.splice(k--, 1);
-                        }
-                        options.params = arr.join('&');
+                if (ind > -1 && options && options.params){
+                    var search = '&'+url.substring(ind+1)+'&',
+                        arr = options.params.split('&');
+                    for (var k = 0; k < arr.length; k++){
+                        if (search.indexOf('&'+arr[k]+'&') > -1) arr.splice(k--, 1);
                     }
+                    options.params = arr.join('&');
+                }
                 if (!options) options = {};
                 options.id = id;
                 options.nohistory = startPage;
@@ -3452,8 +3447,8 @@ $.extend($, {
             //hash += axid + url;
 
             //changed because builds not right link
-        	//if click to anhor like href="#some-id" then on real link..
-        	hash = axid + url;
+          //if click to anhor like href="#some-id" then on real link..
+          hash = axid + url;
         }
         return $.makeAxLevel((hash.startWith('#') ? '' : '#') + hash, prefix, id);
     },
@@ -3525,13 +3520,16 @@ $.extend($, {
         return ops;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: function for parsing the AX links
+    * @param {String} href
+    * @param {String} prefix of the link
+    * @return {Object} object {layer: link}
+    *
     * ru: Функция парсинга ax ссылок
     * @param {String} href адрес
     * @param {String} prefix префикс ссылки
-    * @return {Object} объект слой-ссылка
+    * @return {Object} объект {слой: ссылка}
     **/
     parseAxHash : function (href, prefix){
         if (!prefix) prefix = 'ax';
@@ -3574,9 +3572,9 @@ $.extend($, {
     * @return {String} hash
     **/
     getHash : function(){
-    	if ($.History.isHTML5Enabled() && history.state && history.state.fullajax) {
-    		return history.state.fullajax.hash || '';
-    	}
+        if ($.History.isHTML5Enabled() && history.state && history.state.fullajax) {
+          return history.state.fullajax.hash || '';
+        }
         return location.hash2 || location.hash;
     },
 
@@ -3683,37 +3681,37 @@ $.extend($, {
             if (typeof res == 'string') rhash = $.replaceLinkEqual(res);
 
             if(this.isHTML5Enabled()){
-            	//HTML5 History tricks
-               	if(!history.popped){ // whether it is not walk through history, look at init
-               		//store id and hash
-	               	history.pushState({fullajax: {id: id, hash: hash }}, title, loc);
-               	}else {
-               		history.popped = false;
-              	}
+              //HTML5 History tricks
+                 if(!history.popped){ // whether it is not walk through history, look at init
+                   //store id and hash
+                   history.pushState({fullajax: {id: id, hash: hash }}, title, loc);
+                 }else {
+                   history.popped = false;
+                }
             } else {
-            	$.setHash(rhash);
-	            if ($.browser.msie && $.browser.msieV < 8){
-	                var frame = $.History.frame;
-	                if (!frame) {
-	                   $.History.frame = frame = document.createElement('iframe');
-	                   frame.style.display = 'none';
-	                   frame.src = 'javascript:true';
-	                   document.body.appendChild(frame);
-	                   $.History.write(document.title, $.History.previous || '');
-	                }
+              $.setHash(rhash);
+              if ($.browser.msie && $.browser.msieV < 8){
+                  var frame = $.History.frame;
+                  if (!frame) {
+                     $.History.frame = frame = document.createElement('iframe');
+                     frame.style.display = 'none';
+                     frame.src = 'javascript:true';
+                     document.body.appendChild(frame);
+                     $.History.write(document.title, $.History.previous || '');
+                  }
 
-	                $.History.write(title, rhash);
-	            }
+                  $.History.write(title, rhash);
+              }
             }
             $.History.setCurrent(rhash);
         },
 
-		/**
-		 * function for check whether HTML5 API History enabled
-		 */
-        isHTML5Enabled : function (){
-			return (history.pushState && D.USE_HTML5_HISTORY);
-        }
+        /**
+         * function for check whether HTML5 API History enabled
+         */
+         isHTML5Enabled : function (){
+             return (history.pushState && D.USE_HTML5_HISTORY);
+         }
 
     },
 
@@ -3935,7 +3933,7 @@ $.extend($, {
                 delete a;
             } else {
                 if (!owner.href) return;
-            	var uri = $.parseUri(owner.href);
+                var uri = $.parseUri(owner.href);
                 url = uri.path;
                 query = uri.query;
             }
@@ -3988,11 +3986,11 @@ $.extend($, {
             }
         },
 
-	   /**
-		* en: final wrap function, assign event calbacks for element
-		* @param {owner} element
-		* @param {options} options
-		**/
+     /**
+      * en: final wrap function, assign event calbacks for element
+      * @param {owner} element
+      * @param {options} options
+      **/
         wrapOps : function(owner, options){
                 if (!options) return;
                 owner.options = options;
@@ -4548,7 +4546,8 @@ $.extend($, {
         var o = ops ? ops : options, value = o.parser[o.strictMode ? "strict" : "loose"].exec(source);
         for (var i = 0, uri = {}; i < 14; i++) { uri[o.key[i]] = value[i] || ""; }
         uri[o.q.name] = {};
-        uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) { if ($1) uri[o.q.name][$1] = $2; }); return uri;
+        uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) { if ($1) uri[o.q.name][$1] = $2; });
+        return uri;
     },
 
     /**
@@ -4693,13 +4692,6 @@ var SP = function(place){
 }
 
 $.addEventsListener($.Filter);
-//deprecated methods
-//$.escape = $.encode;
-//$.appendScript = $.addScript;
-//$.appendLink = $.addLink;
-//$.appendStyle = $.addStyle;
-//arrayIndexOf = $.arrayIndexOf;
-//arrayRemoveOf = $.arrayRemoveOf;
 
 })(SRAX)
 
