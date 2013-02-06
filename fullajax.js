@@ -4126,8 +4126,8 @@ $.extend($, {
                 var obj = a[i],
                     axWrap = obj.attributes[X('wrap')],
                     noWraped = axWrap == null || (axWrap.nodeValue != 'false' && axWrap.nodeValue != '0' && axWrap.nodeValue != false);
-                if (obj.iswrapped) obj.iswrapped = !!(obj.onclick || obj.onsubmit);
-                if (!$.isXss(obj.href || obj.action) && !obj.iswrapped && noWraped) {
+                if (obj.getAttribute('iswrapped')) obj.getAttribute('iswrapped') = !!(obj.getAttribute('onclick') || obj.getAttribute('onsubmit'));
+                if (!$.isXss(obj.getAttribute('href') || obj.getAttribute('action')) && !obj.getAttribute('iswrapped') && noWraped) {
                     var options = this.parseAxAttr(obj),
                         res = this.fireEvent('beforewrap',
                         {
