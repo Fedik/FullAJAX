@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.2.9
+ * version:  1.3.0
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -13,7 +13,7 @@
  *
  **/
 
-if (!window.SRAX || window.SRAX.TYPE != 'full'){
+if (!window.FLAX || window.FLAX.TYPE != 'full'){
 
 /**
  * en: logging functions
@@ -23,19 +23,19 @@ if (!window.SRAX || window.SRAX.TYPE != 'full'){
  * @param {Any} any значение
  **/
 function log(){
-    SRAX.debug('log', arguments);
+    FLAX.debug('log', arguments);
 }
 
 function info(){
-    SRAX.debug('info', arguments);
+    FLAX.debug('info', arguments);
 }
 
 function error(){
-    SRAX.debug('error', arguments);
+    FLAX.debug('error', arguments);
 }
 
 function warn(){
-    SRAX.debug('warn', arguments);
+    FLAX.debug('warn', arguments);
 }
 
 /**
@@ -48,7 +48,7 @@ function warn(){
 * @return {Element} найденный элемент
 **/
 function id(idElem){
-    return SRAX.get(idElem);
+    return FLAX.get(idElem);
 }
 
 /**
@@ -59,7 +59,7 @@ function id(idElem){
 * @param {String} id ID родительского элемента
 **/
 function back(id) {
-  SRAX.Html.thread[id].go(-1);
+  FLAX.Html.thread[id].go(-1);
 }
 
 /**
@@ -70,7 +70,7 @@ function back(id) {
 * @param {String} id id родительского элемента
 **/
 function forward(id) {
-  SRAX.Html.thread[id].go(1);
+  FLAX.Html.thread[id].go(1);
 }
 
 /**
@@ -83,7 +83,7 @@ function forward(id) {
 * @param {String} id id элемента
 **/
 function go(val, id) {
-  SRAX.Html.thread[id].go(val);
+  FLAX.Html.thread[id].go(val);
 }
 
 /**
@@ -153,7 +153,7 @@ String.prototype.startWith=function(value, caseSensitive){
 * @param {String} id запроса
 **/
 function abort(id){
-    if (SRAX.Html.thread[id]) SRAX.Html.thread[id].abort();
+    if (FLAX.Html.thread[id]) FLAX.Html.thread[id].abort();
 }
 
 /**
@@ -188,8 +188,8 @@ function abort(id){
 * loader – id load indicator.
 * notitle – disable autocorrect title. true or false (default false).
 * onerror – function to be called in case of error loading content.
-* storage – using local storage. Valid only when SRAX.Storage connected. true or false (default true).
-* etag – Etag use to identify the novelty in the local data repository. Valid only when SRAX.Storage connected. true or false (default true).
+* storage – using local storage. Valid only when FLAX.Storage connected. true or false (default true).
+* etag – Etag use to identify the novelty in the local data repository. Valid only when FLAX.Storage connected. true or false (default true).
 *
 * @ Return {HTMLThread} object of process HTML request
 *
@@ -219,8 +219,8 @@ function abort(id){
 * seal - флаг "изоляции" true или false (по умолчанию) - используется для решения конфликтов css стилей
 * user - username, для подключения требующего имя юзера
 * pswd - password, для подключения требующего пароль
-* storage - флаг использования локального хранилища true (по умолчанию) или false - действует только при подключении SRAX.Storage
-* etag - флаг использования Etag для идентификации новизны данных в локальном хранилище true (по умолчанию) или false - действует только при подключении SRAX.Storage
+* storage - флаг использования локального хранилища true (по умолчанию) или false - действует только при подключении FLAX.Storage
+* etag - флаг использования Etag для идентификации новизны данных в локальном хранилище true (по умолчанию) или false - действует только при подключении FLAX.Storage
 * headers - массив header-ов из обьектов {ключ : значение}, которые необходимо передать на сервер. пример -> headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
 * add - флаг true или false (по умолчанию), определяет принцип добавления подгружаемого контента в родительский элемент: перезапись (false) или добавление (true)
 * onload - функция, которая вызывается после полной загрузки контента в элемент
@@ -235,13 +235,13 @@ function hax(url, options){
     if (!options) options = {};
     if (typeof url == 'string') options.url = url; else options = url;
     if (options.nohistory == null) options.nohistory = options.noHistory;
-    var thread = SRAX.Html.thread[options.id] ? SRAX.Html.thread[options.id] : SRAX.HTMLThread(options.id);
+    var thread = FLAX.Html.thread[options.id] ? FLAX.Html.thread[options.id] : FLAX.HTMLThread(options.id);
     thread.setOptions(options, 1);
-    if (SRAX.Html.ASYNCHRONOUS){
+    if (FLAX.Html.ASYNCHRONOUS){
         thread.request();
     } else {
-        SRAX.Html.storage.push(thread.id);
-        if (SRAX.Html.storage.length == 1) thread.request();
+        FLAX.Html.storage.push(thread.id);
+        if (FLAX.Html.storage.length == 1) thread.request();
     }
     return thread;
 }
@@ -334,8 +334,8 @@ function post(url, id_or_options, form, cb, cbo){
 * pswd – password, when a connection requires a password
 * headers – array of HTTP headers of the objects {key: value} to be passed to the server. Example: headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
 * loader – id load indicator.
-* storage – using local storage. Valid only when SRAX.Storage connected. true or false (default true).
-* etag – Etag use to identify the novelty in the local data repository. Valid only when SRAX.Storage connected. true or false (default true).
+* storage – using local storage. Valid only when FLAX.Storage connected. true or false (default true).
+* etag – Etag use to identify the novelty in the local data repository. Valid only when FLAX.Storage connected. true or false (default true).
 *
 * @ Return {Object} DATAThread object of process data request
 *
@@ -360,8 +360,8 @@ function post(url, id_or_options, form, cb, cbo){
 * text - текст, эмуляция ответа, пр?? наличии данного параметра запрос данных c сервера не осуществляется <br>
 * user - username, для подключения требующего имя юзера
 * pswd - password, для подключения требующего пароль
-* storage - флаг использования локального хранилища true (по умолчанию) или false - действует только при подключении SRAX.Storage
-* etag - флаг использования Etag для идентификации новизны данных в локальном хранилище true (по умолчанию) или false - действует только при подключении SRAX.Storage
+* storage - флаг использования локального хранилища true (по умолчанию) или false - действует только при подключении FLAX.Storage
+* etag - флаг использования Etag для идентификации новизны данных в локальном хранилище true (по умолчанию) или false - действует только при подключении FLAX.Storage
 * headers - массив header-ов из обьектов {ключ : значение}, которые необходимо передать на сервер. пример -> headers:[{Etag: '123'}, {'Accept-Encoding': 'gzip,deflate'}]
 * loader - лоадер-индикатор, если не определен - используется лоадер по умолчанию
 *
@@ -371,7 +371,7 @@ function dax(url, options){
     if (!options) options = {};
     if (typeof url == 'string') options.url = url; else options = url;
     if (!options.id) options.id = 'undefined';
-    var thread = SRAX.Data.thread[options.id] ? SRAX.Data.thread[options.id] : SRAX.DATAThread(options.id);
+    var thread = FLAX.Data.thread[options.id] ? FLAX.Data.thread[options.id] : FLAX.DATAThread(options.id);
     thread.setOptions(options, 1).request();
     return thread;
 }
@@ -384,7 +384,7 @@ function dax(url, options){
 * @param {String} id id запроса
 **/
 function abortData(id){
-    if (SRAX.Data.thread[id]) SRAX.Data.thread[id].abort();
+    if (FLAX.Data.thread[id]) FLAX.Data.thread[id].abort();
 }
 
 /**
@@ -450,14 +450,14 @@ function postData(url, params, cb, idThread, cbo, anticache, destroy){
 *
 * ru: Главный объект-библиотека
 **/
-if (!window.SRAX) FLAX = SRAX = {};
+if (!window.FLAX) FLAX = SRAX = {};
 
 /**
 * en: A function for implementing inheritance
 *
 * ru: Функция для реализации наследования
 **/
-SRAX.extend = function(dest, src, skipexist){
+FLAX.extend = function(dest, src, skipexist){
     var overwrite = !skipexist;
     for (var i in src)
         if (overwrite || !dest.hasOwnProperty(i)) dest[i] = src[i];
@@ -474,12 +474,12 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.2.9',
+    version : '1.3.0',
 
    /**
-    *  en: The ID of the library, to address the sharing of different parts of the library SRAX
+    *  en: The ID of the library, to address the sharing of different parts of the library FLAX
     *
-    * ru: Идентификатор данной библиотеки, для решения проблем совместного использования разных частей SRAX библиотеки
+    * ru: Идентификатор данной библиотеки, для решения проблем совместного использования разных частей FLAX библиотеки
     **/
     TYPE : 'full',
 
@@ -727,7 +727,7 @@ $.extend($, {
           } catch (ex){
             c[type](args.length == 1 ? args[0] : args);
           }
-          //if (SRAX.browser.mozilla) c[type].apply(c, args); else c[type](args.length == 1 ? args[0] : args);
+          //if (FLAX.browser.mozilla) c[type].apply(c, args); else c[type](args.length == 1 ? args[0] : args);
         } else if (window.runtime){
             var arr = [type + ': ' + args[0]];
             for (var i = 1, len = args.length; i < len; i++) arr.push(args[i]);
@@ -835,7 +835,7 @@ $.extend($, {
                   var img = document.createElement('img');
                   img.setAttribute('style','position:absolute;left:-1px;top:-1px;opacity:0;width:0px;height:0px');
                   img.setAttribute('alt','');
-                  img.setAttribute('src','javascript:location.href="javascript:SRAX.xssLoading=0;SRAX.History.check()"');
+                  img.setAttribute('src','javascript:location.href="javascript:FLAX.xssLoading=0;FLAX.History.check()"');
                   document.body.appendChild(img);
               }
             } else {
@@ -1083,7 +1083,7 @@ $.extend($, {
      *
     * ru: Объект-контейнер - при использовании модели запроса #2 (один ко многим - один запрос, много блоков) - соответств??е ИД блоков ответа сервера - ИД блокам клиента <br><br>
     * Пример:<br>
-    * SRAX.Model2Blocks['id-all-layer'] = {'block-m-left':'left','block-content':'all'}; <br>
+    * FLAX.Model2Blocks['id-all-layer'] = {'block-m-left':'left','block-content':'all'}; <br>
     **/
     Model2Blocks : {},
 
@@ -1662,7 +1662,7 @@ $.extend($, {
     * @return {Object} объект &lt;script>
     **/
     makeScript : function(text){
-        if (text.indexOf('SRAX.init()') > -1) text = '<script type="text/javascript"></'+'script>';
+        if (text.indexOf('FLAX.init()') > -1) text = '<script type="text/javascript"></'+'script>';
         var script = document.createElement('script'),
             ind1 = text.toLowerCase().indexOf('<script'),
             ind2 = text.indexOf('>', ind1 + 1),
@@ -2174,7 +2174,7 @@ $.extend($, {
             if (ind2 > -1 && ind3 > -1){
                 var tmp = text.substring(ind1,ind3+11),
                     gid = $.genId();
-                tmp = "<iframe style='height:100%;width:100%;border:0' href='javascript:true' id='"+gid+"'></iframe><script>var obj = SRAX.get('"+gid+"');var doc = obj[obj.contentWindow ? 'contentWindow' : 'contentDocument'].document;doc.open();doc.write('"+tmp.replaceAll('\n','').replaceAll('\r','').trim()+"');doc.close()</script>";
+                tmp = "<iframe style='height:100%;width:100%;border:0' href='javascript:true' id='"+gid+"'></iframe><script>var obj = FLAX.get('"+gid+"');var doc = obj[obj.contentWindow ? 'contentWindow' : 'contentDocument'].document;doc.open();doc.write('"+tmp.replaceAll('\n','').replaceAll('\r','').trim()+"');doc.close()</script>";
                 text = text.substring(0,ind1)+tmp+text.substring(ind3+11);
             }
         }
@@ -2786,7 +2786,7 @@ $.extend($, {
     * @param {String/Boolean} url URL адрес скрипта / если входной параметр script типа String, тогда url обозначает флаг отключения использования AJAX загрузки скрипта
     * @param {-/Boolean} nocache флаг включаемый некешируемость при AJAX загрузке скрипта
     * @param {-/String} place идентификатор элемента, в который будут вставлятся встречаемые в срипте document.write
-    * @param {-/Boolean} storage флаг использования локального хранилища true (по умолчанию) или false - действует только при подключеном SRAX.Storage
+    * @param {-/Boolean} storage флаг использования локального хранилища true (по умолчанию) или false - действует только при подключеном FLAX.Storage
     * @param {-/Boolean} noblock флаг для неблокирующей загрузки кроссдоменного скрипта true или false (по умолчанию)
     **/
     addScript : function(script, idLayer, url, nocache, place, storage, noblock) {
@@ -2820,7 +2820,7 @@ $.extend($, {
             } else {
               for (var i = 0, len = scripts.length; i < len; i++){
                   var text = scripts[i].innerHTML,
-                      ind1 = text.indexOf('SRAX.addScript');
+                      ind1 = text.indexOf('FLAX.addScript');
                   if (ind1 > -1){
                       var ind2 = text.indexOf(script);
                       if (ind2 > ind1){
@@ -2831,7 +2831,7 @@ $.extend($, {
               }
             }
             if (place) place.parentNode.insertBefore(span, place); else document.body.appendChild(span);
-            hax({id:span.id, url:script, html:'<body onload="SRAX.get(\''+span.id+'\').cb()"><script type="text/javascript" src="'+script+'"'+(url?' '+X('noax')+'="1"':'')+(nocache?' '+X('nocache')+'="1"':'')+(noblock?' '+X('noblock')+'="1"':'')+'></script></body>', nohistory:1, storage:storage});
+            hax({id:span.id, url:script, html:'<body onload="FLAX.get(\''+span.id+'\').cb()"><script type="text/javascript" src="'+script+'"'+(url?' '+X('noax')+'="1"':'')+(nocache?' '+X('nocache')+'="1"':'')+(noblock?' '+X('noblock')+'="1"':'')+'></script></body>', nohistory:1, storage:storage});
             return;
         }
 
@@ -2947,7 +2947,7 @@ $.extend($, {
                 if (typeof func == 'string'){
                     func = func.trim();
                     if (func.startWith('function') && func.endWith('}')) {
-                        func = $.browser.msie ? 'SRAX.tmp=' + func : '(' + func + ')';
+                        func = $.browser.msie ? 'FLAX.tmp=' + func : '(' + func + ')';
                      }
                     (function(){
                       func = window['eval'](func)
@@ -3722,7 +3722,7 @@ $.extend($, {
     *
     * пример: <br>
     * <pre>
-    * SRAX.Effect.add({id:'center',
+    * FLAX.Effect.add({id:'center',
     *   start:function(id, request){
     *       Ext.get(id).fadeOut({ endOpacity: .25, duration: 2, callback:request});
     *   },
@@ -3802,7 +3802,7 @@ $.extend($, {
     * ru: Объект фильтр ссылок - для "авто-заворачивания" в AJAX <br><br>
     *
     * пример: <br>
-    * SRAX.Filter.add({'id':'header','url':'header'});  <br><br>
+    * FLAX.Filter.add({'id':'header','url':'header'});  <br><br>
     *
     * Список параметров: <br>
     * id - id блока  <br>
@@ -4015,7 +4015,7 @@ $.extend($, {
                     for (var i = 0, l = inputs.length; i < l; i++){
                         var type = inputs[i].type;
                         if (type != 'image' && type != 'submit') continue;
-                        SRAX.addEvent(inputs[i], 'click', type == 'image' ?
+                        FLAX.addEvent(inputs[i], 'click', type == 'image' ?
                             function(e){
                                 if (!e) e = window.event;
                                 var trgt = e.target || e.srcElement,
@@ -4055,7 +4055,7 @@ $.extend($, {
                                 if (func){
                                     if (typeof func == 'string') {
                                         if (!func.trim().startWith('function')) func = 'function(e){' + func + '}';
-                                        func = window['eval']('SRAX.tmp=' + func);
+                                        func = window['eval']('FLAX.tmp=' + func);
                                     }
                                     res = func.call(this, e);
                                 }
@@ -4230,7 +4230,7 @@ $.extend($, {
     * ru: Объект квази-AJAX аплоадер файлов<br><br>
     *
     * пример использования <br>
-    * &lt;form action="/upload.jsp" method="post" enctype="multipart/form-data" onsubmit="new SRAX.Uploader(this, startCallback, finishCallback)"> <br>
+    * &lt;form action="/upload.jsp" method="post" enctype="multipart/form-data" onsubmit="new FLAX.Uploader(this, startCallback, finishCallback)"> <br>
     * &nbsp;&nbsp;&nbsp;&nbsp;  &lt;input type="file" name="form[file]" /> <br>
     * &lt;/form>
     *
@@ -4293,7 +4293,7 @@ $.extend($, {
 
         this.destroy = function(){
            iframe.src = 'javascript:true';
-           SRAX.remove(container);
+           FLAX.remove(container);
            container = null;
         }
 
@@ -4692,7 +4692,7 @@ var SP = function(place){
 
 $.addEventsListener($.Filter);
 
-})(SRAX)
+})(FLAX)
 
-SRAX.init();
+FLAX.init();
 }
