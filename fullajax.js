@@ -146,6 +146,21 @@ String.prototype.startWith=function(value, caseSensitive){
 }
 
 /**
+ * Array.prototype.indexOf fallback
+ * @param item - Element to locate in the array.
+ * @param from - The index to start the search at.
+ * @returns index
+ */
+if (!Array.prototype.indexOf){
+    Array.prototype.indexOf = function(item, from){
+        for(var i = (from || 0); i < this.length; i++){
+            if(this[i] === item) { return i;}
+        }
+        return -1;
+    }
+}
+
+/**
 * en: The function for terminate the HTML request
 * @ Param {String} id of request
 *
@@ -1921,31 +1936,9 @@ $.extend($, {
         return text;
     },
 
-    /**
-     * en:
-     *
-    * ru: Функция поиска индекса элемента в указанном массиве
-    * @param {Array} arr массив
-    * @param {String/Element/Function/Object/Any} el элемент
-    * @param {Integer} start индекс начала поиска
-    * @return {Integer} индекс элемента (= -1 если не найден)
+   /**
+    * en:
     *
-    * @todo: use Array.prototype.indexOf();
-    **/
-    arrayIndexOf : function(arr, el, start){
-        var ind = -1;
-        for(var i = (start || 0); i < arr.length; i++){
-            if(arr[i] == el) {
-                ind = i;
-                break;
-            }
-        }
-        return ind;
-    },
-
-    /**
-     * en:
-     *
     * ru: Минимальная сериализация обьектов, примеяется при сравнения параметров фильтров
     * @param {String/Array/Object/Function} obj объект
     * @return {String} сериализированый объект
@@ -1997,19 +1990,22 @@ $.extend($, {
       return arr;
     },
 
-    /**
-     * en:
-     *
+   /**
+    * en: check whether exist given link in the cache array
+    * @param {Array} arr the cache array
+    * @param {String} src src or a href link
+    * @return {Integer} result (-1 = not contain)
+    *
     * ru: Функция проверки содержит ли кеш-массив указанный линк
     * @param {Array} arr кеш-массив
     * @param {String} src src или href линк
     * @return {Integer} результат проверки (-1 = не содержит)
     **/
     indexOfCacheSrc : function(arr, src){
-        var ind = $.arrayIndexOf(arr,src);
+        var ind = arr.indexOf(src);
         if (ind == -1){
             src = src.startWith(location.protocol) ? src.replace(location.protocol + '//' + location.host,'') :  location.protocol + '//' + location.host + src;
-            ind = $.arrayIndexOf(arr,src);
+            ind = arr.indexOf(src);
         }
         return ind;
     },
