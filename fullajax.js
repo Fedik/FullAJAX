@@ -250,8 +250,8 @@ function hax(url, options){
 * en: The HTML request using GET method
 * @ Param {String} url URL address of the request
 * @ Param {String / Object} id_or_options
-*							If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
-*							If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
+*                           If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
+*                           If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
 * @ Param {String / Element} form id form or the form itself
 * @ Param {Function} cb callback - callback function
 * @ Param {Object} cbo object - option for the callback function
@@ -281,8 +281,8 @@ function get(url, id_or_options, form, cb, cbo){
 * en: The HTML request using POST method
 * @ Param {String} url URL address of the request
 * @ Param {String / Object} id_or_options
-*						 If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
-*						 If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
+*                        If == Object -> configuration object (for example: {'callback': myfunction, 'id': 'myid', 'method': 'post', 'form': 'id-from'}) <br>
+*                        If == String -> id of the parent element, which is inserted into the query result HTML (if null - then the body)
 * @ Param {String / Element} form id form or the form itself
 * @ Param {Function} cb callback - callback function
 * @ Param {Object} cbo object - option for the callback function
@@ -1585,8 +1585,8 @@ $.extend($, {
     * en: allocate ' or "
     * @param {String} str
     * @return {Array} array with two values,
-    * 	first value - it the start position,
-    * 	second value - it the end position
+    *   first value - it the start position,
+    *   second value - it the end position
     *
     * ru: Функция выделения маркеров (' или ") значения атрибута
     * @param {String} str строка
@@ -2276,25 +2276,24 @@ $.extend($, {
 
 
             if (html.length == 0 || !$.isHTMLComment(html.join(''))){
-                if (true || text.toLowerCase().indexOf('<body') == -1) {
-                    if (html.length == 0 || html[html.length - 1].indexOf('_place_of_script_') == -1) {
-                        place = idLayer+'_place_of_script_'+placeIndex++;
-                        html.push(SP(place));
-                    }
-                    script.place = place;
-                    var old_place = $.get(place);
-                    if (old_place) old_place.id += '_old';
+                //if (true || text.toLowerCase().indexOf('<body') == -1) {
+                if (html.length == 0 || html[html.length - 1].indexOf('_place_of_script_') == -1) {
+                    place = idLayer+'_place_of_script_'+placeIndex++;
+                    html.push(SP(place));
                 }
+                script.place = place;
+                var old_place = $.get(place);
+                if (old_place) old_place.id += '_old';
+                //}
 
                 var skip = script[X('skip')];
                 if (skip == 'true' || skip == '1') continue;
-//here all script.src
+
                 if (script.src) {
                     if (script.src.indexOf('fullajax.js') > -1  || //script.src.indexOf('linker.js') > -1 ||
-                   $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1) continue;
+                            $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1) continue;
 
                     var ind = $.indexOfCacheSrc($.scriptsCache[0],script.src);
-//only part
 
                     if (ind > -1) {
                         var repeat = script[X('repeat')];
@@ -3331,8 +3330,8 @@ $.extend($, {
    /**
     * en: Function for check is direct link
     * @param elId - ID of element
-    * 	if given = check direct link for given element
-    * 	else = check if exist any direct link
+    *   if given = check direct link for given element
+    *   else = check if exist any direct link
     * @return {Boolean) check result
     *
     * ru: Функция проверки наличия прямой ссылки
