@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.0
+ * version:  1.3.0d-wb
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -489,7 +489,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.3.0',
+    version : '1.3.0d-wb',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library FLAX
@@ -3885,7 +3885,8 @@ $.extend($, {
                         for(var j in arr[i]) options[j] = arr[i][j];
                         options.filterSchemaId = el;
                         if (owner && owner.nodeName == 'FORM') {
-                            if (owner.attributes['method']) options.method = owner.attributes['method'].nodeValue;
+                        	var method = owner.getAttribute('method');
+                            if (method) options.method = method;
                             options.form = owner;
                         }
                     }
@@ -3921,7 +3922,7 @@ $.extend($, {
             if (owner.iswrapped) return;
             var url, query;
             if (owner.nodeName == 'FORM') {
-                if(owner.attributes['action']) url = owner.attributes['action'].nodeValue;
+            	url = owner.getAttribute('action');
                 if (!url) {
                     url = location.href;
                     var ind = url.indexOf('#');
@@ -3947,7 +3948,7 @@ $.extend($, {
             if (!options) options = {};
             $.extend(options, ops, 1);
             if (options.type == 'skip' || options.type == 'nowrap' || (options.wrap != null && !options.wrap) || options.nowrap) return;
-            if (!options.target && owner.attributes['target'] && owner.attributes['target'].nodeValue != '') return;
+            if (!options.target && owner.getAttribute('target')) return;
             if (options.id == null) return;
             this.wrapOps(owner, options);
         },
@@ -3966,8 +3967,8 @@ $.extend($, {
             if (owner.iswrapped) return;
             var protocol = location.protocol, host = location.host,
                 current = protocol + '//' + host + location.pathname + location.search + '#',
-                href = owner.nodeName == 'FORM' ? (owner.attributes['action'] ? owner.attributes['action'].nodeValue : 0) : owner.href;
-            //if ($.browser.opera && href+'#' == current) href += '#';
+                href = owner.nodeName == 'FORM' ? owner.getAttribute('action') : owner.href;
+
             if (href && href.endWith('#')){
                 if (!href.startWith(protocol)) href = protocol + '//' + host + href;
                 if (url){
