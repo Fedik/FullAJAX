@@ -3865,6 +3865,27 @@ $.extend($, {
                 return pathLength;
             }
 
+            function getParent(child, selector){
+            	if(!selector) return null;
+            	var test = 'id';
+            	//if(selector.indexOf('#') === 0) selector = selector.replace('#', '');
+            	if(selector.indexOf('.') === 0){
+            		test = 'class';
+            		selector = selector.replace('.', '');
+            	}
+
+            	for(var parent = child.parentNode;
+            		parent && parent !== document.body;
+            		parent = parent.parentNode
+            	){
+            		var attr = parent.getAttribute(test);
+            		if(attr && attr.indexOf(selector) !== -1){
+            			return parent;
+            		}
+            	}
+				return null;
+            }
+
             for (var el in this.schema){
                 var arr = this.schema[el];
                 if (!arr) continue;
@@ -3878,8 +3899,7 @@ $.extend($, {
                         length = jl == 'and' ? urlLength + queryLength : (urlLength > queryLength ? urlLength : queryLength);
 
                     if (lengthEquals < length
-                    	|| (owner && arr[i].form === ownName)
-                    	|| (owner && arr[i].form === ownId)
+                    	|| (owner && (arr[i].form === ownName || arr[i].form === ownId || getParent(owner, arr[i].parent)))
                     ) {
                         lengthEquals = length;
                         options = {};
