@@ -3561,7 +3561,7 @@ $.extend($, {
 
    /**
     * en: method that return curent hash from location.hash
-    * or from history.state ih HTML5 history enabled
+    * or from history.state if HTML5 history enabled
     *
     * ru: Метод-адптер для получения location.hash
     * @return {String} hash
@@ -3847,7 +3847,10 @@ $.extend($, {
 
         getOptions : function(url, query, owner){
             var options = null,
-                lengthEquals = 0;
+                lengthEquals = 0,
+                ownName = owner ? owner.getAttribute('name') : null,
+                ownId = owner ? owner.getAttribute('id') : null;
+
             for (var el in this.schema){
                 var arr = this.schema[el];
                 if (!arr) continue;
@@ -3872,7 +3875,11 @@ $.extend($, {
                         queryLength = getLength(qa, query, arr[i].queryType),
                         jl = arr[i].join || arr[i].joinLogic,
                         length = jl == 'and' ? urlLength + queryLength : (urlLength > queryLength ? urlLength : queryLength);
-                    if (lengthEquals < length) {
+
+                    if (lengthEquals < length
+                    	|| (owner && arr[i].form === ownName)
+                    	|| (owner && arr[i].form === ownId)
+                    ) {
                         lengthEquals = length;
                         options = {};
                         for(var j in arr[i]) options[j] = arr[i][j];
