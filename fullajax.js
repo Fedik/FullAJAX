@@ -3851,23 +3851,24 @@ $.extend($, {
                 ownName = owner ? owner.getAttribute('name') : null,
                 ownId = owner ? owner.getAttribute('id') : null;
 
-            for (var el in this.schema){
-                var arr = this.schema[el];
-                if (!arr) continue;
-
-                function getLength(arr, path, type){
-                    var pathLength = 0;
-                    for (var j = 0, l = arr.length; j < l; j++){
-                        var p = arr[j],
-                            bool = p && path && (p == '*' ||
+            function getLength(arr, path, type){
+            	var pathLength = 0;
+                for (var j = 0, l = arr.length; j < l; j++){
+                	var p = arr[j],
+                    	bool = p && path && (p == '*' ||
                         (p instanceof RegExp && p.test(path)) ||
                         ((!type || type == 'contain') && path.indexOf(p) > -1) ||
                         (type == 'start' && path.startWith(p)) ||
                         (type == 'end' && path.endWith(p)))
                         if (bool && pathLength < p.length) pathLength = p.toString().length;
-                    }
-                    return pathLength;
                 }
+                return pathLength;
+            }
+
+            for (var el in this.schema){
+                var arr = this.schema[el];
+                if (!arr) continue;
+
                 for (var i = 0, len = arr.length; i < len; i++){
                     var ua = arr[i].url instanceof Array ? arr[i].url : [arr[i].url],
                         urlLength = getLength(ua, url, arr[i].urlType),
