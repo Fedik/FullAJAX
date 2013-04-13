@@ -3852,10 +3852,10 @@ $.extend($, {
                 ownId = owner ? owner.getAttribute('id') : null;
 
             function getLength(arr, path, type){
-            	var pathLength = 0;
+                var pathLength = 0;
                 for (var j = 0, l = arr.length; j < l; j++){
-                	var p = arr[j],
-                    	bool = p && path && (p == '*' ||
+                  var p = arr[j],
+                      bool = p && path && (p == '*' ||
                         (p instanceof RegExp && p.test(path)) ||
                         ((!type || type == 'contain') && path.indexOf(p) > -1) ||
                         (type == 'start' && path.startWith(p)) ||
@@ -3866,24 +3866,24 @@ $.extend($, {
             }
 
             function getParent(child, selector){
-            	if(!selector) return null;
-            	var test = 'id';
-            	//if(selector.indexOf('#') === 0) selector = selector.replace('#', '');
-            	if(selector.indexOf('.') === 0){
-            		test = 'class';
-            		selector = selector.replace('.', '');
-            	}
+                if(!selector) return null;
+                var test = 'id';
+                //if(selector.indexOf('#') === 0) selector = selector.replace('#', '');
+                if(selector.indexOf('.') === 0){
+                    test = 'class';
+                    selector = selector.replace('.', '');
+                }
 
-            	for(var parent = child.parentNode;
-            		parent && parent !== document.body;
-            		parent = parent.parentNode
-            	){
-            		var attr = parent.getAttribute(test);
-            		if(attr && attr.indexOf(selector) !== -1){
-            			return parent;
-            		}
-            	}
-				return null;
+                for(var parent = child.parentNode;
+                    parent && parent !== document.body;
+                    parent = parent.parentNode
+                ){
+                    var attr = parent.getAttribute(test);
+                    if(attr && attr.indexOf(selector) !== -1){
+                        return parent;
+                    }
+                }
+                return null;
             }
 
             for (var el in this.schema){
@@ -3899,14 +3899,14 @@ $.extend($, {
                         length = jl == 'and' ? urlLength + queryLength : (urlLength > queryLength ? urlLength : queryLength);
 
                     if (lengthEquals < length
-                    	|| (owner && (arr[i].form === ownName || arr[i].form === ownId || getParent(owner, arr[i].parent)))
+                      || (owner && (arr[i].form === ownName || arr[i].form === ownId || getParent(owner, arr[i].parent)))
                     ) {
                         lengthEquals = length;
                         options = {};
                         for(var j in arr[i]) options[j] = arr[i][j];
                         options.filterSchemaId = el;
                         if (owner && owner.nodeName == 'FORM') {
-                        	var method = owner.getAttribute('method');
+                            var method = owner.getAttribute('method');
                             if (method) options.method = method;
                             options.form = owner;
                         }
@@ -3943,7 +3943,7 @@ $.extend($, {
             if (owner.iswrapped) return;
             var url, query;
             if (owner.nodeName == 'FORM') {
-            	url = owner.getAttribute('action');
+                url = owner.getAttribute('action');
                 if (!url) {
                     url = location.href;
                     var ind = url.indexOf('#');
