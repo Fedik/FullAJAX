@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.0d-wb
+ * version:  1.3.1
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -489,7 +489,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.3.0d-wb',
+    version : '1.3.1',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library FLAX
