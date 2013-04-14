@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.1
+ * version:  1.3.2
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -489,7 +489,7 @@ $.extend($, {
     *
     * ru: Идентификатор версии библиотеки
     **/
-    version : '1.3.1',
+    version : '1.3.2',
 
    /**
     *  en: The ID of the library, to address the sharing of different parts of the library FLAX
@@ -2286,8 +2286,10 @@ $.extend($, {
                 if (skip == 'true' || skip == '1') continue;
 
                 if (script.src) {
-                    if (script.src.indexOf('fullajax.js') > -1  || //script.src.indexOf('linker.js') > -1 ||
-                            $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1) continue;
+                    if (script.src.indexOf('fullajax.js') > -1  //script.src.indexOf('linker.js') > -1 ||
+                        || script.src.indexOf('fullajax.min') > -1
+                        || $.indexOfCacheSrc($.LIST_NO_LOAD_SCRIPTS, script.src) > -1
+                    ) continue;
 
                     var ind = $.indexOfCacheSrc($.scriptsCache[0],script.src);
 
