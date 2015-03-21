@@ -737,12 +737,10 @@ $.extend($, {
     debug : function (type, args){
         var c = window.console;
         if (c && c[type]) {
-          try{
             c[type].apply(c, args);
-          } catch (ex){
-            c[type](args.length == 1 ? args[0] : args);
-          }
-          //if (FLAX.browser.mozilla) c[type].apply(c, args); else c[type](args.length == 1 ? args[0] : args);
+            if (args[0] && args[0].stack) {
+            	c[type].apply(c, [args[0].stack]);
+            }
         } else if (window.runtime){
             var arr = [type + ': ' + args[0]];
             for (var i = 1, len = args.length; i < len; i++) arr.push(args[i]);
