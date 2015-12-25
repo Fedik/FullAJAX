@@ -1210,10 +1210,10 @@ $.extend($, {
                       _this.fireEvent('progress', {
                           id : id,
                           thread : _this,
-                          event : e,
-                          position : e.position,
-                          total : e.totalSize,
-                          percent : Math.round(100 * e.position / e.totalSize)
+                          event  : e,
+                          loaded : e.loaded,
+                          total  : e.total,
+                          percent: Math.round(100 * e.loaded / e.total)
                       })
                   }
                 } catch (ex){}
