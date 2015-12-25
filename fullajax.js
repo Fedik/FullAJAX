@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.2
+ * version:  1.3.3
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -1487,7 +1487,10 @@ $.extend($, {
     decode : decodeURIComponent,
 
     /**
-     * en:
+     * en: Form values harvesting
+     * @param {String/Element} obj id form id
+     * @param {object}  ops existing params to merge
+     * @return {String} params string (eg: 'name1=value1&name2=value2')
      *
     * ru: Функция авто-сборки параметров
     * @param {String/Element} obj id формы или сама форма
@@ -1509,19 +1512,16 @@ $.extend($, {
           if (!name) continue;
           name = e(name);
           switch(type){
-              case "text":
-              case "password":
-              case "hidden":
-              case "button":
-                names.push(name);
-                vals.push(value);
-                break;
               case "checkbox":
               case "radio":
                 if (inp.checked) {
                   names.push(name);
                   vals.push((value == null || value == '') ? inp.checked : value);
                 }
+                break;
+              default:
+                names.push(name);
+                vals.push(value);
                 break;
           }
         }
