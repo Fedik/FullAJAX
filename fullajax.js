@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.3
+ * version:  1.3.4
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -3083,7 +3083,7 @@ $.extend($, {
                         thread.inprocess = 0;
                         if (success) {
                             if (o.text) {
-                                HTMLHistory.add(ops.url, o.text, ops);
+                                HTMLHistory.add(o.url, o.text, ops);
                                 thread.inprocess = 1;
                                 $.parsingText({owner:thread, text:o.text, id:id, url:ops.url, add:ops.add, rc:ops.rc, seal:ops.seal, onload:ops.onload, scope:ops.scope})
                             } else {
