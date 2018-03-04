@@ -1,5 +1,6 @@
-#FullAJAX - official version on github
-##What is FullAJAX?
+# FullAJAX - official version on github
+
+## What is FullAJAX?
 
 JavaScript library FullAJAX = AJAX (Asynchronous JavaScript and XML) + AHAH (Asynchronous HTML and HTTP) - thing that make your site "full AJAX'd".
 
@@ -7,7 +8,8 @@ Allows to use AJAX technology to its fullest, and to quickly and easily implemen
 
 One of the main features FullAJAX – programming as usual and after connecting the library FullAJAX get AJAX. This is achieved through special filtering mechanisms that transform normal URL to AJAX.
 
-###Basic features:
+### Basic features:
+
 * Dynamic data transfer and content loading.
 * Correct work in all popular web browsers (Internet Explorer, Firefox, Opera, Safari, Wyzo)
 * Quick and easy connection to the site or the web application.
@@ -35,7 +37,8 @@ One of the main features FullAJAX – programming as usual and after connecting 
 
 Check **[GitWiki](https://github.com/Fedik/FullAJAX/wiki)** and **[External links](#external-links)** for more info
 
-###External links:
+### External links:
+
 * <a href="http://getsite.org.ua/en/fullajax/what-is-fullajax">What is FullAJAX</a>
 * <a href="http://getsite.org.ua/en/fullajax/about-hax-in-fullajax">About HAX (HtmlAjaX) in FullAJAX</a>
 * <a href="http://getsite.org.ua/en/fullajax/about-dax-in-fullajax">About DAX (DataAjaX) in FullAJAX</a>
@@ -43,7 +46,7 @@ Check **[GitWiki](https://github.com/Fedik/FullAJAX/wiki)** and **[External link
 * <a href="http://extensions.joomla.org/extensions/core-enhancements/performance/scripts/13293">Plugin for Joomla!</a>
 * <a href="http://drupal.org/sandbox/fedik/1543626">Module for Drupal</a>
 * <a href="http://getsite.org.ua/jdemo">Basic Demo</a>
-[//]: #  (<a href="http://code.google.com/p/fullajax/">FullAJAX on GoogleCode</a>)
-[//]: #  (<a href="http://forum.fullajax.ru">Russian forum</a> (down))
+* <a href="http://code.google.com/p/fullajax/">FullAJAX on GoogleCode</a>
+
 
 
