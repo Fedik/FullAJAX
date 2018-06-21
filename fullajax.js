@@ -1,7 +1,7 @@
 ﻿/**
  * Fullajax = AJAX & AHAH library
  *
- * version:  1.3.4
+ * version:  1.3.5
  *
  * GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
@@ -1571,21 +1571,23 @@ $.extend($, {
     * @param {Object} obj объект, которому присвоить распарсенные параметры
     **/
     applyParams : function(params, obj){
-      //if some crazy human use the space around =
-      if(params.indexOf(' =') != -1 || params.indexOf('= ') != -1){
-        params = params.replace(/\s*=\s*/g, '=');
-      }
+        //if some crazy human use the space around =
+        if(params.indexOf(' =') != -1 || params.indexOf('= ') != -1){
+            params = params.replace(/\s*=\s*/g, '=');
+        }
 
-        var arr = params.split(' ');
+        //var arr = params.split(' ');
+        var arr = params.match(/(".*?"|[^"\s]+)+(?=\s*|\s*$)/g);
 
         for (var i = arr.length -1, len = 0; i >= len; i--){
             var el = arr[i],
                 ind1 = el.indexOf("=");
             //if (ind1 == -1 && i > 0) arr[i-1] += ' ' + arr[i];
             if (ind1 > -1){
-                var ind = $.indexOfAttrMarks(el,ind1+1),
+                var ind  = $.indexOfAttrMarks(el,ind1+1),
                     name = el.substring(0, ind1).trim(),
-                    val = el.substring(ind[0] + 1, ind[1]).trim();
+                    val  = el.substring(ind[0] + 1, ind[1]).trim();
+                name = name === 'class' ? 'className' : name;
                 obj[name] = val;
             } else if (el.indexOf('<') == -1 && el.indexOf('>') == -1){
                 obj[el] = el;
